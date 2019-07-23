@@ -1,0 +1,2754 @@
+\documentclass[10pt]{article}
+\usepackage{amsfonts}
+\usepackage{amssymb, amsmath}
+\usepackage{eucal}
+\usepackage{amscd}
+\usepackage{url}
+\usepackage{listings}
+\urlstyle{sf}
+\pagestyle{plain}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Pee}{\mathbb{P}}
+\newcommand{\EuO}{\mathcal{O}}
+\newcommand{\Qbar}{\overline{\mathbb{Q}}}
+\newcommand{\code}{\lstinline}
+
+\newcommand{\ljk}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\modulo}[1]{\;\left(\mbox{mod}\;#1\right)}
+\newcommand{\fr}{\mathfrak}
+
+\def\notdivides{\mathrel{\kern-3pt\not\!\kern4.5pt\bigm|}}
+\def\nmid{\notdivides}
+\def\nsubseteq{\mathrel{\kern-3pt\not\!\kern2.5pt\subseteq}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{property}[theorem]{Property}
+
+\newenvironment{proof}[1][Proof]{\begin{trivlist}
+\item[\hskip \labelsep {\itshape #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{exercise}[1][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\parindent=0pt
+\parskip 4pt plus 2pt minus 2pt 
+
+\title{Group Theory}
+
+\author{William B. Hart}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction to Groups and Subgroups}
+
+\subsection{Groups and their Basic Properties}
+
+\subsubsection{Groups}
+
+\begin{definition}
+A set $G$ with a closed binary operation $\star : G \times G \to G$ is a \emph{group} if the following rules hold:
+\begin{enumerate}
+\item (Associativity) For all $a, b, c \in G$ we have $(a \star b) \star c = a \star (b \star c)$.
+\item (Identity) There exists $e \in G$ such that for all $g \in G$ we have $g\star e = g = e \star g$.
+\item (Inverses) For every $g \in G$ there exists $g' \in G$ such that $g \star g' = e = g' \star g$.
+\end{enumerate}
+We sometimes write $(G, \star)$ to denote the group, in order to emphasise the group operation. In other cases where the operation is clear from the context, we just write $G$.
+\end{definition}
+
+We call the element $e$ in the definition above the \emph{identity} (element) of the group and $g'$ the \emph{inverse} of $g$.
+
+In the case that the group operation is addition, we usually write $0$ for the identity element and $-g$ for the inverse of $g$.
+
+When the group operation is multiplication, we usually write $1$ for the identity element and $g^{-1}$ for the inverse of $g$.
+
+Implicit in the definition of a group is the closure property:
+
+\begin{enumerate}
+\item (Closure) For all $a, b \in G$ we have $a\star b \in G$.
+\end{enumerate}
+
+\subsubsection{Basic Results}
+
+To save on notation we will write $g\star h$ as $gh$ where this will not cause any confusion.
+\begin{theorem}
+The identity element $e$ of a group $G$ is unique.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+The inverse of an element $g$ of a group $G$ is unique.
+\end{theorem}
+
+\begin{proof}
+Clearly $gg'' = e$. The result follows after left multiplication by $g'$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $ab = e$ in a group $G$ then $b = a^{-1}$.
+\end{theorem}
+
+\begin{proof}
+The result follows from $ab = e$ after left multiplication by $a^{-1}$. $\square$
+\end{proof}
+
+\begin{theorem}\label{idempotent_is_identity}
+Suppose $G$ is a group with identity $e$. If $a \in G$ is idempotent i.e. $aa = a$, then $a = e$.
+\end{theorem}
+
+\begin{proof}
+The result follows after right multiplication of $a^2 = a$ by $a^{-1}$. $\square$
+\end{proof}
+
+\begin{theorem} \label{product_inverse}
+Suppose $G$ is a group and $a, b \in G$. Then $(ab)^{-1} = b^{-1}a^{-1}$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsubsection{Right Identity and Inverses Suffice for a Group}
+
+In the definition of a group, it isn't necessary to assume that $e$ is both a left and right identity or that $g'$ is both a left and right inverse of an element $g$. The following theorem shows that a right identity and right inverses suffice in order to have a group.
+
+\begin{theorem}
+Let $G$ be a set closed under a binary, associative operation. Suppose that:
+\begin{enumerate}
+\item (Right identity) There exists $e \in G$ such that $g\star e = g$ for all $g \in G$.
+\item (Right inverse) For every $g \in G$ there exists $g' \in G$ such that $g\star g' = e$.
+\end{enumerate}
+Then $e\star g = g$ and $g'\star g = e$ and $(G, \star)$ is a group.
+\end{theorem}
+
+\begin{proof}
+Assume $e$ is a right identity and every element $g$ has a right inverse $g'$.
+
+Theorem \ref{idempotent_is_identity} only relies on right inverses and a right identity, so it holds in the context of the theorem.
+
+It is easy to check that $g'g$ is idempotent. Thus $g'g = e$, i.e. $g'$ is a left inverse.
+
+That $eg = g$ follows from $e = gg^{-1}$. $\square$
+\end{proof}
+
+\subsubsection{Cancellation in a Group}
+
+\begin{theorem}
+Let $G$ be a group and $a, b, c \in G$. If $ab = ac$ then $b = c$. Similarly if $ac = bc$ then $a = b$.
+\end{theorem}
+
+\begin{proof}
+These follow by left (resp. right) multiplication by $a^{-1}$. $\square$
+\end{proof}
+
+\subsubsection{The Laws of Exponents in a Group}
+
+Just as we do in arithmetic, it is convenient to define integer powers of elements of a group $G$.
+
+\begin{definition}
+Let $G$ be a group, $g\in G$ and $n$ a positive integer. We define:
+
+\begin{align*}
+   g^n &= \underbrace{g g \cdots g}_{n \:\mathrm{factors}}\\
+g^{-n} &= \underbrace{g^{-1} g^{-1} \cdots g^{-1}}_{n \:\mathrm{factors}}\\
+   g^0 &= e
+\end{align*}
+\end{definition}
+
+All of the usual laws of exponents hold.
+
+\begin{theorem}
+If $G$ is a group and $g \in G$ then for all $m, n \in \mathbb{Z}$ we have
+$$g^m g^n = g^{m + n}.$$
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group and $g \in G$. Then for any $m, n \in \mathbb{Z}$ we have
+$$(g^{m})^n = g^{mn}.$$
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+When the group operation is addition, we write $ng$ for the sum of $n$ copies of $g$. Similarly $-ng$ corresponds to the sum of $n$ copies of $-g$. Similar results to the above hold, i.e. $mg + ng = (m + n)g$ and $m(ng) = (mn)g$.
+
+\subsubsection{The Order of a Group}
+
+\begin{definition}
+The cardinality of a group is called its \emph{order}. We denote the order of a group $G$ by $|G|$.
+\end{definition}
+
+\begin{definition}
+If a group has finite order we say that it is a \emph{finite group}. Otherwise we say that it is an \emph{infinite group}.
+\end{definition}
+
+The smallest number of elements a group can have is $1$, since a group must contain an identity element.
+
+\begin{theorem}
+A set $G$ containing just the identity element is a group under any closed binary operation on $G$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsection{The Order of Elements of a Group}
+
+\subsubsection{The Order of Elements of a Group}
+
+\begin{definition}
+Let $G$ be a group and $g \in G$. If there is a positive integer $n$ such that $g^n = e$, the least such $n$ is called the \emph{order} of $g$, denoted ord$(g)$. If no such $n$ exists, the element $g$ is said to have \emph{infinite order}.
+\end{definition}
+
+If the group is written additively the order of an element $g$ is the least positive integer $n$ such that $ng = 0$.
+
+\begin{theorem}
+The order of an element $g$ in a group $G$ is $1$ iff it is the identity.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsubsection{Basic Results about the Order Elements in a Group}
+
+\begin{theorem}
+Let $G$ be a group and $g \in G$. Then ord$(g) =$ ord$(g^{-1})$.
+\end{theorem}
+
+\begin{proof}
+The result follows easily from $(g^{-1})^n = (g^n)^{-1}$. $\square$.
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group and $a, b \in G$. Then ord$(ab) =$ ord$(ba)$. 
+\end{theorem}
+
+\begin{proof}
+The result follows easily from $(ab)^n = a(ba)^{n-1}b$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $g \in G$ has finite order $n$, then $g^0$, $g^1$, $\ldots$, $g^{n - 1}$ are all of the distinct powers of $g$.
+\end{theorem}
+
+\begin{proof}
+First show that all powers $g^a$ are equivalent to one of the given powers. By the division algorithm
+$$a = nq + r$$
+for some $0 \leq r < n$. It follows easily that $g^a = g^r.$
+
+To show they are distinct, suppose to the contrary that $g^i = g^j$ for $0\leq i < j < n$. Multiplication by $g^{-i}$ contradicts the minimality of $n$. $\square$
+\end{proof}
+
+\begin{theorem}
+In a finite group $G$, all elements have finite order.
+\end{theorem}
+
+\begin{proof}
+If $g \in G$ is of infinite order then it is easy to see that all powers of $g$ are distinct. $\square$
+\end{proof}
+
+\subsubsection{Groups with every Element of Finite Order can be Infinite}
+
+\begin{theorem}
+There are infinite groups in which all elements have finite order.
+\end{theorem}
+
+\begin{proof}
+Consider an alphabet $L$ of infinitely many distinct letters $\{g_1, g_2, \ldots\}$. Now consider the set $W$ of all finite words (including the empty word) made from these letters in which
+\begin{enumerate}
+\item Each letter occurs only once.
+\item The letters are in alphabetical order, i.e. $g_i$ appears before $g_j$ if $i < j$.
+\end{enumerate}
+
+Define a binary operation on $W$ as follows. For $w_1, w_2 \in W$, form the word that is obtained by taking all the letters that occur in either $w_1$ or $w_2$, but not both, and putting them in alphabetical order.
+
+It is easy to show that $W$ is a group under this operation and $w^2 = e$ for all $w \in W$. But $g_1, g_2, \ldots \in W$ are infinitely many distinct elements of $W$. $\square$
+\end{proof}
+
+\subsection{Subgroups}
+
+\subsubsection{Subgroups}
+
+\begin{definition}
+A subset $H$ of a group $G$ which is a group under the same operation as $G$ when restricted to the elements of $H$ is called a \emph{subgroup} of $G$. We write $H \leq G$.
+\end{definition}
+
+\begin{theorem}
+If $e$ is the identity of a group $G$ and $H \leq G$ then $e$ is also the identity of $H$.
+\end{theorem}
+
+\begin{proof}
+The identity of $H$ is idempotent in $H$ and therefore also in $G$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $H \leq G$ and $g^{-1}$ is the inverse of $g$ in $H$ then it is also the inverse of $g$ in $G$.
+\end{theorem}
+
+\begin{proof}
+This follows immediately from the uniqueness of inverses and the previous theorem. $\square$
+\end{proof}
+
+\begin{theorem}
+A non-empty subset $H$ of a group $G$ is a subgroup iff it is closed under the group operation of $G$ and $h^{-1} \in H$ for all $h \in H$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{corollary} \label{subgroup}
+A non-empty subset $H$ of a group $G$ is a subgroup iff $ab^{-1} \in H$ for every pair of elements $a, b \in H$.
+\end{corollary}
+
+\begin{proof}
+Let $H$ satisfy the given conditions. As $H$ is non-empty it contains an element $a$. Therefore by assumption $aa^{-1} = e \in H$ and $ea^{-1} = a^{-1} \in H$.
+
+Closure follows by taking $a = g$ and $b = h^{-1}$ for arbitrary $g, h \in H$. Thus $H$ is a subgroup by the previous theorem.
+
+The converse is clear. $\square$
+\end{proof}
+
+\subsubsection{The Intersection and Union of two Subgroups}
+
+\begin{theorem}
+If $G$ is a group and $H, K \leq G$ then $H\cap K$ is a subgroup of $G$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $H, K \leq G$ then $H\cup K$ is a subgroup of $G$ iff $H \leq K$ or $K \leq H$.
+\end{theorem}
+
+\begin{proof}
+Let $H \cup K$ be a subgroup of $G$. Suppose $H \not\subseteq K$ and $K \not\subseteq H$.
+
+This implies that there exists $h \in H$ with $h \notin K$ and $k \in K$ with $k \notin H$. We have that $h, k \in H\cup K$ and it is easy to see that $hk \in H$ or $hk \in K$.
+
+In the first case, $k = h^{-1}(hk) \in H$ which is a contradiction. The second case also gives a contradiction. Thus our assumption is false and either $H \leq K$ or $K \leq H$.
+
+The converse is clear. $\square$
+\end{proof}
+
+\subsubsection{The Product of Two Subgroups}
+
+\begin{definition}
+If $G$ is a group and $H, K \leq G$ we define:
+$$HK = \{hk \;|\; h \in H, K \in K\}.$$
+\end{definition}
+
+Note that $HK$ is just a set at this point. In fact we will show the following.
+
+\begin{theorem}\label{HKKH}
+If $G$ is a group and $H, K \leq G$ then $HK \leq G$ iff $HK = KH$.
+\end{theorem}
+
+\begin{proof}
+First suppose that $HK = KH$. Clearly $HK$ is non-empty as $1 \in HK$.
+
+Suppose $h_1, h_2 \in H$ and $k_1, k_2 \in K$. Then as $HK = KH$ we have that $k_1h_2 = h'k'$ for some $h' \in H$ and $k' \in K$. It follows that
+$(h_1k_1)(h_2k_2) = (h_1h')(k'k_2) \in HK$. Thus $HK$ is closed under the group operation.
+
+That inverses exist in $HK$ follows from
+$$(hk)^{-1} = k^{-1}h^{-1} \in KH = HK.$$
+Thus $HK$ is a subgroup of $G$ by Theorem \ref{subgroup}.
+
+Conversely, suppose that $HK \leq G$ and let $hk$ be an arbitrary element of $HK$ for some $h \in H$ and $k \in K$.
+
+It is easy to see that $(hk)^{-1} \in KH$. But $x \to x^{-1}$ is a bijection on the elements of $HK$, thus $HK \subseteq KH$.
+
+The reverse inclusion is easy to show since $k, h \in HK$ for all $k \in K$ and $h \in H$. $\square$
+\end{proof}
+
+\subsubsection{The Order of the Product of Two Subgroups}
+
+\begin{theorem}
+If $G$ is a group and $H, K \leq G$ both of finite order then:
+$$|HK| = \frac{|H||K|}{|H\cap K|}.$$
+\end{theorem}
+
+\begin{proof}
+There are $|H||K|$ not necessarily distinct products $hk$ with $h \in H$ and $k \in K$. We claim there are precisely $|H\cap K|$ ways of writing a given element $hk$ as a product of an element of $H$ by an element of $K$.
+
+For each $z \in H\cap K,$
+$$hk = (hz)(z^{-1}k) \in HK.$$
+
+Thus there are at least $|H\cap K|$ distinct such ways of writing $hk$.
+
+Conversely, note that if $hk = h'k'$ for $h' \in H$ and $k' \in K$ then
+$$h^{-1}h' = k(k')^{-1} \in H\cap K.$$
+
+Writing $h^{-1}h' = z = k(k')^{-1}$ we have that $h'k' = (hz)(z^{-1}k)$.
+
+Therefore every product $h'k'$ is of this form which settles our claim.
+
+As $H\cap K$ is non-empty, $|H\cap K| \neq 0$ and the result follows. $\square$
+\end{proof}
+
+\subsubsection{The Subgroup Generated by a Subset}
+
+\begin{definition}
+Let $G$ be a group and $S \subseteq G$. The \emph{subgroup generated} by $S$ is defined to be the intersection of all subgroups of $G$ containing $S$. We denote it $\langle S \rangle$. If $S = \{g_1, g_2, \ldots, g_n\}$ we usually write $\langle g_1, g_2, \ldots, g_n \rangle$.
+\end{definition}
+
+The subgroup generated by $S$ is the smallest subgroup of $G$ containing $S$ in the sense that it is contained in any subgroup of $G$ containing $S$.
+
+It is clearly also the smallest subset of $G$ containing $S$ which is closed under taking inverses and closed under the group operation. In fact, we have the following theorem.
+
+\begin{theorem}
+Let $G$ be a group and $S$ a subset of $G$. Let $S' = \{s^{-1} \;|\; s \in S\}$. Then $\langle S \rangle$ is the set of all finite products of elements of $S \cup S'$.
+\end{theorem}
+
+\begin{proof}
+Let the given set be denoted $T$. Then $T$ is clearly closed under the group operation. But if $a \in T$, it has the form $a = s_1s_2\ldots s_n$ for some $s_i \in S\cup S'$. The inverse of $a$ is also clearly in $T$. Thus $T$ is a subgroup of $G$.
+
+But all of the elements of $G$ are contained in any subgroup of $G$ containing $S$. Thus $T = \langle S \rangle$. $\square$
+\end{proof}
+
+\subsubsection{The Commutator Subgroup of a Group}
+
+\begin{definition}
+Let $G$ be a group and $g, h \in G$. We define the \emph{commutator} of $g$ and $h$ to be $[g, h] = g^{-1}h^{-1}gh$. The subgroup of $G$ generated by the commutators of $G$ is called the \emph{commutator subgroup} of $G$ and is denoted $[G, G]$.
+\end{definition}
+
+Note that the commutator subgroup may contain elements that are not commutators.
+
+\begin{theorem}
+If $G$ is a group and $g, h \in G$ then $[g, h] = 1$ iff $g$ and $h$ commute.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $g, h \in G$ then $[g, h] = hg[h, g]$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{corollary}
+If $G$ is a group then every $h \in [G, G]$ can be written as a finite product of commutators.
+\end{corollary}
+
+\begin{proof}
+Clear.
+\end{proof}
+
+\begin{theorem}
+A group $G$ is abelian iff it has only one distinct commutator.
+\end{theorem}
+
+\begin{proof}
+We always have $1 = [1, 1]$. Thus if a group contains only one distinct commutator, $[g, h] = 1$ for all $g, h \in G$ which implies it is abelian. The converse is also clear. $square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $g, h \in G$ then $[g, h]^{-1} = [h, g]$.
+\end{theorem}
+
+\begin{proof}
+Clear.
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $g, h, s \in G$ then $[g, h]^s = [g^s, h^s]$ where $g^s = s^{-1}gs$.
+\end{theorem}
+
+\begin{proof}
+We have
+$$[g, h]^s = s^{-1}g^{-1}h^{-1}ghs = s^{-1}g^{-1}ss^{-1}h^{-1}ss^{-1}gss^{-1}hs = [g^s, h^s].$$
+$\square$
+\end{proof}
+
+\subsection{Abelian Groups}
+
+\subsubsection{Abelian Groups}
+
+\begin{definition}
+A group $G$ with operation $*$ is said to be \emph{abelian} if the following rule holds
+\begin{itemize}
+\item (Commutativity) $ab = ba$ for all $a, b \in G$.
+\end{itemize}
+\end{definition}
+
+We often write the group operation in an abelian group as $+$ as the number systems $\Z$, $\Q$, $\R$ and $\C$ all form abelian groups under $+$.
+
+A familiar example of a group which is not abelian is the group of invertible $n\times n$ matrices under multiplication. 
+
+\subsubsection{Basic Theorems about Abelian Groups}
+
+We give some criteria for a group to be abelian.
+
+\begin{theorem}
+Let $G$ be a group. If $(ab)^2 = a^2b^2$ for all $a, b \in G$ then $G$ is abelian.
+\end{theorem}
+
+\begin{proof}
+If $(ab)^2 = a^2b^2$, then $a(ba)b = a(ab)b$ from which the result follows by cancellation. $\square$
+\end{proof}
+
+\begin{theorem}
+A group $G$ is abelian iff $(ab)^{-1} = a^{-1}b^{-1}$ for all $a, b \in G$.
+\end{theorem}
+
+\begin{proof}
+We have $(ab)^{-1} = b^{-1}a^{-1}$ by Theorem \ref{product_inverse}. If $G$ is abelian this implies $(ab)^{-1} = a^{-1}b^{-1}$.
+
+Assuming the latter, the converse follows from $b^{-1}a^{-1} = (ab)^{-1} = a^{-1}b^{-1}$ and the bijection $z \leftrightarrow z^{-1}$ between elements of $G$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group in which $a = a^{-1}$ for all $a \in G$ then $G$ is abelian.
+\end{theorem}
+
+\begin{proof}
+Suppose $a = a^{-1}$ for all $a \in G$. Then $ab = a^{-1}b^{-1} = (ba)^{-1} = ba$ for all $b \in G$. $\square$
+\end{proof}
+
+\subsubsection{The Order of a Nonabelian Group is at least 6}
+
+\begin{theorem}
+If $G$ is a non-abelian group then $|G| \geq 6$.
+\end{theorem}
+
+\begin{proof}
+Let $G$ be a non-abelian group and suppose that $ab \neq ba$ for distinct $a, b \in G$.
+
+Clearly $a = 1$ and $b = 1$ lead to a contradiction. Thus $a, b, 1$ are distinct.
+
+By application of cancellation we have that $ab \neq a$, $ab \neq b$. If $ab = 1$ then $a$ and $b$ are inverse which contradicts $ab \neq ba$. 
+
+Similar arguments apply for $ba$ and we have that $1$, $a$, $b$, $ab$, $ba$ are distinct. Suppose that these are the only elements in $G$.
+
+Firstly, note $a^2$ cannot equal $ab$, $ba$ or $a$, by cancellation. We can't have $a^2 = b$ otherwise $ab = ba$. Therefore $a^2 = 1$.
+
+The element $aba$ cannot equal $a$, $ab$ or $ba$ by cancellation. We also can't have $aba = 1$ since multiplication by $a$ on the left leads to a contradiction. Similarly we can't have $aba = b$.
+
+Thus $aba$ is distinct from all five elements in the group and the group must have order at least $6$. $\square$
+\end{proof}
+
+\subsubsection{The Quaternion Group $Q_8$}
+
+We give an example of a finite non-abelian group.
+
+\begin{definition}
+The quaternion group $Q_8$ is the multipicative group containing eight elements $\{1, -1, i, -i, j, -j, k, -k\}$ which satisfy the relations $i^2 = j^2 = k^2 = -1$, $(-1)^2 = 1$ and $ijk = -1$.
+\end{definition}
+
+The remaining entries in the multiplication table for $Q_8$ can be worked out from the given relations:
+$$jk = -i^2jk = -i(ijk) = i.$$
+and
+$$ij = -ijk^2 = -(ijk)k = k,$$
+and
+$$ki = -kij^2 = -k(ij)j = -k^2j = j.$$
+
+We also have:
+$$kj = k(ki) = k^2i = -i,$$
+and
+$$ji = j(jk) = j^2k = -k,$$
+and
+$$ik = i(ij) = i^2j = -j.$$
+
+Note that $ij \neq ji$, $jk \neq kj$ and $ik \neq ki$, so $Q_8$ is nonabelian.
+
+\subsection{Cyclic Groups}
+
+\subsubsection{Cyclic Groups}
+
+\begin{definition}
+A group $G$ is said to be \emph{cyclic} if there exists an element $g \in G$ such that every element of the group is of the form $g^n$ for some $n \in \Z$. We call $g$ a \emph{generator} of $G$ and write $G = <g>$.
+\end{definition}
+
+The identity in a cyclic group is $g^0$ and the inverse of $g^n$ is $g^{-n}$.
+
+\subsubsection{Basic Results Regarding Cyclic Groups}
+
+\begin{theorem}
+Cyclic groups are abelian.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+The order of a finite cyclic group $G = <g>$ is the smallest positive integer $n$ for which $g^n = 1$.
+\end{theorem}
+
+\begin{proof}
+Let $n$ be as in the theorem. Clearly $g^a = g^b$ for all $a \equiv b \pmod{n}$. Therefore all elements of $G$ lie in $\{g^i \;|\; 0 \leq i < n\}$.
+
+It is easy to see that no two such elements are equal. $\square$
+\end{proof}
+
+\begin{theorem}
+The generator of an infinite cyclic group is unique.
+\end{theorem}
+
+\begin{proof}
+Let $G = <g>$ be infinite cyclic and suppose that $g^a$ is also a generator for some $1 \neq a \in \Z$.
+
+Then we must have $g = (g^a)^n = g^{an}$ for some $n \in Z$.
+
+Multiplying by $g^{-1}$ we get $g^{an - 1} = 1$ which contradicts the infinite order of $g$. $\square$
+\end{proof}
+
+A generator of a finite cyclic group is not generally unique.
+
+\begin{theorem}
+Let $G = <g>$ be a cyclic group of order $n$. Then $g^a$ is a generator of $G$ iff $a$ coprime to $n$.
+\end{theorem}
+
+\begin{proof}
+If gcd$(a, n) = d$ then clearly all powers of $g^a$ lie in $\{1, g^d, g^{2d}, \ldots, g^{n - d}\}$. Thus if $d \neq 1$ then $g^a$ doesn't generate $G$.
+
+Conversely, if gcd$(a, n) = 1$ there exist $s, t \in Z$ such that $as + nt = 1$ by the extended Euclidean algorithm. As $g^n = 1$, this implies that $(g^a)^s = g$. Thus every power of $g$ is also a power of $g^a$. $\square$
+\end{proof}
+
+\begin{theorem}
+A subgroup $H$ of a cyclic group $G = <g>$ is cyclic and is generated by the smallest positive power of $g$ in $H$.
+\end{theorem}
+
+\begin{proof}
+Suppose that $g^a$ is the smallest positive power of $g$ in $H$. Clearly all powers of $g^a$ are in $H$.
+
+No other power of $g$ is in $H$ by the division algorithm and the minimality of $a$. $\square$
+\end{proof}
+
+\subsection{The Centre and Centralizers}
+
+\subsubsection{The Centre of a Group}
+
+\begin{definition}
+The \emph{centre} of a group $G$ is defined to be the subset
+$$Z_G = \{g \in G \;|\; ga = ag \;\;\mbox{for all}\;\; a \in G\}.$$
+\end{definition}
+
+In other words, the centre is the set of all elements that commute with every element of $G$.
+
+\begin{theorem}
+The centre of a group $G$ is an abelian subgroup of $G$.
+\end{theorem}
+
+\begin{proof}
+Clearly the identity of $G$ is in the centre of $G$. Therefore $Z_G$ is not empty.
+
+If $g \in Z_G$ and $a \in G$ then $ga = ag$ for all $a \in G$. Multiplying by $g^{-1}$ on the left and right we see that $g^{-1} \in Z_G$.
+
+It is easy to see that if $g, h \in Z_G$ then $gh \in Z_G$ and so $Z_G \leq G$. It is clear that $Z_G$ is abelian. $\square$
+\end{proof}
+
+\begin{theorem}
+A group $G$ is abelian iff $Z_G = G$.
+\end{theorem}
+
+\begin{proof}
+Clear.
+\end{proof}
+
+\subsubsection{The Centralizer of a Subset of a Group}
+
+\begin{definition}
+Let $G$ be a group and $S$ a nonempty subset of $G$. The \emph{centralizer} of $S$ in $G$ is the set
+$$C_G(S) = \{g \in G \;|\; gs = sg \;\;\mbox{for all}\;\; s \in S\}.$$
+When $S = \{g\}$ we write $C_G(S) = C_G(g)$.
+\end{definition}
+
+In other words, the centralizer of $S$ is the set of all elements that commute with $S$. The centralizer of $g \in G$ is the set of all elements that commute with $g$.
+
+\begin{theorem}
+Let $S$ be a subset of a group $G$. Then $C_G(S) \leq G$.
+\end{theorem}
+
+\begin{proof}
+Clear.
+\end{proof}
+
+Note that $C_G(S)$ need not be abelian. For example, if $G$ is nonabelian, $C_G(1) = G$ which is not abelian.
+
+\subsubsection{Basic Results Regarding Centralizers}
+
+\begin{theorem}
+Let $G$ be a group. Then $Z_G = \bigcap_{g \in G} C_G(g)$.
+\end{theorem}
+
+\begin{proof}
+Clearly $Z_G \subseteq \bigcap_{g \in G} C_G(g)$.
+
+For the reverse inclusion, if $x \in \bigcap_{g \in G} C_G(g)$ then $x$ commutes with every $g \in G$. Thus $g \in Z_G$. $\square$
+\end{proof}
+
+\begin{corollary}
+If $G$ is a group and $S \subseteq G$ then $Z_G \subseteq C_G(S)$.
+\end{corollary}
+
+\begin{proof}
+Clearly $C_G(S) = \bigcap_{s \in S} C_G(s)$. The result therefore follows from the theorem. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group. Then $C_G(Z_G) = G$.
+\end{theorem}
+
+\begin{proof}
+Clear.
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group and $S \subseteq T \subseteq G$, then $C_G(T) \leq C_G(S)$.
+\end{theorem}
+
+\begin{proof}
+It suffices to show that $C_G(T) \subseteq C_G(S)$. But this is clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group and $H \leq G$. Then $H \subseteq C_G(H)$ iff $H$ is abelian.
+\end{theorem}
+
+\begin{proof}
+Clear.
+\end{proof}
+
+\subsection{Conjugacy}
+
+\subsubsection{Conjugate elements}
+
+\begin{definition}
+Let $G$ be a group. Two elements $a, b \in G$ are said to be \emph{conjugate} if $a = g^{-1}bg$ for some $g \in G$.
+\end{definition}
+
+\begin{theorem}
+If $G$ is an abelian group then $a, b \in G$ are conjugate iff $a = b$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group. If $a, b \in G$ are conjugate then they have the same order.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group. Conjugacy of elements is an equivalence relation on $G$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{definition}
+Let $G$ be a group and $g \in G$. The class of all elements of $G$ that are conjugate to $g$ is called the \emph{conjugacy class} of $g$.
+\end{definition}
+
+Clearly conjugacy classes partition $G$.
+
+\subsubsection{Conjugacy and Centralizers}
+
+\begin{theorem}\label{conjugacy}
+Let $G$ be a group. The elements of the conjugacy class of $g$ are in bijection with the left cosets of $C_G(g)$.
+\end{theorem}
+
+\begin{proof}
+Suppose that $h$ and $h'$ are in the conjugacy class of $g$, i.e. $h = aga^{-1}$ and $h' = bgb^{-1}$ for some $a, b \in G$.
+
+We have that $h = h'$ iff $(b^{-1}a)g(b^{-1}a)^{-1} = g$. But this holds iff $b^{-1}a \in C_G(g)$.
+
+But $b^{-1}a \in C_G(a)$ iff $aC_G(g) = bC_G(g)$.
+
+Writing $[g]$ for the conjugacy class of $g$ and $\mathcal{C}$ for the set of left cosets of $C_G(g)$, we can define a map $\phi : [g] \to \mathcal{C}$ by $h \mapsto aC_G(g)$ where $h = aga^{-1}$.
+
+By what we have just shown, this is a well-defined map and it is clearly a bijection. $\square$
+\end{proof}
+
+\subsection{Cosets and Lagrange's Theorem}
+
+\subsubsection{Cosets}
+
+\begin{definition}
+Let $G$ be a group and $H \leq G$. A \emph{left coset} is a set of the form
+$$aH = \{ah \;|\; h \in H\},$$
+for some $a \in G$. Similarly a \emph{right coset} is a set of the form
+$$Ha = \{ha \;|\; h \in H\}.$$
+\end{definition}
+
+Clearly if $G$ is abelian, the left coset $aH$ coincides with the right coset $Ha$ for all $a \in G$.
+
+\begin{theorem}
+Let $G$ be a group and $H \leq G$. Two left (right) cosets of $H$ either coincide or are disjoint.
+\end{theorem}
+
+\begin{proof}
+If $g \in aH$ then clearly $gH \in aH$. Similarly if $gH = aH$ then $g.1 \in aH$. A similar argument applies for right cosets. $\square$
+\end{proof}
+
+\begin{theorem}\label{cosets}
+Let $G$ be a group and $H \leq G$. If $g \in aH$ then $aH = gH$. Similarly if $g \in Ha$ then $Ha = Hg$.
+\end{theorem}
+
+\begin{proof}
+Clear, as $1 \in H$. $\square$
+\end{proof}
+
+Note that these theorems imply that the cosets of $H$ in $G$ partition $G$.
+
+\begin{theorem}
+Let $G$ be a group and $H \leq G$. There is a bijection between the left and right cosets of $H$ in $G$.
+\end{theorem}
+
+\begin{proof}
+Define a map $\phi : gH \to Hg^{-1}$ from left to right cosets.
+
+The map $\phi$ is well-defined, since $gH = g'H$ iff $g \in g'H$ iff $g = g'h$ for some $h \in H$ iff $g'^{-1} = hg^{-1}$ iff $Hg^{-1} = Hg'^{-1}$.
+
+The map is clearly bijective. $\square$
+\end{proof}
+
+\begin{definition}
+The number of cosets of $H$ in $G$, if it is finite, is called the \emph{index} of $H$ in $G$, written $[G:H]$. Otherwise we say that $H$ has infinite index in $G$ and write $[G:H] = \infty$.
+\end{definition}
+
+\begin{theorem}
+Let $G$ be a group and $H \leq G$. There is a bijection between any two left (right) cosets of $H$ in $G$.
+\end{theorem}
+
+\begin{proof}
+Define the map $\psi : gH \to hH$ which sends $a \mapsto hg^{-1}a$.
+
+As the map is invertible, it is bijective. A similar argument holds for right cosets. $\square$
+\end{proof}
+
+\begin{corollary} \label{cosetsize}
+If $G$ is a finite group and $H \leq G$ then $|gH| = |hH|$ for all $g, h \in G$.
+\end{corollary}
+
+\begin{proof}
+Clear.
+\end{proof}
+
+\subsubsection{Lagrange's Theorem}
+
+\begin{theorem} (Lagrange)
+If $G$ is a group and $H \leq G$ then $|H| \;|\; |G|$.
+\end{theorem}
+
+\begin{proof}
+Follows from Corollary \ref{cosetsize} and the fact that cosets partition a group. $\square$
+\end{proof}
+
+\begin{corollary}
+If $G$ is a finite group and $H \leq G$ then $[G:H] = |G|/|H|$.
+\end{corollary}
+
+\begin{proof}
+Clear.
+\end{proof}
+
+\begin{corollary}
+If $G$ is a finite group, the order of $g$ must divide $G$.
+\end{corollary}
+
+\begin{proof}
+The subgroup generated by $g$, $\langle g \rangle = \{g^i \;|\; i \in \Z\}$ is a subgroup of $G$. We have already shown that if the order of $g$ is $n$, then there are $n$ distinct powers of $g$, which it is easy to see are the elements of $\langle g \rangle$.
+
+The result then follows from Lagrange's theorem. $\square$
+\end{proof}
+
+\begin{theorem}
+If a group $G$ has prime order $p$, then it is cyclic.
+\end{theorem}
+
+\begin{proof}
+Let $g$ be any element of $G$ other than the identity. The result follows from the fact that the order of $g$ must divide $p$. Thus $\langle g \rangle = G$. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a finite group and $K \leq H \leq G$, then
+$$[G:K] = [G:H][H:I].$$
+\end{theorem}
+
+\begin{proof}
+$[G:K] = |G|/|K| = (|G|/|H|)(|H|/|K|) = [G:H][G:K]$. $\square$
+\end{proof}
+
+\begin{theorem} \label{gtoorder}
+If $G$ is a finite group of order $n$ and $g \in G$ then $g^n = e$.
+\end{theorem}
+
+\begin{proof}
+We have that the order of $g$ divides $n$. $\square$
+\end{proof}
+
+\begin{theorem} (Euler)
+If gcd$(a, n) = 1$ then $a^{\varphi(n)} = 1$.
+\end{theorem}
+
+\begin{proof}
+The function $\varphi(n)$ counts the number of integers $i$ in $0 \leq i < n$ such that $gcd(i, n) = 1$.
+
+It is easy to see that this set of integers is a group under multiplication modulo $n$. Euler's theorem is an application of Theorem \ref{gtoorder}. $\square$
+\end{proof}
+
+\begin{corollary} (Fermat's Little Theorem)
+If $p$ is a prime then $a^{p-1} \equiv 1 \pmod{p}$ for all $1 \leq a < p$.
+\end{corollary}
+
+\begin{proof}
+This is Euler's theorem where $n = p$, as $\varphi(p) = p - 1$. $\square$
+\end{proof}
+
+\subsection{Normal Subgroups and Normalizers}
+
+\subsubsection{Normal Subgroups}
+
+\begin{definition}
+Let $G$ be a group. A subgroup $N$ is said to be \emph{normal} if $gN = Ng$ for all $g \in G$. We write $N \mathrel{\unlhd} G$.
+\end{definition}
+
+\begin{theorem}\label{equivnormal}
+Let $G$ be a group and $N \leq G$. The following are equivalent:
+\begin{enumerate}
+\item $N \mathrel{\unlhd} G$
+\item $g^{-1}ng \in N$ for all $n \in N$ and $g \in G$
+\item For all $g, h \in G$, $gh \in N$ iff $hg \in N$
+\item For all $g \in G$, $g^{-1}Ng \subseteq N$
+\item For all $g \in G$, $g^{-1}Ng = N$
+\item All left cosets are right cosets and conversely
+\item For all $x, y, g, h \in G$, $x \in gN$ and $y \in hN$ implies $xy \in (gh)N$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1)$\iff$ (2) We have that $gN = Ng$ iff for all $n \in N$, $ng \in gN$. Multiplication on the left by $g^{-1}$ gives the result.
+
+(1)$\iff$ (3) We have that $gh \in N$ iff $h \in g^{-1}N$. This is equal to $Ng^{-1}$ for all $g \in G$ iff (1) holds. But $h \in Ng^{-1}$ iff $hg \in N$.
+
+(1)$\iff$ (5) Clear.
+
+(5)$\implies$ (4) Clear.
+
+(4)$\implies$ (1) Clearly (4) implies $Ng \subseteq gN$. But replacing $g$ with $g^{-1}$ in (4) also yields $gN \subseteq Ng$. Thus we have (1).
+
+(1)$\iff$ (6) Clear.
+
+(1)$\implies$ (7) If $x \in gN$ and $y \in hN$, then (1) implies $xy \in gNhN = (gh)NN = (gh)N$.
+
+(7)$\implies$ (1) Another way of writing (7) is that for $g, h \in G$ and $n, n' \in N$, $(gn)(hn') = (gh)n''$ for some $n'' \in N$. Multiplication on the left by $g^{-1}$ and on the right by the inverse of $n'$ yields a statement equivalent to (1). $\square$
+\end{proof}
+
+\begin{theorem}
+All subgroups of an abelian group are normal.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group then the trivial subgroup $\{e\}$ and $G$ itself are normal subgroups of $G$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group then $Z_G \mathrel{\unlhd} G$.
+\end{theorem}
+
+\begin{proof}
+Clearly $g^{-1}zg = z$ for all $z \in Z_G$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $H \mathrel{\unlhd} G$ and $H \leq K \leq G$ then $H \mathrel{\unlhd} K$.
+\end{theorem}
+
+\begin{proof}
+We have that $kH = Hk$ for all $k \in K \subseteq G$. $\square$
+\end{proof}
+
+\subsubsection{A Subgroup of Order $2$ is Normal}
+
+\begin{theorem}
+If $G$ is a group and $H \leq G$ with $[G:H] = 2$ then $H \mathrel{\unlhd} G$.
+\end{theorem}
+
+\begin{proof}
+Let $H$ and $aH$ be the two distinct left cosets. This implies that $a \notin H$, which in turn implies that $Ha \neq H$.
+
+As the number of left and right cosets is equal, the right cosets must be $H$ and $Ha$. But then it is easy to see every left coset of is a right coset and vice versa and so $H$ is normal in $G$. $\square$
+\end{proof}
+
+\subsubsection{Intersection and Products of Normal Subgroups}
+
+\begin{theorem}
+If $G$ is a group and $M, N \mathrel{\unlhd} G$ then $M \cap N \mathrel{\unlhd} G$.
+\end{theorem}
+
+\begin{proof}
+We already know $M \cap N \leq G$. 
+
+If $a \in M \cap N$ then $g{-1}ag \in M, N$ for all $g \in G$. Thus $M \cap N$ is normal in $G$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $M \leq G$ and $N \mathrel{\unlhd} G$ then $MN, NM \leq G$.
+\end{theorem}
+
+\begin{proof}
+If $N \mathrel{\unlhd} G$ then $g^{-1}Ng \in N$ for all $g \in G$. In particular, this holds for all $g \in M$ and $Ng = gN$ for all $g \in M$, i.e. $NM = MN$. Thus by Theorem \ref{HKKH} $MN, NM \leq G$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $M, N \mathrel{\unlhd} G$ then $MN, NM \mathrel{\unlhd} G$.
+\end{theorem}
+
+\begin{proof}
+By the previous theorem $MN, NM \leq G$.
+
+If $a = nm \in NM$ for some $n \in N$ and $m \in M$ and $g \in G$ then $g^{-1}ag = (g^{-1}ng)(g^{-1}mg) \in NM$. Thus $NM \mathrel{\unlhd} G$. A similar argument shows that $MN \mathrel{\unlhd} G$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $H \leq G$ and $N \mathrel{\unlhd} G$ then $H\cap N \mathrel{\unlhd} H$.
+\end{theorem}
+
+\begin{proof}
+Let $x \in H\cap N$ and $h \in H$. Then $h^{-1}xh \in H$.
+
+We also have $h^{-1}xh \in N$ as $x \in N \mathrel{\unlhd} G$.
+
+Thus $h^{-1}xh \in H\cap N$ for all $h \in H$ and $x \in H\cap N$. Thus $H\cap N \mathrel{\unlhd} H$. $\square$
+\end{proof}
+
+\subsubsection{Congugate subgroups}
+
+\begin{definition}
+Let $G$ be a group and $H \leq G$. If $g \in G$ then $g^{-1}Hg$ is called a \emph{conjugate} of $H$.
+\end{definition}
+
+\begin{theorem}
+If $G$ is a group with $H \leq G$ and $g \in G$ then $g^{-1}Hg \leq G$.
+\end{theorem}
+
+\begin{proof}
+Let $K = g^{-1}Hg$. It is easy to show that $1 \in K$, $g^{-1} \in K$ for any $g \in K$ and $ab \in K$ for any $a, b \in K$. Thus $K$ is a subgroup of $G$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $H \leq G$ then $H$ is in bijection with any conjugate subgroup $g^{-1}Hg$.
+\end{theorem}
+
+\begin{proof}
+The map $h \mapsto g^{-1}hg$ is invertible and hence a bijection. $\square$
+\end{proof}
+
+\begin{definition}
+Let $G$ be a group and $H \leq G$. The intersection, $\cap_{g \in G} g^{-1}Hg$, of the conjugates of $H$ in $G$ is called the \emph{normal core} of $H$ in $G$.
+\end{definition}
+
+\begin{theorem}
+The normal core of a subgroup $H$ of a group $G$ is a normal subgroup of $G$.
+\end{theorem}
+
+\begin{proof}
+Let $K = \cap_{g \in G} g^{-1}Hg$. Clearly $K$ is a subgroup of $G$ as it is an intersection of subgroups of $G$.
+
+As $M \to g^{-1}Mg$ is a bijection of conjugates of $H$ we have that $k \in K$ implies $g^{-1}kg \in K$. Thus $K$ is normal in $G$. $\square$
+\end{proof}
+
+\subsubsection{The Normalizer of a Subset}
+
+\begin{definition}
+Let $G$ be a group and $S \subseteq G$, then the \emph{normalizer} of $S$ in $G$ is the set
+$$N_G(S) = \{g \in G \;|\; g^{-1}Sg = S\}.$$
+If $S = \{s\}$ we usually write $N_G(s) = N_G(S)$.
+\end{definition}
+
+Note that $N_G(S)$ need not be a normal subgroup of $G$.
+
+\begin{theorem}
+If $G$ is a group and $\emptyset \neq S \subseteq G$ then $N_G(S) \leq G$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $S \subseteq G$ then $Z_G \in N_G(S)$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsubsection{Basic Theorems Regarding the Normalizer of a Subset}
+
+\begin{theorem}
+Let $G$ be a group and $g \in G$. Then $N_G(g) = C_G(g)$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group and $H \leq G$, then
+$$C_G(H) \leq N_G(H) \leq G.$$
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group, then $N_G(Z_G) = G$.
+\end{theorem}
+
+\begin{proof}
+We have that $G = C_G(Z_G) \leq N_G(Z_G) = G$. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group and $H \leq G$. Then $H \leq N_G(H)$.
+\end{theorem}
+
+\begin{proof}
+It is clear that $H \subseteq N_G(H)$. As both are groups, the result follows. $\square$
+\end{proof}
+
+\subsubsection{The Commutator Subgroup of a Group is Normal}
+
+\begin{theorem}
+Let $G$ be a group. Then $[G, G] \mathrel{\unlhd} G$.
+\end{theorem}
+
+\begin{proof}
+Letting $g^s = s^{-1}gs$. Recall that any element of $[G, G]$ is a finite product of commutators.
+
+The result follows from
+\begin{align*}
+([g_1, h_1][g_2, h_2]\ldots [g_n, h_n])^s &= [g_1, h_1]^s[g_2, h_2]^s\ldots [g_n, h_n]^s\\
+                                          &= [g_1^s, h_1^s][g_2^s, h_2^s]\ldots [g_n^s, h_n^s].
+\end{align*} $\square$
+\end{proof}
+
+\subsubsection{Unique Subgroups of a Given Order}
+
+\begin{theorem}
+Let $G$ be a group and suppose that $H$ is the only subgroup of $G$ of (finite) order $n$. Then $H$ is a normal subgroup of $G$.
+\end{theorem}
+
+\begin{proof}
+As $H$ is in bijection with all its conjugates $g^{-1}Hg$, all its conjugates also have order $n$ and are thus equal to $H$. Thus $H$ is a normal subgroup of $G$. $\square$
+\end{proof}
+
+\subsection{Quotient Groups}
+
+\subsubsection{Quotient Groups}
+
+\begin{theorem}
+Let $G$ be a group and $N \mathrel{\unlhd} G$. If $aH = a'N$ and $bN = b'N$ for $a, a', b, b' \in G$ then $abN = a'b'N$.
+\end{theorem}
+
+\begin{proof}
+This follows immediately from Theorem \ref{equivnormal} (7) and Theorem \ref{cosets}. $\square$
+\end{proof}
+
+This allows us to define a well-defined operation on cosets of a normal subgroup.
+
+\begin{theorem}
+Let $G$ be a group an $N \mathrel{\unlhd} G$. The cosets of $N$ form a group under the operation
+$$(aN).(bN) = abN.$$
+\end{theorem}
+
+\begin{proof}
+The identity is the coset $N$. The inverse of $gN$ is $g^{-1}N$ and the associative law clearly holds. $\square$
+\end{proof}
+
+\begin{definition}
+The group of cosets of a normal subgroup $N$ of a group $G$ is called the \emph{quotient group} of $G$ by $N$, which we denote $G/N$.
+\end{definition}
+
+Note that we have used left cosets in this definition. As $N$ is normal in $G$ we have $gN = Ng$ for all $g \in G$. Therefore we can equally well give the definition in terms of right cosets. The quotient group in that case is usually denoted $N\backslash G$.
+
+\begin{theorem}
+If $N \mathrel{\unlhd} G$ then
+$$|G/N| = [G:N].$$
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group and $N \mathrel{\unlhd} G$. Then:
+\begin{enumerate}
+\item If $G$ is abelian then so is $G/N$
+\item If $G$ is finite then so is $G/N$
+\item If $G$ is cyclic then so is $G/N$
+\item If $G$ is finitely generated then so is $G/N$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) $(aN)(bN) = abN = baN = (bN)(aN)$.
+
+(2) Clear.
+
+(3) Let $G = \langle g \rangle$. The elements of $G/N$ are precisely the elements $g^iN = (gN)^i$ for $i \in \mathbb{N}$.
+
+(4) If $G = \langle g_1, g_2, \ldots, g_n \rangle$ then $G/N = \langle g_1N, g_2N, \ldots, g_nN \rangle$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $G/Z_G$ is cyclic then $G$ is abelian.
+\end{theorem}
+
+\begin{proof}
+As $G/Z_G$ is cyclic $G/Z_G = \langle aZ_G \rangle$ for some $a \in G$. Then $g = a^rk_1$ and $h = a^sk_2$ for some $r, s \in \Z$ and $k_1, k_2 \in Z_G$.
+
+Thus
+$$gh = a^rk_1a^sk_2 = a^ra^sk_1k_2 = a^sa^rk_1k_2 = a^sk_2a^rk_1 = hg.$$ $\square$
+\end{proof}
+
+\subsubsection{The Abelianisation of a Group}
+
+\begin{theorem}
+If $G$ is a group then $G/[G, G]$ is abelian. It is the largest quotient of $G$ which is abelian.
+\end{theorem}
+
+\begin{proof}
+The first part follows from $ab[G, G] = ab[b, a][G, G] = ba[G, G]$.
+
+Suppose that $N$ is a normal subgroup of $G$, but $[g, h] \notin N$ for some $g, h \in G$.
+
+Clearly $[g, h] \neq 1$, as $1 \in N$. Thus $gh \neq hg$.
+
+But we also have that $ghN \neq hgN$, as $g^{-1}h^{-1}gh \notin N$. Thus $(gN)(hN) \neq (hN)(gN)$ and $G/N$ is not abelian.
+
+Thus if $G/N$ is abelian, $[G, G] \subseteq N$ which shows the result. $\square$
+\end{proof}
+
+\begin{definition}
+The group $G/[G, G]$ is called the \emph{abelianisation} of $G$.
+\end{definition}
+
+\subsubsection{The Correspondence Theorem}
+
+\begin{theorem}
+If $G$ is a group and $N \mathrel{\unlhd} G$ then there is an order preserving bijection
+$$\{\mbox{subgroups of}\;\;G\;\mbox{containing}\;N \} \leftrightarrow \{\mbox{subgroups of}\;\;G/N\}.$$ 
+\end{theorem}
+
+\begin{proof}
+If $N \leq A \leq G$ then $N \mathrel{\unlhd} A$. Thus we can define the map $\phi : A \mapsto A/N$. The group Clearly $A/N \subseteq G/N$. It is easy to show that $A/N \leq G/N$.
+
+Conversely, suppose $H' \leq G/N$. Let $H = \{h \in G \;|\; hN \in H'\}$. Clearly $N \subseteq H$. It is also easy to show that $H \leq G$. We see that $H' = \phi(H)$ and so $\phi$ is a surjection.
+
+If $A/N = B/N$ for $A, B \leq G$ containing $N$, then $A$ and $B$ consist of precisely the same cosets of $N$ in $G$. Thus $A = B$ and $\phi$ is injective.
+
+It is easy to see that $\phi$ is order preserving. $\square$
+\end{proof}
+
+\begin{definition}
+If $G$ is a group and $A, B \leq G$ we write $\langle A, B \rangle = \langle A\cup B \rangle$.
+\end{definition}
+
+\begin{theorem} \label{normalcontaining}
+If $G$ is a group, $A, B \leq G$ and $N \mathrel{\unlhd} G$ then
+\begin{enumerate}
+\item If $A \subseteq B$ for a finite group $A$ then $|B:A| = |B/N:A/N|$
+\item $\langle A, B \rangle/N = \langle A/N, B/N \rangle$
+\item $(A\cap B)/N = (A/N)\cap (B/N)$
+\item $A \mathrel{\unlhd} G$ iff $A/N \mathrel{\unlhd} G/N$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) Follows from $|B:A| = |B|/|A|$ and $|B/N| = |B|/|N|$.
+
+(2) $\langle A, B \rangle/N$ consists of the cosets $gN$ for $g \in \langle A\cup B \rangle$. But as $(aN)(bN) = abN$ and $(aN)^{-1} = a^{-1}N$ a set of generators of this group is given by $(A/N)\cup (B/N)$, which gives the result.
+
+(3) Note that $N \mathrel{\unlhd} A\cap B$ and so the result makes sense. It is clear that both groups consist of the cosets $gN$ for $g \in A\cap B$.
+
+(4) We have that $A \mathrel{\unlhd} G$ iff $g^{-1}ag \in A$ for all $a \in A$ and $g \in G$. But this holds iff $g^{-1}agN \in A/N$ which is true iff $(g^{-1}N)(aN)(gN) \in A/N$ for all $gN \in G/N$, which is precisely the statement of the result. $\square$
+\end{proof}
+
+\subsection{Homomorphisms}
+
+\subsubsection{Homomorphisms}
+
+\begin{definition}
+If $G$ and $H$ are groups a \emph{homomorphism} from $G$ to $H$ is a map $\phi : G \to H$ such that $\phi(g_1g_2) = \phi(g_1)\phi(g_2)$ for all $g_1, g_2 \in G$.
+\end{definition}
+
+Of course this is the multiplicative version of the definition. There is a similar definition with addition instead of multiplication in the additive case.
+
+\begin{theorem}
+If $\phi : G \to H$ is a homomorphism then $\phi(g^{-1}) = \phi(g)^{-1}$ and $\phi(1) = 1$.
+\end{theorem}
+
+\begin{proof}
+From $\phi(1) = \phi(1.1) = \phi(1)\phi(1)$ we see that $\phi(1) = 1$.
+
+From $1 = \phi(1) = \phi(gg^{-1}) = \phi(g)\phi(g^{-1})$ we see that $\phi(g^{-1}) = \phi(g)^{-1}$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $H \leq G$ then the map $\iota : H \to G$ which sends $h \mapsto h$ for all $h \in H$ is a homomorphism, called the canonical injection.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is a group and $N \mathrel{\unlhd} G$ then the map $\rho : G \to G/N$ which maps $g \mapsto gN$ for all $g \in G$ is a homomorphism, called the canonical projection.
+\end{theorem}
+
+\begin{proof}
+We have that $\rho(gh) = ghN = (gN)(hN) = \rho(g)\rho(h)$. $\square$
+\end{proof}
+
+\subsubsection{The Kernel and Image of a Homomorphism}
+
+\begin{definition}
+Let $\phi : G \to H$ be a homomorphism. The \emph{kernel} of $\phi$ is the set
+$$\mbox{ker}(\phi) = \{g \in G \;|\; \phi(g) = 1\}.$$
+\end{definition}
+
+\begin{theorem}
+If $\phi : G \to H$ is a homomorphism then ker$(\phi) \mathrel{\unlhd} G$. Moreover, if $N \mathrel{\unlhd} G$ is any normal subgroup, it is the kernel of some homomorphism from $G$.
+\end{theorem}
+
+\begin{proof}
+It is easy to see that ker$(\phi)$ is a subgroup of $G$.
+
+To see that it is normal, let $g \in G$ and $k \in \mbox{ker}(\phi)$, then $\phi(g^{-1}kg) = 1$. Thus $g^{-1}kg \in \mbox{ker}(\phi)$.
+
+To show the second part of the theorem it is enough to note that the kernel of the canonical projection $\rho : G \to G/N$ is $N$. $\square$
+\end{proof}
+
+\begin{definition}
+If $\phi : G \to H$ is a homomorphism, the \emph{image} of $\phi$ is the set
+$$\mbox{im}(\phi) = \{h \in H \;|\; \mbox{there exists}\;\; g \in G \;\;\mbox{such that}\;\; \phi(g) = h\}.$$
+\end{definition}
+
+\begin{theorem}
+If $\phi : G \to H$ is a homomorphism then im$(\phi) \leq H$.
+\end{theorem}
+
+\begin{proof}
+Clear.
+\end{proof}
+
+\subsubsection{Endomorphisms of a Group}
+
+\begin{definition}
+Let $G$ be a group. An \emph{endomorphism} of $G$ is a homomorphism $\phi : G \to G$. The set of all endomorphisms of $G$ is denoted End$(G)$.
+\end{definition}
+
+\begin{theorem}
+If $G$ is an abelian group under addition, then End$(G)$ has the structure of an additive abelian group.
+\end{theorem}
+
+\begin{proof}
+If $\phi_1$ and $\phi_2$ are elements of End$(G)$ we define $(\phi_1 + \phi_2)(g) = \phi_1(g) + \phi_2(g)$ for all $g \in G$. If it easy to check that this gives the structure of an abelian group on End$(G)$, with the identity map serving as the identity of End$(G)$. $\square$
+\end{proof}
+
+In fact, the group End$(G)$ can even be given the structure of a ring, where the multiplication in the ring is given by composition of homomorphisms. However, we will not prove this here.
+
+\subsubsection{Isomorphisms}
+
+\begin{definition}
+A homomorphism of groups $\phi : G \to H$ is said to be an \emph{isomorphism} if there exists a homomorphism $\phi^{-1} : H \to G$ such that $\phi^{-1}\circ \phi =$ id$_G$. We say that $G$ and $H$ are isomorphic, which we denote by $G \cong H$.
+\end{definition}
+
+\begin{theorem}
+A homomorphism $\phi : G \to H$ is an isomorphism iff it is a bijection.
+\end{theorem}
+
+\begin{proof}
+Let $\phi^{-1} : H \to G$ be the inverse map. Clearly it is a homomorphism, which also composes with $\phi$ to give the identity. $\square$
+\end{proof}
+
+\subsubsection{Automorphisms}
+
+\begin{definition}
+If $G$ is a group, an \emph{automorphism} of $G$ is an isomorphism $\phi : G \to G$. We denote the set of automorphisms of $G$ by Aut$(G)$.
+\end{definition}
+
+\begin{theorem}
+Let $G$ be a group and $a \in G$. The map $\sigma_a : g \mapsto a^{-1}ga$, called \emph{conjugation} by $a$ is an automorphism.
+\end{theorem}
+
+\begin{proof}
+The map is clearly a bijection. We have that
+$$\sigma_a(g_1g_2) = a^{-1}g_1g_2a = (a^{-1}g_1a)(a^{-1}g_2a) = \sigma_a(g_1)\sigma_a(g_2).$$
+Thus $\sigma_a$ is a homomorphism. $\square$
+\end{proof}
+
+\begin{definition}
+Let $G$ be a group. An automorphism of $G$ that is conjugation $\sigma_a$ for some $a \in G$ is said to be an \emph{inner autormorphism} of $G$. We write Inn$(G)$ for the set of inner autormorphisms of $G$.
+\end{definition}
+
+\begin{theorem}
+For a group $G$, the set Aut$(G)$ is a group under composition.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+For a group $G$, Inn$(G) \mathrel{\unlhd}$ Aut$(G)$.
+\end{theorem}
+
+\begin{proof}
+Conjugation by $1 \in G$ is an inner automorphism. It is the identity of Aut$(G)$.
+
+It is clear that $\sigma_{g^{-1}}$ is the inverse of $\sigma_g$ in Aut$(G)$ and is an inner automorphism. It is easy to see that $\sigma_{ab}$ is the composition of $\sigma_a$ and $\sigma_b$ and so Inn$(G)$ is a subgroup of Aut$(G)$.
+
+To show that it is normal, let $\sigma_g \in$ Inn$(G)$ and $\phi \in$ Aut$(G)$. Then for $h \in G$:
+\begin{align*}
+\phi^{-1}\cdot\sigma_g\cdot\phi(h) &= \phi\circ \sigma_g \circ \phi^{-1}(h)\\
+                                   &= \phi(g^{-1}\phi^{-1}(h)g)\\
+                                   &= \phi(g^{-1})h\phi(g)\\
+                                   &= \sigma_{\phi(g)}(h) \in \mbox{Inn}(G)
+\end{align*} $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group and let $\phi : G \to$ Aut$(G)$ be the map $g \mapsto \sigma_g$. Then $\phi$ is a homomorphism. We refer to this as the natural homomorphism from $G$ to Aut$(G)$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $\phi : G \to$ Aut$(G)$ be the natural homomorphism. Then ker$(\phi) = Z_G$.
+\end{theorem}
+
+\begin{proof}
+$\phi(g) =$ id$_G$ iff $g^{-1}ag = a$ for all $a \in G$. $\square$
+\end{proof}
+
+\subsubsection{The Automorphism Group of a Cyclic Group}
+
+\begin{theorem}
+The automorphism group of $\mathbb{Z}$ is isomorphic to $C_2$.
+\end{theorem}
+
+\begin{proof}
+An automorphism of $\mathbb{Z}$ must send $1$ to a generator of $\mathbb{Z}$. As the only generators are $\pm 1$, the result follows. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $C_n = \langle g \rangle$ be a cyclic group of order $n$. The automorphisms of $C_n$ consist of the maps $a \mapsto a^k$ for $1 \leq k < n$ with gcd$(k, n) = 1$.
+\end{theorem}
+
+\begin{proof}
+Let $\sigma \in$ Aut$(C_n)$. Then $\sigma(g) = g^k$ for some $k$. In order to be an automorphism $g^k$ must generate $C_n$. Thus gcd$(k, n) = 1$.
+
+Consider any element $a = g^r \in C_n$. Then $\sigma(a) = \sigma(g)^r = (g^k)^r = a^k$. $\square$
+\end{proof}
+
+\begin{corollary}
+We have $|\mbox{Aut}(C_n)| = \varphi(n)$.
+\end{corollary}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+Note that Aut$(C_n)$ is an abelian group since $(a^r)^s = (a^s)^r$.
+
+\subsection{The Group Isomorphism Theorems}
+
+\subsubsection{The First Group Isomorphism Theorem}
+
+\begin{theorem}
+Let $\phi : G \to H$ be a group homomorphism. Then $G/\mbox{ker}(\phi) \cong \mbox{im}(\phi)$.
+\end{theorem}
+
+\begin{proof}
+Let $K = \mbox{ker}(\phi)$. Define $\psi : G/K \to \phi(G)$ by $\psi(aK) = \phi(a)$.
+
+The map $\psi$ is well defined, for if $aK = bK$ then $a = bk$ for some $k \in K$ and $\phi(a) = \phi(b)\phi(k) = \phi(b)$.
+
+It is easy to see that $\psi$ is a homomorphism on $G/K$.
+
+We can check that $\psi$ is injective, since if $\phi(a) = \phi(b)$ then $ab^{-1} \in K$ and so $aK = bK$.
+
+Clearly $\psi$ is surjective and thus an isomorphism. $\square$
+\end{proof}
+
+\subsubsection{Quotients of quotient groups}
+
+\begin{theorem}
+Let $H$ and $K$ be normal subgroups of a group $G$ and let $K \leq H$. Then $(G/K)/(H/K) \cong G/H$.
+\end{theorem}
+
+\begin{proof}
+As $K \mathrel{\unlhd} G$ we have that $K \mathrel{\unlhd} H$. As $H \mathrel{\unlhd} G$ and both groups contain $K$, we have that $H/K \mathrel{\unlhd} G/K$. Thus the theorem makes sense.
+
+We define the map $\phi : G/K \to G/H$ by $\phi(gK) = gH$. It is easy to check that $\phi$ is well-defined and a homomorphism.
+
+We have that ker$(\phi) = \{gK \in G/K \;|\; g \in H\} = H/K$. Then by the first isomorphism theorem $(G/K)/(H/K) \cong G/H$. $\square$
+\end{proof}
+
+\subsubsection{The Second Isomorphism Theorem}
+
+\begin{theorem}
+Let $H, N$ be subgroups of a group $G$ and let $N \mathrel{\unlhd} G$. Then
+$$H/(H\cap N) \cong HN/N.$$
+\end{theorem}
+
+\begin{proof}
+We have previously shown that $H\cap N \mathrel{\unlhd} H$ and it is easy to see that $N \mathrel{\unlhd} HN$, so the theorem makes sens.
+
+Define a map $\phi : H \to HN/N$ by $\phi(h) = hN$. It is easy to check that this map is a homomorphism.
+
+We have that ker$(\phi) = H\cap N$ and $\phi$ is surjective. Thus by the first isomorphism theorem the result follows. $\square$
+\end{proof}
+
+\subsubsection{The Third Isomorphism Theorem}
+
+\begin{theorem}
+Let $G$ be a group and $N$ a normal subgroup. If $K$ is a normal subgroup of $G$ containing $N$ then
+$$(G/N)/(K/N) \cong G/K.$$
+\end{theorem}
+
+\begin{proof}
+We have already shown in Theorem \ref{normalcontaining} that $K/N$ is a normal subgroup of $G/N$. Therefore the quotient $(G/N)(K/N)$ makes sense.
+
+Define a map $\Phi : G/N \to G/K$ by $\Phi : gN \mapsto gK$ for all $g \in G$. It is easy to see that this is well-defined as $N \subseteq K$. It is also easy to see that it is a surjective homomorphism.
+
+The kernel is precisely the set of cosets $gN$ with $g \in K$, i.e. $K/N$. 
+
+Therefore, the result follows by the first isomorphism theorem. $\square$
+\end{proof}
+
+\subsection{Direct Products of Groups}
+
+\subsubsection{The Direct Product}
+
+\begin{theorem}
+Let $G$ and $H$ be groups. Define a binary operation on $G\times H$ by
+$$(g_1, h_1)\cdot (g_2, h_2) = (g_1g_2, h_1h_2),$$
+for $g_1, g_2 in G$ and $h_1, h_2 \in H$.
+Then $G\times H$ with this operation is a group.
+\end{theorem}
+
+\begin{proof}
+The operation is clearly closed.
+
+Associativity follows from associativity of the groups $G$ and $H$. The element $(1_G, 1_H)$ is an identity, and $(g^{-1}, h^{-1})$ is an inverse of $(g, h)$. $\square$
+\end{proof}
+
+\begin{definition}
+The group $G\times H$ under the operation given in the theorem is called the \emph{(external) direct product} of $G$ and $H$ and is also denoted $G\times H$.
+\end{definition}
+
+\subsubsection{The Order of a Direct Product}
+
+\begin{theorem}
+Let $G$ and $H$ be groups and let $g \in G$ have order $m$ and $h \in H$ have order $n$. Then $(g, h) \in G\times H$ has order $lcm(m, n)$.
+\end{theorem}
+
+\begin{proof}
+The order of $(g, h)$ will be the smallest positive integer which is a multiple of $m$ and $n$. $\square$
+\end{proof}
+
+\begin{corollary}
+If $G$ and $H$ be finite groups. Then $|G\times H| = |G|\times |H|$.
+\end{corollary}
+
+\begin{proof}
+Follows from the order of a cartesian product of finite sets. $\square$
+\end{proof}
+
+\subsubsection{The Direct Product of a Family of Groups}
+
+\begin{definition}
+Let $\{G_i : i \in I\}$ be a family of groups indexed by a set $I$. The (external) \emph{direct product} of the family is
+$$\prod_{i \in I} G_i = \{f : I \to \cup_{i \in I} G_i \;|\; f(i) \in G_i \forall i \in I\}.$$
+\end{definition}
+
+If $I$ is a two element set, the definition isn't exactly the same as the definition we already gave, but note that $(g, h) = (f(1), f(2))$ for some $f$ from the second definition.
+
+Also note that if $I$ is a countably infinite set then we can think of the direct product as sequences of elements, one from each group $G_i$, i.e. the elements are of the form $(g_i)_{i \in \mathbb{N}}$ where $g_i \in G_i$.
+
+\begin{theorem}
+Let $\{G_i : i \in I\}$ be a family of groups. The direct product $\prod_{i \in I} G_i$ is a group under the operation $(f_1\cdot f_2)(i) = f_1(i)f_2(i)$.
+\end{theorem}
+
+\begin{proof}
+The definition makes sense because $f_1(i)f_2(i) \in G_i$ since $G_i$ is a group. It is clear that the direct product is closed under its operation.
+
+It is easy to check associativity and that $e(i) = 1_{G_i}$ is an identity for the group. The inverse of $f$ is given by $f^{-1}(i) = f(i)^{-1}$ for all $i \in I$. $\square$
+\end{proof}
+
+\subsubsection{The Canonical Projections of a Direct Product}
+
+\begin{definition}
+Let $\{G_i : i \in I\}$ be a family of groups. The \emph{canonical projections} of $\prod_{i \in I} G_i$ are the maps $\pi_j : \prod_{i \in I} G_i \to G_j$ given by $\pi_j : f \mapsto f(i)$ for all $f \in \prod_{i \in I} G_i$.
+\end{definition}
+
+\begin{theorem}
+The canonical projections $\pi_j : \prod_{i \in I} G_i \to G_j$ are surjective homomorphisms.
+\end{theorem}
+
+\begin{proof}
+It is easy to see that the $\pi_j$ are homomorphisms.
+
+If $g \in G_j$ and $f(i) = e_{G_i}$ for all $i \neq j$ and $f(j) = g$ then we see that $\pi_j(f) = g$, which shows that $\pi_j$ is surjective. $\square$
+\end{proof}
+
+\subsubsection{The Restricted Direct Product}
+
+\begin{definition}
+Let $\{G_i : i \in I\}$ be a family of groups. The \emph{restricted direct product} of the $G_i$ is
+$$\prod'_{i \in I} G_i = \{f \in \prod_{i \in I} G_i \;|\; f(i) = e_{G_i} \;\;\mbox{for all but finitely many} i\}.$$
+\end{definition}
+
+\begin{theorem}
+Let $\{G_i : i \in I\}$ be a family of groups. The restricted direct product $H = \prod'_{i \in I} G_i$ is a normal subgroup of the direct product $G = \prod_{i \in I} G_i$.
+\end{theorem}
+
+\begin{proof}
+It is easy to check that the restricted direct product is a subgroup of the direct product.
+
+Note that if $g \in G$ and $h \in H$ then $(g^{-1}hg)(i) = g^{-1}(i)h(i)g(i)$ for all $i \in I$.
+
+But $h(i) = e_{G_i}$ for all but finitely many $i \in I$. Thus $(g^{-1}hg)(i) = g^{-1}(i)g(i) = e_{G_i}$ for all but finitely many $i$. This means that $g^{-1}hg \in H$ and $H \mathrel{\unlhd} G$. $\square$
+\end{proof}
+
+\subsubsection{The Canonical Injections of the Restricted Direct Product}
+
+\begin{definition}
+Let $\{G_i : i \in I\}$ be a family of groups. The \emph{canonical injections} of the restricted product are the maps $\iota_j : G_j \to \prod'_{i \in I} G_i$ given by
+$$(\iota_j(g))(i) = \begin{cases}g, & i = j\\e_{G_i}, & i \neq j\end{cases}.$$
+\end{definition}
+
+\begin{theorem}
+Let $\{G_i : i \in I\}$ be a family of groups. The canonical injections $\iota_j : G_j \to \prod'_{i\in I} G_i$ are injective homomorphisms.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $\{G_i : i \in I\}$ be a family of groups. The images $\iota_j(G_j)$ of the canonical injections of the restricted product are normal subgroups of the product $\prod_{i\in G} G_i$.
+\end{theorem}
+
+\begin{proof}
+As $\iota_j$ is a homomorphism, its image is a subgroup of the product.
+
+Let $G = \prod_{i \in I} G_i$ and $H = \iota_j(G_j)$ be the image of $\iota_j$. If $h \in H$ then there exists an $a \in G_j$ such that $\iota_j(a) = h$. But this means that $h(j) = a$ and $h(i) = e_{G_i}$ for all $i \neq j$.
+
+Let $g \in G$. Then for $i = j$ we have $(g^{-1}hg)(j) = g^{-1}(j)ag(j) \in G_j$.
+
+If $i \neq j$ then $(g^{-1}hg)(i) = g^{-1}(i)g(i) = e_{G_i}$.
+
+Thus we see that $g^{-1}hg = \iota_j(g^{-1}(j)ag(j)) \in \iota_j(G_j) = H$. Thus $H \mathrel{\unlhd} G$. $\square$
+\end{proof}
+
+\subsubsection{Internal Direct Products}
+
+\begin{definition}
+Let $G$ be a group and $H, K \leq G$. The group $G$ is said to be the \emph{internal direct product} of $H$ and $K$ if
+\begin{enumerate}
+\item $G = \{hk \;|\; h \in H, k \in K\}$
+\item $G\cap K = \{1_G\}$
+\item $hk = kh$ for all $h \in H, k \in K$
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}
+Let $G$ be a group and $H, K \leq G$. Then $G$ is the internal direct product of $H$ and $K$ iff the following hold:
+\begin{enumerate}
+\item $G = \{hk \;|\; h \in H, k \in K\}$
+\item $G\cap K = \{1_G\}$
+\item $H, K \mathrel{\unlhd} G$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Suppose $G$ is the direct product of $H$ and $K$. Let $g \in G$ and $k \in K$. Then by the first condition above, $g = h'k'$ for some $h' \in H$, $k' \in K$.
+
+We have that $g^{-1}kg = k'^{-1}h'^{-1}kh'k'$ which by the third condition above is equal to $k'^{-1}kk' \in K$. Thus $K$ is a normal subgroup of $G$. A similar argument holds for $H$.
+
+Conversely, suppose that the given conditions hold. Let $h \in H$ and $k \in K$. As $K$ is normal in $G$ we have $h^{-1}kh = k'$ for some $k' \in K$. Similarly $k'^{-1}hk' = h'$ for some $h' \in H$.
+
+Rewriting these, we have $h^{-1}k = k'h^{-1}$ and $k'^{-1}h = h'k'^{-1}$. Multiplying these relations we have that $k'^{-1}k = h'h^{-1}$. But the left side is an element of $K$ and the right side an element of $H$. Thus both equal $1$ by the second condition above.
+
+In other words, $k' = k$ and $h' = h$, which implies that $hk = kh$. $\square$
+\end{proof}
+
+\begin{definition}
+Let $\{N_i : i \in I\}$ be a family of subgroups of a group $G$. The group $G$ is said to be the internal direct product of the family if:
+\begin{enumerate}
+\item $N_i \mathrel{\unlhd} G$ for all $i$
+\item $G = \langle \cup_{i\in I} N_i \rangle$
+\item $N_i \cap \langle \cup_{j \neq i} N_i \rangle = 1_G$
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}
+Let $\{N_i : i \in I\}$ be a family of subgroups of a group $G$. Then $G$ is the internal direct product of the family if:
+\begin{enumerate}
+\item $N_i \mathrel{\unlhd} G$ for all $i \in I$
+\item $g_ig_j = g_jg_i$ for all $g_i \in N_i$ and $g_j \in N_j$ for $i \neq j$
+\item Every $g \in G$ has a unique expression as a product of elements from distinct $N_i$'s
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The proof of the second condition is essentially the same as for the theorem above.
+
+Assume $G$ is the direct product of the $N_i$'s. Let $g \in G$. As the $N_i$'s generate $G$, we can write $g$ as a product $g_{\lambda_1}g_{\lambda_2}\ldots g_{\lambda_k}$ where $1 \neq g_{\lambda_i} \in G_{\lambda_i}$, and the $\lambda_i$ are distinct. 
+
+Let $g = h_{\mu_1}h_{\mu_2}\ldots h_{\mu_m}$ be another such expression and suppose that $\mu_1 \neq \lambda_i$ for all $i$. Then $h_{\mu_1} \in N_{\mu_1} \cap \langle \cup_{i \neq \mu_1} N_i \rangle$, which is trivial.
+
+This shows that the third condition holds.
+
+Conversely, if the conditions in the theorem hold then clearly the third condition of the definition holds, due to uniqueness of expression as a product. The other conditions follow just as for the proof of the previous theorem. $\square$
+\end{proof}
+
+\subsubsection{Equivalence of Internal and External Direct Products}
+
+\begin{theorem}
+Let $G$ be a group and $H, K \leq G$. If $G$ is the internal direct product of $H$ and $K$ then $G \cong H\times K$.
+\end{theorem}
+
+\begin{proof}
+Define a map $f : H\times K \to G$ by $(h, k) = hk$.
+
+By the commutativity in the internal direct product, the map $f$ is a homomorphism.
+
+To show it is injective, let $(h_1, k_1), (h_2, k_2) \in H\times K$. Suppose that $f(h_1, k_1) = f(h_2, k_2)$, i.e. $h_1k_1 = h_2k_2$. We have that $h_2^{-1}h_1 = k_2k_1^{-1}$. As the intersection of $H$ and $K$ is trivial, we have that $h_1 = h_2$ and $k_1 = k_2$.
+
+Surjectivity of $f$ follows from the fact that $G = \{hk \;|\; h \in H, k \in K\}$. $\square$
+\end{proof}
+
+A similar proof shows that internal and external direct products of families of subgroups are isomorphic.
+
+\subsubsection{The Automorphism Group of a Direct Product}
+
+\begin{theorem}
+If $A$ and $B$ are finite groups with coprime orders then Aut$(A\times B) \cong$ Aut$(A)\times$Aut$(B)$.
+\end{theorem}
+
+\begin{proof}
+Let $\phi : A\times B \to A\times B$ be an automorphism. Composing with the projections onto $A$ and $B$ we get homomorphisms $\phi_A : A\times B \to A$ and $\phi_B : A\times B \to B$.
+
+By the first isomorphism theorem, the order of ker$(\phi_A)$ must be $|B|$. As the order of any nontrivial element $a \in A$ is coprime to $|B|$ we see that no element of $A\times \{1\}$ can be in the kernel of $\phi_A$.
+
+This means that $\phi_A$ induces an automorphism on $A$, and similarly $\phi_B$ induces an automorphism on $B$.
+
+It is now clear that there is a homomorphism from Aut$(A\times B) \to$ Aut$(A)\times$ Aut$(B)$. But any pair of automorphisms $\rho : A \to A$, $\sigma : B \to B$ induces an automorphism of $A\times B$, and there is a homomorphism Aut$(A)\times$ Aut$(B) \to$ Aut$(A\times B)$, which is thus an isomorphism. $\square$
+\end{proof}
+
+\begin{theorem}
+The automorphism group of $C_p\times C_p$ for a prime $p$ is isomorphic to GL$_2(\mathbb{Z}/p\mathbb{Z})$.
+\end{theorem}
+
+\begin{proof}
+An endomorhism of $C_p\times C_p$ is entirely characterised by where it sends the generators $x$ and $y$ of the summands. Suppose it maps $(x, 1) \to (x^a, y^b)$ and $(1, y) \to (x^c, y^d)$, where $a, b, c, d$ can be taken modulo $p$.
+
+This is an automorphism iff it is invertible, which happens iff $ad - bc = \pm 1$. Thus an automorphism corresponds to a matrix in GL$_2(\mathbb{Z}/p\mathbb{Z})$ and vice versa.
+
+An easy computation shows that composition of two automorphisms corresponds to matrix multiplication of matrices in GL$_2(\mathbb{Z}/p\mathbb{Z})$. $\square$
+\end{proof}
+
+\subsection{The Semidirect Product}
+
+\subsubsection{The Semidirect Product}
+
+\begin{definition}
+Let $H$ and $Q$ be groups and let $\theta : Q \to$ Aut$(H)$ be a group homomorphism. The semidirect product $H\rtimes_{\theta} Q$ is the set $\{(h, q)\;|\; h \in H, q \in Q\}$ with operation $(h_1, q_1)(h_2, q_2) = (h_1\theta(q_1)h_2, q_1q_2)$.
+\end{definition}
+
+\begin{theorem}
+The semidirect product $H\rtimes_{\theta} Q$ is a group.
+\end{theorem}
+
+\begin{proof}
+It is clear that $(1, 1)$ is the identity.
+
+We have
+$$(h_1, q_1)[(h_2, q_2)(h_3, q_3)] = (h_1\theta(q_1)[h_2\theta(q_2)h_3], q_1q_2q_3)] = (h_1\theta(q_1)h_2\theta(q_1q_2)h_3).$$
+Similarly
+$$[(h_1, q_1)(h_2, q_2)](h_3, q_3) = (h_1\theta(q_1)h_2\theta(q_1q_2)h_3, q_1q_2q_3).$$
+Thus the associative law holds.
+
+Finally, $(\theta(q^{-1})h^-1, q^{-1})$ is the inverse of $(h, q)$.
+$\square$
+\end{proof}
+
+\begin{theorem}
+Given groups $H$ and $Q$ and a group homomorphism $\theta : Q \to$ Aut$(H)$ there exist canonical injections $H \to H\rtimes_{\theta} Q$ and $Q \to H\rtimes_{\theta} Q$ given by $h \mapsto (h, 1)$ and $q \mapsto (1, q)$. These are group homomorphisms.
+\end{theorem}
+
+\begin{proof}
+It is clear that the first is a homomorphism.
+
+For the second, it follows from $\theta(q)1 = 1$. $\square$
+\end{proof}
+
+We will identify $H$ with its image under the first injection, so that it is a subgroup of $H\rtimes_{\theta} Q$ and similarly we will identify $Q$ with its image under the second injection, so that it is also a subgroup of $H\rtimes_{\theta} Q$.
+
+\begin{theorem}
+Let $H$ and $Q$ be groups and $\theta : Q \to$ Aut$(H)$ be a homomorphism. Then
+\begin{enumerate}
+\item $H \mathrel{\unlhd} H\rtimes_{\theta} Q$
+\item $HQ = H\rtimes_{\theta} Q$
+\item $H\cap Q = (1, 1) \in H\rtimes_{\theta} Q$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Note that $(h, q) = (h, 1)(1, q)$. Therefore $HQ = H\rtimes_{\theta} Q$.
+
+Let $\rho : H\rtimes_{\theta} Q \to Q$ be defined by $\rho(h, q) = q$. This is clearly a homomorphism with kernel $H$. Thus $H$ is a normal subgroup of $H\rtimes_{\theta} Q$.
+
+Clearly $(1, 1)$ is the only element in (the images of) $H$ and $Q$ (in $H\rtimes_{\theta} Q$). $\square$
+\end{proof}
+
+\subsubsection{Internal Semidirect Products}
+
+\begin{definition}
+If $G$ is a group with subgroups $H$ and $Q$, we say that $G$ is the \emph{internal direct product} of $H$ and $Q$ if
+\begin{enumerate}
+\item $H \mathrel{\unlhd} G$
+\item $HQ = G$
+\item $H\cap Q = 1 \in G$
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+Let $G$ be a group with subgroups $H$ and $Q$. Suppose $G = HQ$ and $H\cap Q = \{1\}$. Then every element $g \in G$ can be written uniquely in the form $hq$ with $h \in H$ and $q \in Q$.
+\end{lemma}
+
+\begin{proof}
+Suppose $hq = h'q'$. Then $h'^{-1}h = q'q^{-1} \in H\cap Q$. Thus $h = h'$ and $q = q'$. $\square$
+\end{proof}
+
+It is clear that any external semidirect product is an internal semidirect product. But we also have the converse.
+
+\begin{theorem}
+Let $G$ be a group which is the internal semidirect product of subgroups $H$ and $Q$. Then $G \cong H\rtimes_{\theta} Q$ where $\theta : Q \to$ Aut$(H)$ is given by
+$$\theta(q)(h) = qhq^{-1}.$$
+\end{theorem}
+
+\begin{proof}
+By the lemma, every $g \in G$ can be written uniquely as $hq$ for $h \in H$ and $q \in Q$. Thus the map $\phi : (h, q) \mapsto hq$ is a bijection from $H\rtimes_{\theta} Q$ to $G$.
+
+It suffices to show $\phi$ is a homomorphism:
+\begin{multline*}
+\phi((h_1, q_1)(h_2, q_2)) = \phi((h_1\theta(q_1)h_2, q_1q_2)) =\\
+\phi(h_1q_1h_2q^{-1}, q_1q_2) = h_1q_1h_2q_2 = \phi((h_1, q_1))\phi((h_2, q_2)).
+\end{multline*} $\square$
+\end{proof}
+
+Note that if $G$ is the internal direct product of subgroups $H$ and $Q$ with $Q$ also normal in $G$ then the semidirect product is the direct product.
+
+Also note that whilst any two direct products of groups $H$ and $Q$ are isomorphic, this is not true of the semidirect product as the semidirect product still depends on the action of $Q$ on $H$.
+
+In the case of the internal semidirect product, one should not confuse the action of $Q$ on $H$ by conjugation in $G$ with inner automorphisms of $H$ (which would correspond to conjugation by elements of $H$). As $H$ is normal in $G$, the action of $Q$ on $H$ must map $H$ to itself, but this map can be any automorphism of $H$, not just an inner automorphism.
+
+\subsubsection{Dihedral Groups}
+
+\begin{definition}
+Let $D_n$ be the group generated by $r$ and $s$ with $r^n = 1$, $s^2 = 1$ and $(sr)^2 = 1$. We call $D_n$ the $n$-th \emph{dihedral group}.
+\end{definition}
+
+\begin{theorem}
+The dihedral group $D_n$ has $2n$ elements, namely $1, r, \ldots, r^{n-1}$ and $s, sr, \ldots sr^{n-1}$.
+\end{theorem}
+
+\begin{proof}
+From $(sr)^2 = 1$ we have $rs = s^{-1}r^{-1} = sr^{n-1}$. Repeated application of this identity allows us to replace any product of $s$ and $r$ with a product having at most one $s$ on the left. $\square$
+\end{proof}
+
+\begin{theorem}
+The dihedral group $D_n$ is isomorphic to the semidirect product $C_n\times C_2$ where the the non-identity element of $C_2$ acts on $C_n$ by inverting elements, i.e. if $C_n = \langle r \rangle$ and $C_2 = \langle s \rangle$ then $srs^{-1} = r^{-1}$.
+\end{theorem}
+
+\begin{proof}
+Note that we have identified $C_n$ and $C_2$ with subgroups of $D_n$ generated by $r$ and $s$ respectively.
+
+We have $C_n \mathrel{\unlhd} D_n$ as it has index 2.
+
+Clearly $C_n\cap C_2 = 1$ and $C_nC_2 = D_n$.
+
+The given identity follows from $(sr)^2 = 1$ and $s^2 = 1$. $\square$
+\end{proof}
+
+\subsection{Exact Sequences}
+
+\subsubsection{Exact Sequences}
+
+\begin{definition}
+An exact sequence of groups is a sequence of homomorphisms $f_i$ between groups $G_i$:
+$$G_0 \overset{f_1}{\longrightarrow} G_1 \overset{f_2}{\longrightarrow} G_{2} \overset{f_{3}}{\longrightarrow} \cdots \overset{f_n}{\to} G_n$$
+such that im$(f_k) =$ ker$(f_{k+1})$ for every $n$.
+\end{definition}
+
+\begin{theorem}
+The sequence $0 \longrightarrow A \overset{f}{\longrightarrow} B$ is exact at $A$ iff $f$ is an injective homomorphism.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+The sequence $A \overset{f}{\longrightarrow} B \longrightarrow 0$ is exact at $B$ iff $f$ is an surjective homomorphism.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{corollary}
+The sequence $0 \longrightarrow A \overset{f}{\longrightarrow} B \longrightarrow 0$ is exact at $B$ iff $f$ is an isomorphism.
+\end{corollary}
+
+\subsubsection{Short Exact Sequences}
+
+\begin{definition}
+A \emph{short exact sequence} is an exact sequence of the form
+$$0 \longrightarrow A \overset{f}{\longrightarrow} B \overset{g}{\longrightarrow} C \longrightarrow 0.$$
+\end{definition}
+
+\begin{theorem}
+If $0 \longrightarrow A \overset{f}{\longrightarrow} B \overset{g}{\longrightarrow} C \longrightarrow 0$ is a short exact sequence of groups then $C \cong B/\mbox{im}(f)$.
+\end{theorem}
+
+\begin{proof}
+Follows from the first isomorphism theorem and the definition of exactness at $B$. $\square$
+\end{proof}
+
+\subsubsection{Split Short Exact Sequences}
+
+\begin{definition}
+A short exact sequence $0 \longrightarrow A \overset{f}{\longrightarrow} B \overset{g}{\longrightarrow} C \longrightarrow 0$ is said to be \emph{split} if there exists a homomorphism $h : C \to B$ such that the composition $g\circ h$ on $C$ is the identity map.
+\end{definition}
+
+\begin{theorem}
+Let $0 \longrightarrow A \overset{f}{\longrightarrow} B \overset{g}{\longrightarrow} C \longrightarrow 0$ be a short exact sequence of groups. If there exists a homomorphism $t : B \to A$ such that $t\circ f$ is the identity map on $A$ then $B$ is a direct sum of $A$ and $C$.
+\end{theorem}
+
+\begin{proof}
+Define $\theta : B \to A\times C$ by
+$$\theta(b) = (t(b), g(b)).$$
+
+This is a homomorphism since $t$ and $g$ are homomorphisms.
+
+We will show that the kernel of $\theta$ is trivial, so that it is injective. If $b \in$ ker$(\theta)$ then $t(b) = 1$ and $g(b) = 1$. From exactness at $B$ we see that $g(b) = 1$ implies $b = f(a)$ for some $a \in A$. If $t(b) = 1$ then $1 = t(f(a)) = a$. But this also means $b = f(1) = 1$.
+
+To show that $\theta$ is surjective, let $(a, c) \in A\times C$. As $g$ is surjective, $c = g(b)$ for some $b \in B$.
+
+Let $x = t(b)^{-1}a \in A$. We have $t(bf(x)) = t(b)t(f(x)) = t(b)x = a$. By exactness at $B$ we have that $g(bf(x)) = g(b)g(f(x)) = g(b) = c$. Thus $\theta(bf(x)) = (a, c)$ and $\theta$ is surjective. $\square$
+\end{proof}
+
+\begin{corollary}
+Let $0 \longrightarrow A \overset{f}{\longrightarrow} B \overset{g}{\longrightarrow} C \longrightarrow 0$ be a short exact sequence of groups. If there exists a homomorphism $t : B \to A$ such that $t\circ f$ is the identity map on $A$ then the sequence is split.
+\end{corollary}
+
+\begin{proof}
+Define $h : C \to B$ as the composition of the canonical injection of $C$ into $A\times C$ and the inverse of the map $\theta$ from the proof of the theorem.
+
+Let $c \in C$ and $b = h(c) = \theta^{-1}((1, c))$. Then $g(b) = \rho_2(\theta(b))$, by definition of $\theta$, where $\rho_2$ is the projection onto the second component. But this is clearly $c$. Thus $h$ splits the sequence. $\square$
+\end{proof}
+
+The converse is not true, but we have the following.
+
+\begin{theorem}
+Let $0 \longrightarrow A \overset{f}{\longrightarrow} B \overset{g}{\longrightarrow} C \longrightarrow 0$ be a short exact sequence of groups. If the sequence is split then $B \cong A\rtimes_{\theta} C$ for some homomorphism $\theta : C \to$ Aut$(A)$.
+\end{theorem}
+
+\begin{proof}
+Let $h : C \to B$ split the sequence. It suffices to show that $B$ is the internal direct product im$(f)\rtimes_{\theta}$ im$(h)$.
+
+As im$(f) =$ ker$(g)$, it is a normal subgroup of $B$.
+
+Firstly, we show that im$(f)$im$(h) = B$. Let $b \in B$. Then $b = yz$ where $z = h(g(b))$ and $y = bz^{-1}$. We have $g(z) = g(h(g(b))) = g(b)$. Thus $g(y) = g(b)g(z)^{-1} = 1$. Thus $y \in$ ker$(g) =$ im$(f)$. But $z \in$ im$(h)$ by construction, and so $b \in$ im$(f)$im$(h)$.
+
+Now we show that if $x \in$ im$(f)\cap$ im$(h)$ then $x = 1$. For if $x = f(a) = h(c)$ for $a \in A$ and $c \in C$ then $c = g(h(c)) = g(f(a)) = 1$ due to exactness of the sequence. $\square$
+\end{proof}
+
+\begin{corollary}
+Let $0 \longrightarrow A \overset{f}{\longrightarrow} B \overset{g}{\longrightarrow} C \longrightarrow 0$ be a short exact sequence of groups. If $A$, $B$ and $C$ are abelian and the sequence is split, then $C \cong A\times B$.
+\end{corollary}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\section{Groups Acting on a Set}
+
+\subsection{Groups Actions}
+
+\subsubsection{Group Actions}
+
+\begin{definition}
+Let $A$ be a set and $G$ a group. A \emph{left group action} of $G$ on $A$ is a map $G\times A \to A$ denoted by $(g, a) \mapsto ga$ for all $g \in G$ and $a \in A$ such that the following hold.
+\begin{enumerate}
+\item $g_1(g_2a) = (g_1g_2)a$ for all $g_1, g_2 \in G$ and $a \in A$
+\item $1a = a$ for all $a \in A$
+\end{enumerate}
+Similarly, a \emph{right group action} is a map $A\times G \to A$ such that
+\begin{enumerate}
+\item $(ag_1)g_2 = a(g_1g_2)$ for all $g_1, g_2 \in G$ and $a \in A$
+\item $a1 = a$ for all $a \in A$
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}
+Let $G$ be a group acting on a set $A$ on the left. For each $g \in G$ we let $\sigma_g : A \to A$ be defined by $\sigma_g(a) = ga$ for all $a \in A$. Then the following hold.
+\begin{enumerate}
+\item Each $\sigma_g$ is a permutation of $A$, i.e. $\sigma_g \in S_A$
+\item The map $\varphi : G \to S_A$ defined by $\varphi(g) = \sigma_g$ is a group homomorphism
+\item If $\psi : G \to S_A$ is any homomorphism then the map $G\times A \to A$ defined by $(g, a) \mapsto \psi(g)a$ is a left group action of $G$ on $A$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+1. It is easy to see that $\sigma_g\circ \sigma_{g^{-1}}$ is the identity on $A$ and similarly for $\sigma_{g^{-1}}\circ \sigma_g$. Thus $\sigma_g$ is a bijection and hence a permutation of $A$.
+
+2. It is easy to show that $\sigma_{g_1g_2} = \sigma_{g_1}\circ\sigma_{g_2}$. Therefore $\phi(g_1g_2) = \varphi(g_1)\circ\varphi_{g_2}$.
+
+3. Let $g_1, g_2 \in G$ and $a \in A$. Then it is easy to check that $g_1(g_2(a)) = \psi(g_1)(\psi(g_2)(a))$. Now on account of $\psi$ being a homomorphism, this is equal to $\psi(g_1g_2) = (g_1g_2)(a)$. But this is precisely the first requirement for a group representation.
+
+For $a \in A$ we have $1a = \psi(1)(a) = a$. Thus we have a group action of $G$ on $A$. $\square$
+\end{proof}
+
+\begin{definition}
+The map $\varphi : G \to S_A$ or more generally any homomorphism $\psi$ as in the theorem is called a \emph{permutation representation} of $G$ on the set $A$.
+\end{definition}
+
+\subsubsection{The Trivial Group Action}
+
+\begin{theorem}
+Let $G$ be a group and $A$ a set. The map $G\times A \to A$ defined by $(g, a) = a$ for all $g \in G$ and $a \in A$ is a group action.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{definition}
+The group action of the theorem is called the trivial group action of $G$ on $A$.
+\end{definition}
+
+\begin{example}
+Let $\varphi : G \to S_A$ be the permutation representation given by $\varphi(g) = \;\;\mbox{id}_A$. Clearly $\varphi : G \to S_A$ is the trivial homomorphism of the group $G$ to the trivial subgroup $\{\mbox{id}_A\}$ of $S_A$.
+\end{example}
+
+\subsubsection{Regular Group Actions}
+
+Groups can act on themselves by a left or right regular action.
+
+\begin{definition}
+Let $G$ be a group. The \emph{left regular action} of $G$ on itself is the group action defined by $(g, a) \mapsto ga$ for all $g, a \in G$, where $ga$ on the right hand side here stands for the group operation. The right regular action of $G$ on itself is defined similarly.
+\end{definition}
+
+\begin{theorem}
+The left and right regular actions of $G$ on itself are left and right group actions, respectively.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsubsection{The Action of the Symmetric Group}
+
+\begin{theorem}
+Let $X$ be a nonempty set and $S_X$ be the symmetric group on $X$. Then the action defined by $(\sigma, x) = \sigma(x)$ for $\sigma \in S_X$ and $x \in X$ is a group action.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+Let $\varphi : S_X \to S_X$ be the permutation representation defined by $\varphi(\delta) = \sigma_{\delta}$ for all $\delta \in S_X$ where $\sigma_\delta$ is defined by $\sigma_\delta(x) = \delta_x$.
+
+Clearly $\varphi(\delta) = \delta$ for all $\delta \in S_X$ and so $\varphi$ is simply the identity homomorphism on $S_X$.
+
+\subsubsection{The Group Action of Conjugation by a Subgroup}
+
+\begin{theorem}
+Let $G$ be a group and $H \leq G$. The map $(h, g) \mapsto hgh^{-1}$ is a group action of $H$ on $G$. We say that $H$ acts by conjugation on $G$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsubsection{Faithful Group Actions}
+
+\begin{definition}
+Let $A$ be a set and $G$ a group acting on $A$. We say that the action is \emph{faithful} if the associated representation homomorphism $\varphi : G \to S_A$ defined by $\varphi(g) = \sigma_g$ where $\sigma_g(x) = gx$, is injective.
+\end{definition}
+
+\begin{theorem}
+Let $A$ be a set and $G$ a group acting on $A$. Then $G$ acts faithfully on $A$ iff for every pair of distinct elements $g_1, g_2 \in G$ there exists an element $a \in A$ such that $g_1a \neq g_2a$.
+\end{theorem}
+
+\begin{proof}
+This just says $\sigma_{g_1} \neq \sigma_{g_2}$. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $A$ be a set and $G$ a group acting on $A$. Then $G$ acts faithfully on $A$ iff for every $g \neq e$ in $G$ there exists $a \in A$ such that $ga \neq a$.
+\end{theorem}
+
+\begin{proof}
+This just says that the kernel of $\varphi$ is trivial. $\square$
+\end{proof}
+
+\subsubsection{Transitive Group Actions}
+
+\begin{definition}
+Let $A$ be a set and $G$ a group acting on $A$. Then $G$ is said to act \emph{transitively} on $A$ if for every $a, b \in A$ there exists $g \in G$ such that $ga = b$.
+\end{definition}
+
+\subsubsection{Regular Group Actions}
+
+\begin{definition}
+The action of a group $G$ on a set $A$ is said to be \emph{regular} if it is faithful and transitive. We say that $A$ is a \emph{principal homogeneous space} or $G$-torsor.
+\end{definition}
+
+\begin{theorem}
+The action of a group $G$ on itself by left multiplication is regular.
+\end{theorem}
+
+\begin{proof}
+It is clearly transitive and free. $\square$
+\end{proof}
+
+\begin{corollary} (Cayley)
+Every group $G$ can be embedded in $S_G$.
+\end{corollary}
+
+\begin{proof}
+The associated permutation representation $\varphi : G \to S_G$ is injective as the action of a group on itself by left multiplication is faithful. $\square$
+\end{proof}
+
+\subsection{Orbits and Stabilisers}
+
+\subsubsection{The Orbit and Stabiliser of a Point}
+
+\begin{definition}
+Let $G$ be a group acting on a nonempty set $A$ and let $a \in A$. The \emph{orbit} of $a$ under the action of $G$ is the set
+$$Ga = \{b \in A \;|\; b = ga \;\;\mbox{for some}\;\; g \in G\}.$$
+\end{definition}
+
+\begin{definition}
+Let $G$ be a group acting on a nonempty set $A$ and let $a \in A$. The \emph{stabiliser} of $a$ in $G$ is the set
+$$G_a = \{g \in G \;|\; ga = a\}.$$
+\end{definition}
+
+\begin{theorem}
+Let $G$ be a group acting on a set $A$. Then $G_a \leq G$.
+\end{theorem}
+
+\begin{proof}
+$G_a$ is clearly closed under the group operation of $G$.
+
+Clearly $e \in G_a$.
+
+If $g \in G_a$ then
+$$g^{-1}a = g^{-1}(ga) = (g^{-1}g)a = ea = a.$$
+Thus $g^{-1} \in G_a$ and $G_a$ is a subgroup of $G$. $\square$
+\end{proof}
+
+\subsubsection{The Class Equation for Group Actions}
+
+\begin{theorem}
+Let $G$ be a group acting on a nonempty set $A$ and let $a \in A$. Then the orbit $Ga$ is in bijection with the cosets of $G_a$, i.e. $|Ga| = [G:G_a]$.
+\end{theorem}
+
+\begin{proof}
+Let $f : G/G_a \to Ga$ be a map on sets ($G_a$ need not be normal in $G$) defined by $f(gG_a) = ga$.
+
+We will show for $g_1, g_2 \in G$ that $g_1G_a = g_2G_a$ iff $g_1a = g_2a$ so that $f$ is well-defined and injective.
+
+Clearly we have $g_1a = g_2a$ iff $(g_2^{-1}g_1)a = a$ iff $g_2^{-1}g_1 \in G_a$ iff $g_1G_a = g_2G_a$.
+
+The map $f$ is clearly surjective. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group acting on a nonempty set $A$. The set of orbits of the action of $G$ on $A$ partition $A$.
+\end{theorem}
+
+\begin{proof}
+It is clear that two elements $a, b \in A$ are in the same orbit iff there exists $g \in G$ such that $a = gb$.
+
+But this is clearly an equivalence relation. $\square$
+\end{proof}
+
+\begin{definition}
+Let $G$ be a group acting on a nonempty set $A$. The subset of $A$ \emph{fixed} by $G$ is the set
+$$A^G = \{a \in A \;|\; ga = a \;\;\mbox{for all}\;\; g \in G\}.$$
+\end{definition}
+
+\begin{theorem} (Class Equation)
+Let $G$ be a group acting on a finite, nonempty set $A$. Then
+$$|A| = |A^G| + \sum [G:G_a],$$
+where the sum runs over a set of representatives $a$ of the orbits $Ga$ with $|Ga| > 1$.
+\end{theorem}
+
+\begin{proof}
+Clear from the preceding two theorems. $\square$
+\end{proof}
+
+In particular, note that the size of any orbit divides the order of the group $G$.
+
+\subsubsection{The Class Equation for Conjugation}
+
+\begin{theorem}
+Let $G$ be a finite group. Then
+$$|G| = |Z_G| + \sum [G:C_G(g)],$$
+where the sum is over all nontrivial (more than one element) conjugacy classes in $G$.
+\end{theorem}
+
+\begin{proof}
+Each element of the centre has trivial conjugacy class and the converse is also true.
+
+The rest of the sum follows immediately from Theorem \ref{conjugacy}. $\square$
+\end{proof}
+
+\section{The Sylow Theorems}
+
+\subsection{$p$-groups}
+
+\subsubsection{$p$-groups}
+
+\begin{definition}
+A $p$-group for a prime $p$ is a group in which every element has order a power of $p$.
+\end{definition}
+
+\begin{theorem} (Cauchy)
+If $G$ is a finite group whose order is divisible by a prime $p$ then it has an element of order $p$.
+\end{theorem}
+
+\begin{proof}
+We prove the result first for abelian groups, using induction. If $|G| = p$ then any nontrivial element will do.
+
+Let $a$ be any nontrivial element and let $H = \langle a \rangle$. If $p \;|\; |H|$ then $a^{|H|/p}$ is of order $p$. If not, then $p$ divides $[G:H]$ and by induction $G/H$ has an element of order $p$. Let that element be $xH$ and let the order of $x$ in $G$ be $m$. As $(xH)^m = H$ we have that $p \;|\; m$ and $x^{m/p}$ has order $p$.
+
+When $G$ is not abelian, if $p$ divides $|Z_G|$ then by the first part, $Z_G$ contains an element of order $p$ and we are done. If not, as $p \;|\; |G|$ we have by the class equation there is some $a \in G$ such that $[G:C_G(a)]$ is not divisible by $p$. This means that $|C_G(a)|$ is divisible by $p$. As $C_G(a)$ is a proper subgroup it has an element of order $p$ by induction. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $p$ be a prime number. A finite group is a $p$-group iff it has order a power of $p$.
+\end{theorem}
+
+\begin{proof}
+If a group $G$ has order $p^k$, every element of the group must have order dividing $p^k$ and so 
+$G$ must be a $p$-group.
+
+If $G$ does not have order $p^k$ for some $k \in \N$ then its order is divisible by some prime $q$ or it is the trivial group. In either case it is not a $p$-group. $\square$
+\end{proof}
+
+\subsubsection{Burnside's theorem for $p$-groups}
+
+\begin{theorem} (Burnside)
+The centre $Z_G$ of a nontrivial $p$-group $G$ is nontrivial.
+\end{theorem}
+
+\begin{proof}
+If the centre is trivial, from the class equation, we must have that $[G:C_G(a)]$ is not a power of $p$ for some non-central $a \in G$. But this means that either $|G|$ is divisible by a prime $q \neq p$ in which case $G$ is not a $p$-group, or $[G:C_G(a)] = 1$, which means $|C_G| = |G|$. But the latter means that $a$ is central, which is a contradiction. $\square$
+\end{proof}
+
+\begin{theorem} \label{pgroupsubs}
+If $G$ is a $p$-group of order $p^k$ it has a normal subgroup of order $p^m$ for all $1 \leq m \leq n$.
+\end{theorem}
+
+\begin{proof}
+We proceed by induction. The result is trivial for $k = 0, 1$.
+
+By the previous theorem, $|Z_G| = p^m$ for some $1 \leq m \leq k$. Thus $Z_G$ has an element of order $p$ by Cauchy's theorem. Let $H$ be the subgroup it generates. Note that $H$ is a normal subgroup since it is central. By the induction hypothesis, the result is true for $G/H$.
+
+Therefore by the correspondence theorem $G$ has normal subgroups of order $p^m$ for $2 \leq m \leq k$. As $H$ has order $p^1$ the result is proved. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a finite $p$-group and $H$ a proper subgroup of $G$. Then $H$ is a proper subgroup of $N_G(H)$.
+\end{theorem}
+
+\begin{proof}
+Recall that $H \leq N_G(H)$. Suppose to the contrary of the theorem that $H = N_G(H)$ and that $G$ is the smallest group with this property. As $Z_G \leq N_G(H)$ we have that $Z_G \leq H$. But $Z_G$ is normal in $H$.
+
+But $Z_G$ is nontrivial by the theorem above and so $G/Z_G$ furnishes a smaller group where the normalizer of the subgroup $H/Z_G$ is $N/Z_G$ and $N/Z_G = N/Z_G$, which is a contradiction of the minimality of $G$. $\square$
+\end{proof}
+
+\subsubsection{Basic results regarding $p$-groups}
+
+\begin{theorem}
+Let $G$ be a finite $p$-group. Every nontrivial normal subgroup $N$ of $G$ intersects $Z_G$ nontrivially.
+\end{theorem}
+
+\begin{proof}
+As $N$ is a normal subgroup, it is a union of conjugacy classes. Each conjugacy class has $[G:C_G(a)]$ elements for $a$ in the conjugacy class. But this is a power of $p$ divisible by $p$ unless $a$ is in the centre of $G$.
+
+As $N$ has order a power of $p$, the number of elements of $N$ in the centre of $G$ must also be divisible by $p$. $\square$
+\end{proof}
+
+\begin{theorem}
+A group $G$ of order $p^2$ is abelian.
+\end{theorem}
+
+\begin{proof}
+If $G$ is not abelian then $Z_G$ is a proper subgroup of $G$. But it is not trivial by Burnside's theorem and so we must have $|Z_G| = p$.
+
+Let $g \in G$ but $g \notin Z_G$. Note that $g \in C_G(g)$ and $Z_G \leq C_G(g)$. But this implies $|C_G(g)| = p^2$, which implies $C_G(g) = G$ and thus $C_G(g) = G$ which is a contradiction as this would imply $g \in Z_G$. $\square$
+\end{proof}
+
+\begin{theorem}
+The centre of a non-abelian group $G$ of order $p^3$ has order $p$.
+\end{theorem}
+
+\begin{proof}
+We have that $|Z_G| \in \{1, p, p^2, p^3\}$. As $G$ is non-abelian, $|Z_G| \neq p^3$. As $G$ is a $p$-group $|Z_G| \neq 1$.
+
+Assume $|Z_G| = p^2$. As $Z_G \mathrel{\unlhd} G$ the group $G/Z_G$ has order $p$ and is therefore cyclic. Thus $G$ is abelian.
+
+The only remaining case is $|Z_G| = p$. $\square$
+\end{proof}
+
+\subsection{Sylow $p$-subgroups and the Sylow Theorems}
+
+\subsubsection{Sylow $p$-subgroups}
+
+\begin{definition}
+Let $G$ be a finite group of order $n$ and let $p$ be a prime dividing $n$. A \emph{Sylow $p$-subgroup of $G$} is a subgroup of order $p^k$ where $p^i \;|\; n$ for $1 \leq i \leq k$ but not for $i = k + 1$.
+\end{definition}
+
+\begin{definition}
+The set of Sylow $p$-subgroups of a finite group $G$ for which $p \;|\; n$ is denoted Syl$_p(G)$. We will denote the number of such groups by $n_p$.
+\end{definition}
+
+\subsubsection{Intersection of Sylow Subgroups}
+
+\begin{theorem}
+Let $G$ be a finite group of order $n$ and let $p$ and $q$ be distinct primes that divide $n$. A Sylow $p$-subgroup $H$ of $G$ and a Sylow $q$-subgroup $K$ of $G$ intersect trivially.
+\end{theorem}
+
+\begin{proof}
+The order of $H$ is a power of $p$ and the order of $K$ is a power of $q$.
+
+But $H \cap K$ is a subgroup of both $H$ and $K$, thus it has order dividing a power of $p$ and a power of $q$. $\square$
+\end{proof}
+
+\subsubsection{The Sylow Theorems}
+
+\begin{theorem} (First Sylow)
+Let $G$ be a finite group of order $n$ and let $p$ be a prime. If $p^k \;|\; n$ then $G$ has a subgroup of order $p^k$.
+\end{theorem}
+
+\begin{proof}
+First we consider the case where $p$ divides the order of $Z_G$. By Cauchy's Theorem, $Z_G$ has an element $a$ of order $p$. As $a \in Z_G$ the subgroup $\langle a \rangle$ is normal in $G$.
+
+By induction the quotient group $G/\langle a \rangle$ has a subgroup $M$ of order $p^{k-1}$. It is easy to see that the preimage of $M$ under the quotient homomorphism is a subgroup of $G$ of order $p^k$.
+
+Now consider the case where $p$ does not divide the order of $Z_G$. From the class equation we see that there is an element $g \in G$ for which $p$ does not divide $[G:C_G(g)]$. We see that $p^k$ must divide the order of $C_G(g)$ and by induction this must have a subgroup of order $p^k$. $\square$
+\end{proof}
+
+\begin{corollary}
+If $G$ is a finite group of order $n$ and $p$ is a prime for which $p^k \;|\; n$ then $G$ has a subgroup of order $p^k$.
+\end{corollary}
+
+\begin{proof}
+Follows immediately from the First Sylow Theorem and Theorem \ref{pgroupsubs}. $\square$
+\end{proof}
+
+\begin{corollary}
+A group $G$ is a $p$-group iff the order of every element of $G$ is a power of $p$.
+\end{corollary}
+
+\begin{proof}
+If $G$ has an element of order divisible by $q$ for some prime $q \neq p$ then $q$ divides the order of $G$ and it is not a $p$-group.
+
+Conversely, if $G$ is not a $p$-group it has order divisible by a prime $q \neq p$ which means that it has an element of order $q$. $\square$
+\end{proof}
+
+\begin{theorem} (Second Sylow)
+Let $G$ be a finite group, then the number $n_p$ of Sylow $p$-subgroups of $G$ satisfies $n_p \equiv 1 \pmod{p}$.
+\end{theorem}
+
+\begin{proof}
+Let $P$ be a Sylow $p$-subgroup. Let $g \in G$ have order a power of $p$ and $gPg^{-1} = P$. We claim $g \in P$. 
+
+Consider the subgroup $R$ of $G$ generated by $P$ and $g$. We have $g \in N_G(P)$ and so $R \leq N_G(P)$. Thus $P \mathrel{\unlhd} R$.
+
+We have that $|R| = |R/P||P|$. But $R/P$ is generated by $gP$ which has order a power of $p$. Thus $|R|$ is a power of $p$.
+
+We note that $G$ acts on Syl$_p(G)$ by conjugation. Let $Q$ be a Sylow $p$-subgroup of $G$ distinct from $P$. Then $Q$ cannot be fixed under conjugation by elements of $P$ because of the claim above.
+
+Let $O$ be the orbit of $Q$ under conjugation by elements of $P$. By the orbit-stabilizer theorem $|O| = [P:P_Q]$ where $P_Q$ is the stabiliser of $Q$ under the action of $P$ by conjugation.
+
+As $|P|$ is a power of $p$, $|O|$ must be a power of $p$. We cannot have $|O| = 1$ since $Q$ is not fixed by the whole of $P$.
+
+The set of all Sylow $p$-subgroups is a union of $P$-orbits. The only orbit of order $1$ is $\{P\}$. Thus $n_p \equiv 1 \pmod{p}$. $\square$
+\end{proof}
+
+\begin{theorem} (Third Sylow)
+Any two Sylow $p$-subgroups of a finite group $G$ are conjugate.
+\end{theorem}
+
+\begin{proof}
+Let $P$ be a Sylow $p$-subgroup of $G$. Let $S$ be the set of all $G$-conjugates of $P$. We see that $S$ is invariant under the action of $P$ by conjugation and that $P \in S$.
+
+As per the proof of the second Sylow theorem, $|S| \equiv 1 \pmod{p}$.
+
+If $S$ does not cover the whole of $G$, choose $Q$ a Sylow $p$-subgroup of $G$ not in $S$. Let $T$ be the set of $G$-conjugates of $Q$. We also have $|T| \equiv 1 \pmod{p}$ by a similar argument to that for $S$ and $P$.
+
+But $T$ is invariant under the action of $P$ by conjugation and $P \notin T$. Thus $|T| \equiv 0 \pmod{p}$, which is a contradiction. Thus $S$ must cover the whole of $G$. $\square$
+\end{proof}
+
+\begin{theorem} (Fourth Sylow)
+If $G$ is a finite group of order $n$ and $n = p^km$ for a prime $p$ such that $p$ does not divide $m$ then $n_p$ divides $m$.
+\end{theorem}
+
+\begin{proof}
+Let $P$ be a Sylow $p$-subgroup of $G$. The number of conjugates of $P$ is given by $[G:N_G(P)]$ by the orbit-stabiliser theorem.
+
+As $P \leq N_G(P)$ we have that $|N_G(P)|$ is divisibly by $p^k$. Thus the number of conjugates of $P$ must divide $m$.
+
+But there are $n_p$ conjugates of $P$, since all the Sylow $p$-subgroups are conjugate. $\square$
+\end{proof}
+
+\subsubsection{Theorems Regarding Sylow Subgroups}
+
+\begin{theorem}
+Let $H$ be a $p$-group which is a subgroup of a finite group $G$. Then $H$ is a contained in a Sylow $p$-subgroup of $G$.
+\end{theorem}
+
+\begin{proof}
+Let $H$ act on Syl$_p(G)$ by conjugation. The size of the orbit of $P \in$ Syl$_p(G)$ under this action is $[H:H_P]$ where $H_P$ is the stabiliser of $P$ under the action of $H$. But this is a power of $p$.
+
+As the size of Syl$_p(G)$ is not a multiple of $p$, there must be an orbit with a single element, $P$ say. Consider the subgroup $HP$ of $G$ generated by $P$ and $H$. We have that $P$ is a normal subgroup of $HP$.
+
+By the second isomorphism theorem $HP/P \cong H/(H\cap P)$. The order of the group on the left is coprime to $p$ because $P$ is a Sylow $p$-subgroup of $G$. The order of the group on the right is a power of $p$ as it divides the order of $H$. 
+
+Thus both groups are trivial and $H \subseteq P$. $\square$
+\end{proof}
+
+\begin{theorem}
+An abelian group $G$ is the inner direct product of its Sylow subgroups.
+\end{theorem}
+
+\begin{proof}
+There is a unique Sylow $p$-subgroup for each prime $p$ dividing the order of $G$, as all the Sylow $p$-subgroups are conjugate and $G$ is abelian.
+
+We can proceed by induction on the number $n$ of primes dividing the order of $G$. Clearly if $n = 1$ the result holds.
+
+Let $P_1, P_2, \ldots, P_n$ be the Sylow $p$-subgroups of $G$ of order $p_1^{a_1}, \ldots, p_n^{a_n}$ respectively. We have by induction that $H = P_1P_2\ldots P_{n-1}$ is the direct product of $P_1, P_2, \ldots, P_{n-1}$. By induction it has order $m = p_1^{a_1}\ldots p_{n-1}^{a_{n-1}}$.
+
+We see that the subgroup of $G$ generated by $H$ and $P_n$ has order divisible by $mp_n^{a_n}$ which is the order of $G$. Thus $HP_n = G$.
+
+We must have that $H\cap P_n = \emptyset$ since every element of $H$ has order dividing $m$ and every element of $P_n$ has order dividing $p_n$.
+
+A similar argument will apply if we replace $P_n$ in the argument by any of the $P_i$. As $G$ is abelian, all the $P_i$ are normal in $G$. Thus $G$ is the direct product of the $P_i$. $\square$
+\end{proof}
+
+\subsection{Groups of Prescribed Order}
+
+\subsubsection{Groups of Order $pq$}
+
+\begin{theorem}
+Let $G$ be a group of order $pq$ where $p < q$ are primes. Then there are two possibilities:
+\begin{enumerate}
+\item $G$ is cyclic of order $pq$
+\item $G$ is non-abelian with generators $a, b$ such that $a^p = b^q = 1$ and $a^{-1}ba = b^r$ for some $r \not\equiv 1 \pmod{q}$, $r^p \equiv 1 \pmod{p}$ and $p \;|\; q - 1$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $n_p, n_q$ be the number of Sylow $p$-subgroups and $q$-subgroups respectively, of $G$.
+
+By the Sylow theorems, $n_q = 1 + kq$ for some $k \in \Z$ and $n_q$ divides $p$. Thus $n_q = 1$. Thus there is one Sylow $q$-subgroup and it is therefore normal in $G$. Denote it by $Q$.
+
+Let $P$ be any $p$-Sylow subgroup. Then $Q\cap P = 1$ and $QP = G$, so $G$ is a semidirect product of $Q$ and $P$.
+
+We will determine the action of $P$ on $Q$ by conjugation.
+
+If $p$ does not divide $q - 1$ then $n_p = 1 + mp$ does not equal $q$ but divides $q$, so it must equal $1$. Then $G$ is a direct product of $Q$ and $P$ and therefore cyclic of order $pq$.
+
+If $p$ does divide $q - 1$ then Aut$(Q) \cong C_{q-1}$, which has a unique subgroup $P'$ of order $p$. The map $\varphi : P \to$ Aut$(Q)$ must be either trivial, which is the case above, or it must map to the unique subgroup of order $p$.
+
+Let $a$ and $b$ be generators of $P$ and $Q$ respectively. Let the action of $a$ on $Q$ by conjugation be $x \mapsto x^r$ where $r \neq 1 \pmod{q}$. By the above argument we must have $r^p \equiv 1 \pmod{p}$.
+
+Choosing a different such $r$ is equivalent to choosing a different generator for $P$ and gives an isomorphic group $G$. Thus there is a unique group $G$ up to isomorphism in this case, and $G$ is clearly non-abelian. $\square$
+\end{proof}
+
+\subsubsection{Groups of Order $p^2q$}
+
+\begin{theorem}
+Let $G$ be a group of order 12. Then $G$ has one Sylow $3$-subgroup or it is isomorphic to $A_4$ which has one Sylow $2$-subgroup.
+\end{theorem}
+
+\begin{proof}
+By the Sylow theorems, $n_3 \;|\; 4$ and $n_3 \equiv 1 \pmod{3}$. Thus $n_3 = 1$, in which case we are done, or $n_3 = 4$.
+
+We will first show that $A_4$ has four Sylow $3$-subgroups.
+
+We have $|A_4| = 12$. There are eight elements that are $3$-cycles, three elements that are a pair of disjoint transpositions and the identity element.
+
+It is easy to see there are four Sylow $3$-subgroups, each consisting of the identity and two $3$-cycles.
+
+Similarly, there is only one Sylow $2$-subgroup consisting of the identity and three pairs of disjoint $2$-cycles.
+
+Returning to the general case, suppose that $G$ has four Sylow $3$-subgroups, i.e. Syl$_3(G) = \{H_1, H_2, H_3, H_4\}$. We have $H_i\cap H_j = 1$ for $i \neq j$. $G$ acts on Syl$_3(G)$ by conjugation.
+
+We claim $N_G(H_i) = H_i$. This follows because all Sylow $3$-subgroups are conjugate. Thus there is only one orbit of the action of $G$, from which the theorem follows by the orbit-stabiliser theorem and the fact that $H_i \leq N_G(H_i)$.
+
+Let $\varphi : G \to S_4$ be a permutation representation associated to the action of $G$ on Syl$_3(G)$. We will show the kernel of the map is trivial, i.e. the representation is faithful.
+
+But if $g \in$ ker$\varphi$ it must be in the normaliser of each of the $H_i$ and thus in each of the $H_i$. But we showed this was impossible as the $H_i$ intersect trivially. Thus the permutation representation is injective.
+
+As $G$ contains eight distinct elements of order $3$ each including the identity and the two other elements of one of the $H_i$, its image in $S_3$ must also have eight such elements. Thus its intersection with $A_4$ must contain these elements. But $A_4$ can't have a subgroup of more than $6$ elements, so the image must in fact be $A_4$.
+
+Thus $G$ is isomorphic to $A_4$. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group of order $p^2q$ for distinct primes $p$ and $q$. Then $G$ contains a normal Sylow subgroup.
+\end{theorem}
+
+\begin{proof}
+If $p > q$ then $n_p \equiv 1 \pmod{p}$ and $n_p \;|\; q$. Thus $n_p = 1$ and the Sylow $p$-subgroup is normal in $G$.
+
+If $q > p$ then $n_q \equiv 1 \pmod{q}$ and $n_q \;|\; p^2$. If $n_q = 1$ we are done. Thus the only remaining case is $n_q = p^2$ and $n_q \equiv 1 \pmod{q}$.
+
+But then $p^2 = 1 + kq$ for some $k \in \mathbb{Z}$. Thus $q \;|\; p + 1$. But $q > p$ and so $q = p + 1$. This implies $p = 2$ and $q = 3$ as both $p$ and $q$ are prime.
+
+Thus $|G| = 12$. The result follows by the previous theorem. $\square$
+\end{proof}
+
+\subsubsection{Groups of Order $p^2$}
+
+\begin{theorem}
+Let $G$ be a group of order $p^2$ for some prime $p$. Then either $G$ is cyclic of order $p^2$ or $G \cong C_p\oplus C_p$.
+\end{theorem}
+
+\begin{proof}
+Recall that a group of order $p^2$ is abelian.
+
+Let $g \in G$ be an element other than the identity. If the order of $g$ is $p^2$ then $G$ is cyclic.
+
+Otherwise, $g$ has order $p$. Now let $h \in G$ be a element that is not in $\langle g \rangle$. Clearly $\langle g \rangle$ and $\langle g \rangle$ intersect trivially.
+
+It's also clear that $g$ and $h$ generate the whole of $G$. And as the group $G$ is abelian, this means that $G = \langle g \rangle \oplus \langle h \rangle$. $\square$
+\end{proof}
+
+\subsubsection{Groups of Order $30$}
+
+\begin{theorem}
+There are four isomorphism classes of groups $G$ of order $30$, of which one is abelian.
+\end{theorem}
+
+\begin{proof}
+We note that $n_3$ is either $1$ or $10$ and $n_5$ is either $1$ or $6$. However we cannot have both $n_3 = 10$ and $n_5 = 6$. Thus either $n_3 = 1$ or $n_5 = 1$.
+
+Therefore $G$ has a subgroup $P_3$ or $P_5$ of order $3$ or $5$ respectively which is normal in $G$. Thus $H = P_3P_5$ is a subgroup of $G$ of order $15$.
+
+By the classification of groups of order $pq$ and the fact that $5 \not\equiv 1 \pmod{3}$ we have that $H$ is cyclic.
+
+As $H$ has index $2$ in $G$ it must be normal. Thus $G \cong H\rtimes_{\theta} Q$ for some homomorphism $\theta : Q \to$ Aut$(H)$.
+
+We have that Aut$(H) \cong C_4\times C_2$. Let $p$ be a generator of $C_4$ and $q$ a generator of $C_2$. Then there are only four possible images of the non-identity element of $Q$ under $\theta$, namely $(1, 1)$, $(p^2, 1)$, $(1, q)$ and $(p^2, q)$. The only one of these that results in an abelian group is the trivial homomorphism. $\square$
+\end{proof}
+
+\section{Simple Groups}
+
+\subsection{Simple Groups}
+
+\subsubsection{Simple Groups}
+
+\begin{definition}
+A group $G$ is said to be \emph{simple} if $G$ has no proper, nontrivial, normal subgroups.
+\end{definition}
+
+\subsubsection{Cyclic Groups of Prime Order are Simple}
+
+\begin{theorem}
+The cyclic group $C_p$ with $p$ prime is simple.
+\end{theorem}
+
+\begin{proof}
+There are no subgroups other than the trivial and improper subgroup. $\square$
+\end{proof}
+
+\subsubsection{Finite Abelian Simple Groups}
+
+\begin{theorem}
+The only finite abelian simple groups are the cyclic groups of prime order.
+\end{theorem}
+
+\begin{proof}
+A subgroup of an abelian group is always normal. Therefore if $G$ is a finite, simple abelian group it has no subgroups.
+
+If $g \in G$ has order $n$ for $n < |G|$ then $\langle g \rangle$ is a normal subgroup of $G$. Thus $G$ must be cyclic.
+
+Similarly, any cyclic group of non-prime order has a proper, normal subgroup other than the trivial group. $\square$
+\end{proof}
+
+\subsection{Simple Alternating Groups}
+
+\subsubsection{The Group $A_5$ is Simple}
+
+\begin{theorem}
+If $G$ is a group of order $60$ and $n_5 > 1$ then $G$ is simple.
+\end{theorem}
+
+\begin{proof}
+If $n_5 > 1$ then by the Sylow theorems, $n_5 = 6$. This accounts for $25$ of the elements of $G$. Let Syl$_5(G) = \{P_1, P_2, \ldots, P_6\}$. We have $P_i\cap P_j = \{1\}$ for all $i \neq j$.
+
+Suppose that $G$ has a nontrivial, normal proper subgroup. We claim that $|H|$ is not divisible by $5$. If it were, $H$ would have a subgroup of order $5$. It will be one of the Sylow $5$-subgroups of $G$, $P_1$ say.  
+
+But $H \mathrel{\unlhd} G$ and so all the conjugates of $P_1$ must be in $H$. Thus $|H| \geq 25$.
+
+As $|H| \;|\; |G|$ we must have $|H| = 30$. But we have shown above that all groups of order $30$ have a single Sylow $5$-subgroup.
+
+Thus we must in fact have $|H| \;|\; 12$.
+
+But any group $H$ of order $12$ has a normal subgroup $K$ of order $3$ or order $4$. As $H$ is normal in $G$, any conjugate of $K$ in $G$ must be a subgroup of $H$ and since $K$ is the only subgroup of that order, $K$ must be normal in $G$.
+
+Similarly, if $H$ has order $6$, it contains a normal subgroup of order $3$, and by the same argument as above, this is also normal in $G$.
+
+Thus we have shown that if $G$ has a nontrivial, proper normal subgroup, it has a normal subgroup $K$ of order $4$, $3$ or $2$.
+
+Thus $G/K$ has order $15$, $20$ or $30$.
+
+In a group of order $15$, $20$ or $30$ there is a normal Sylow subgroup of order $5$. But the preimage of this group in $G$ is a normal subgroup of order $20$, $15$ or $10$.
+
+But each of these orders is divisible by $5$, which contradicts what we have proved above. $\square$
+\end{proof}
+
+\begin{theorem}
+The group $A_5$ is simple.
+\end{theorem}
+
+\begin{proof}
+Note that $|A_5| = 60$.
+
+$A_5$ has one identity element, twenty $3$-cycles, fifteen double $2$-cycles and twenty four $5$-cycles.
+
+The result then follows from the previous theorem by noting that $n_5 = 6$. $\square$
+\end{proof}
+
+\subsubsection{The Group $A_n$ is Simple for $n \geq 5$}
+
+\begin{theorem}
+The group $A_n$ is simple for $n \geq 5$.
+\end{theorem}
+
+\begin{proof}
+We will prove the result by induction on $n$, beginning with the fact that $A_5$ is simple by the previous theorem.
+
+Suppose $A_n$ is simple for $5 \leq n < k$, but also suppose that it is not simple for $n = k$, i.e. there exists $H \mathrel{\unlhd} A_k$.
+
+Let $G_i$ be the stabiliser of the $i$-th element of the set $A_k$ is acting on. Each of the $G_i$ are isomorphic to $A_{k-1}$ and therefore simple.
+
+Recall that if $\sigma = (a_1 a_2 \ldots a_s)$ is a cycle then $\alpha\sigma\alpha^{-1} = (\alpha(a_1) \alpha(a_2) \ldots \alpha(a_s))$. Thus it is clear that $\alpha G_i \alpha^{-1} = G_{\alpha_i}$.
+
+We will show that if $\sigma \in H$ and $\sigma(i) = i$ for some $1 \leq i \leq k$ then $\sigma = 1$.
+
+If a $\sigma \neq 1$ exists in $H$ then $\sigma \in H\cap G_i$. But $H\cap G_i \mathrel{\unlhd} G_i$ since $H$ is a normal subgroup of $A_k$ so any conjugate of it is in $H$, and conjugation by an element of $G_i$ must yield another element of $G_i$.
+
+But $G_i$ is simple and so $H\cap G_i$ must be $G_i$ since it is not trivial as $\sigma \neq 1$ is an element. Thus $G_i \leq H$.
+
+By conjugation we have that $G_{\alpha(i)} \leq H$ for each $\alpha \in A_k$. Thus $G_i \leq H$ for all $1 \leq i \leq k$.
+
+But every double transposition fixes some $i$ and is an element of one of the $G_i$. Thus the whole of $A_k$ must be in $H$, i.e. $H = A_k$. But this is a contradiction as we assumed $H$ to be a proper subgroup of $A_k$. Thus $\sigma = 1$ as claimed.
+
+In other words, no non-identity elements of $H$ fix an $i$.
+
+But this implies that there do not exist $\sigma_1, \sigma_2 \in H$ such that $\sigma_1(i) = \sigma_2(i)$ for some $1 \leq i \leq k$.
+
+We will now show that no element of $H$ has a cycle decomposition containing a cycle of length $3$ or greater.
+
+Suppose that such a $\sigma = (a_1 a_2 a_3 \ldots)$ exists. Let $\alpha \in A_k$ fix $a_1$ and $a_2$ but not fix $a_3$.
+
+Now $\alpha\sigma\alpha^{-1} = (a_1 a_2 \alpha(a_3) \ldots) \in H$ as $H$ is normal. But now have that $\sigma(a_1) = \alpha\sigma\alpha^{-1}(a_1)$. These are distinct permutations because $\sigma(a_2) \neq \alpha\sigma\alpha^{-1}(a_2)$. But this contradicts what we have proved above.
+
+Thus $H$ consists entirely of elements composed of pairs of pairwise disjoint transpositions.
+
+Suppose that $H$ contains $\sigma = (a_1 a_2)(a_3 a_4)(a_5 a_6)\ldots$. Let $\alpha = (a_1 a_2)(a_3 a_5)$. Then $\alpha\sigma\alpha^{-1} = (a_2 a_1)(a_5 a_4)(a_3 a_6)$. Again we have a contradiction to what we proved above as we have distinct permutations in $H$ that send $a_1$ to the same place.
+
+But now the only element that can be in $H$ is the identity and $A_k$ must be simple. $\square$
+\end{proof}
+
+\subsubsection{$A_3$ is Simple, $A_4$ is not Simple}
+
+\begin{theorem}
+$A_3$ is simple.
+\end{theorem}
+
+\begin{proof}
+$|A_3| = 3$ and is  cyclic group of order $3$ and is therefore simple. $\square$
+\end{proof}
+
+\begin{theorem}
+$A_4$ is not simple.
+\end{theorem}
+
+\begin{proof}
+$|A_4| = 12$ and we have already shown that either $n_2 = 1$. $\square$
+\end{proof}
+
+
+% presentation of a group
+% fundamental theorem of finitely generated abelian groups
+
+\end{document}
+
