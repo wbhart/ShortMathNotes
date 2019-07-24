@@ -3178,7 +3178,7 @@ $A_4$ is not simple.
 $|A_4| = 12$ and we have already shown that either $n_2 = 1$. $\square$
 \end{proof}
 
-\section{Normal Series}
+\section{Subnormal Series}
 
 \subsection{Composition Series}
 
@@ -3205,6 +3205,112 @@ Start with the group $G_n = G$ and at each step take a maximal, normal, proper s
 The quotient $G_{i+1}/G_i$ is simple by the correspondence theorem and the maximality of $G_i$ in $G_{i+1}$.
 
 The process must terminate as $G$ is finite. $\square$
+\end{proof}
+
+\begin{theorem}
+For a finite group $G$, the order of $G$ is the product of the orders of the composition factors of $G$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsection{The Zassenhaus Butterfly Lemma}
+
+\begin{theorem}
+Let $G$ be a group and let $H$, $H'$, $K$, $K' \leq G$ be such that $H' \mathrel{\unlhd} H$ and $K' \mathrel{\unlhd} K$. Then
+$$H'(H\cap K') \mathrel{\unlhd} H'(H\cap K) \;\;\mbox{and}\;\; K'(K\cap H') \mathrel{\unlhd} K'(H\cap K).$$
+Furthermore,
+$$\bigl(H'(H\cap K)\bigr)/\bigl(H'(H\cap K')\bigr) \cong \bigl(K'(H\cap K) \bigr)/\bigl(K'(K\cap H')\bigr).$$
+\end{theorem}
+
+\begin{proof}
+First note that $H \cap K \leq H$.
+
+Let $\phi : H \to H/H'$ be the natural projection. Then $(\phi^{-1}\circ \phi)(H\cap K) = H'(H \cap K)$, is a group.
+
+Note that $H \cap K' \mathrel{\unlhd} H \cap K$. Hence
+$$(\phi^{-1}\circ \phi)(H\cap K') = H'(H\cap K')$$
+is a normal subgroup of
+$$(\phi^{-1}\circ \phi)(H\cap K) = H'(H\cap K).$$
+
+Now, let $\rho : H'(H\cap K) \to \bigl(H'(H\cap K)\bigr)/ \bigl(H'(H\cap K')\bigr)$ be the natural projection.
+
+Note that
+$$(H\cap K)\cap \bigl(H'(H\cap K')\bigr) = (H'\cap K)(H \cap K').$$
+
+Thus by the homomorphism theorems,
+$$\bigl(H'(H\cap K)\bigr)/\bigl(H'(H\cap K')\bigr) \cong (H\cap K)/\bigl((H'\cap K)(H \cap K')\bigr).$$
+
+The other half of the lemma follows by symmetry. $\square$
+\end{proof}
+
+\subsubsection{The Schreier Refinement Theorem}
+
+\begin{definition}
+Let $G$ be a group. Any series of groups
+$$1 \mathrel{\unlhd} G_1 \mathrel{\unlhd} \cdots \mathrel{\unlhd} G_n = G$$
+is called a \emph{subnormal series}.
+A second subnormal series
+$$1 \mathrel{\unlhd} H_1 \mathrel{\unlhd} \cdots \mathrel{\unlhd} H_m = G$$
+is said to be a \emph{refinement} of the first if every $G_i$ appears as a $H_j$ in the same order.
+\end{definition}
+
+\begin{theorem} (Schreier)
+Any two subnormal series of a group $G$ have refinements that have isomorphic factor groups, up to reordering.
+\end{theorem}
+
+\begin{proof}
+Let
+$$1 = H_0 \leq H_1 \leq \cdots \leq H_n = G$$
+and
+$$1 = K_0 \leq K_1 \leq \cdots \leq K_m = G$$
+be two subnormal series for $G$.
+
+We refine the series of $H_k$ as follows. For $0 \leq i \leq n - 1$ and $0 \leq j \leq m$ define
+$$H'_{im + j} = H_i(H_{i+1}\cap K_j).$$
+
+Note that
+$$H'_{im} = H_i(H_{i+1}\cap K_0) = H_i.$$
+Thus every group that appears in the original series of $H_i$ appears in the new series.
+
+Note that when $m \;|\; k$ we have $k = im + m = (i + 1)m$, meaning that there is an ambiguity in this case.
+
+For the series to be well-defined, we'd require
+$$H_i(H_{i+1}\cap K_m) = H_{i+1}(H_{i+2}\cap H_0).$$
+
+But the the left and right hand sides are both $H_{i+1}$, thus the series is well-defined.
+
+We will show that this is a subnormal series (except for some possible duplication). Using the representation $k = im + j$ in which $j < m$ we have that
+$$H'_{k+1} = H_i(H_{i+1}\cap K_{j + 1}).$$
+
+As $K_j \mathrel{\unlhd} K_{j+1}$ we have that
+$$H'_k = H_i(H_{i+1}\cap K_j) \mathrel{\unlhd} H_i(H_{i+1}\cap H_{j+1}) = H'_{k+1}.$$
+
+Note that it is still possible that $H'_k = H'_{k+1}$ for some $k$. 
+
+We apply a similar construction to create a refinement of the series of $K_k$, by defining for $k = in + j$
+$$K'_k = K_i(K_{i+1}\cap H_j).$$
+
+Now let $k = um + v$ and $l = vn + u$. We have
+\begin{eqnarray*}
+\frac{H'_{k+1}}{H'_k} &= \frac{H_u(H_{u+1}\cap K_{v+1})}{H_u(H_{u+1}\cap H_v)}\\
+&\cong \frac{K_v(K_{v+1}\cap H_{u+1})}{K_v(K_{v+1}\cap H_U)}\\
+&= \frac{K'_{l+1}}{K'_l},
+\end{eqnarray*}
+where the isomorphism follows from Zassenhaus' lemma.
+
+Thus the series have isomorphic factors.
+
+Note that it may still be that some of the factors are redundant because of equal terms in the sequences, as noted above. But we can simply remove these redundant elements. $\square$
+\end{proof}
+
+\begin{corollary}
+Let $G$ be a group with a composition series. Any subnormal series of $G$ can be refined to a composition series.
+\end{corollary}
+
+\begin{proof}
+Simply take one of the series to be the composition series, in the theorem and the other to be the given subnormal series. As there are no nontrivial refinements of a composition series, the result follows. $\square$
 \end{proof}
 
 \subsubsection{The Jordan-H\"{o}lder Theorem}
@@ -3253,6 +3359,7 @@ But the sequences \eqref{comp1} and \eqref{comp2} are clearly isomorphic in pair
 
 % fundamental theorem of finitely generated abelian groups
 % transfer map
+% zassenhaus butterfly lemma
 % solvable groups
 % central series
 % nilpotent groups
