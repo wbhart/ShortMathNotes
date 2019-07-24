@@ -1504,6 +1504,110 @@ Clear. $\square$
 
 Note that Aut$(C_n)$ is an abelian group since $(a^r)^s = (a^s)^r$.
 
+\subsection{Characteristic Subgroups}
+
+\subsubsection{Characteristic Subgroups}
+
+\begin{definition}
+Let $G$ be a group. A subgroup $H \leq G$ is said to be a \emph{characteristic subgroup} if $\phi(H) = H$ for all $\phi \in$ Aut$(G)$.
+\end{definition}
+
+\begin{theorem}
+A characteristic subgroup $H$ of a group $G$ is normal in $G$.
+\end{theorem}
+
+\begin{proof}
+$H$ is preserved under all inner automorphisms, i.e. under conjugation by elements of $G$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $H$ is a characteristic subgroup of a group $G$ then every $\phi \in$ Aut$(G)$ induces an automorphism of $G/H$ which gives a map Aut$(G) \to$ Aut$(G/H)$.
+\end{theorem}
+
+\begin{proof}
+As $\phi$ preserves $H$, the induced map $gH \mapsto \phi(g)H$ is well defined and an injection. It is clearly a surjection because $\phi$ is invertible. It is clearly a homomorphism. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $H$ be a subgroup of $G$ of index $n$. If it is the only subgroup of $G$ of index $n$ then it is a characteristic subgroup.
+\end{theorem}
+
+\begin{proof}
+Any automorphism $\phi$ of $G$ must send $H$ to a subgroup $H'$ of $G$. The induced map $H \to H'$ must be an isomorphism since $\phi$ is injective.
+
+Let $g_1H, g_2H, \ldots, g_nH$ be the set of left cosets of $H$ in $G$, for some fixed set of representatives $g_i$.
+
+The map $\phi$ sends each coset $g_iH$ to a coset $\phi(g_i)H'$ of $H'$ in $G$. As every element of $G$ has a unique representation as $g_ih$ for some $i$ and $h \in H$ and $\phi$ is an automorphism, the cosets $\phi(g_i)H'$ must partition $G$.
+
+Thus the index of $H'$ in $G$ is $[G:H]$. But $H$ is the only subgroup with this index, thus $H = H'$. $\square$
+\end{proof}
+
+Let us write $H$ char $G$ to denote that $H$ is a characteristic subgroup of $G$.
+
+\begin{theorem}
+If $K$ char $H$ and $H$ char $G$ then $K$ char $G$.
+\end{theorem}
+
+\begin{proof}
+Clearly any automorphism of $G$ induces an automorphism of $H$ which in turn induces an automorphism of $K$. $\square$
+\end{proof}
+
+\subsubsection{A Characteristic Subgroup of a Normal Subgroup is Normal}
+
+\begin{theorem}
+If $K$ char $H \mathrel{\unlhd} G$ then $K \mathrel{\unlhd} G$.
+\end{theorem}
+
+\begin{proof}
+Any inner automorphism of $G$ preserves $H$ because it is normal. Thus it induces an automorphism of $H$, which preserves $K$ because it is a characteristic subgroup of $H$. $\square$
+\end{proof}
+
+\subsubsection{The Centre of a Group is a Characteristic Subgroup}
+
+\begin{theorem}
+Let $G$ be a group. Then $Z_G$ char $G$.
+\end{theorem}
+
+\begin{proof}
+An automorphism $\phi$ of $G$ maps $Z_G$ isomorphically to a subgroup $Z$ of $G$. But if $z \in Z_G$ and $g \in G$ we have $\phi(z)\phi(g) = \phi(g)\phi(z)$.
+
+Because $\phi$ is an automorphism of $G$, this shows that every element of $Z$ commutes with every element of $G$. Thus $Z \leq Z_G$. By inverting $\phi$ we see that $Z_G \leq Z$. $\square$
+\end{proof}
+
+\subsubsection{Subgroups of Cyclic Groups are Characteristic}
+
+\begin{theorem}
+A subgroup $H$ of a cyclic group $G$ is characteristic.
+\end{theorem}
+
+\begin{proof}
+Let $G = \langle g \rangle$. Any automorphism $\phi$ of $G$ sends $g$ to $g^n$ for some integer $n$ such that $\langle g \rangle = \langle g^n \rangle$.
+
+If $H \leq G$ then $H = \langle g^k \rangle$ for some integer $k$.
+
+Now $phi(H) = \langle \phi(g^k) \rangle = \langle g^{nk} \rangle$.
+
+Clearly $\langle g^{nk} \rangle \subseteq \langle g^k \rangle$. Therefore it remains to show that $\langle g^k \rangle \subseteq \langle g^{nk}$.
+
+As $\langle g^n \rangle = G$ there exists an integer $s$ such that $g = g^{ns}$.
+
+Then $g^k = (g^{ns})^k = (g^{nk})^s \in \langle g^{nk} \rangle$.
+
+Thus $\phi(H) = H$. $\square$
+\end{proof}
+
+\subsubsection{The Commutator Subgroup is Characteristic}
+
+\begin{theorem}
+If $G$ is a group then $[G, G]$ char $G$.
+\end{theorem}
+
+\begin{proof}
+Let $S$ be the set of commutators of $G$. If $[x, y] \in S$ and $\phi \in$ Aut$(G)$ then $\phi([x, y] = [\phi(x), \phi(y)]$.
+
+This is clearly a bijective map on $S$. As $[G, G]$ is the smallest subgroup of $G$ containing $S$, we have that $\phi([G, G]) = [G, G]$. $\square$
+\end{proof}
+
 \subsection{The Group Isomorphism Theorems}
 
 \subsubsection{The First Group Isomorphism Theorem}
@@ -2028,6 +2132,334 @@ Let $0 \longrightarrow A \overset{f}{\longrightarrow} B \overset{g}{\longrightar
 
 \begin{proof}
 Clear. $\square$
+\end{proof}
+
+\section{Free Groups and Presentations}
+
+\subsection{Free Groups}
+
+\subsubsection{Free Groups}
+
+\begin{definition}
+Let $S$ be a set of symbols and let $S^{-1}$ be the set of symbols $s^{-1}$ for each symbol in $S$. Let $T = S\cup S^{-1}$ and let $W$ be the set of words constructed from symbols in $T$, including the empty word. A word can be \emph{reduced} by removing any pair of adjacent symbols of the form $ss^{-1}$ or $s^{-1}s$ from the word, for any $s \in S$. A word is said to be \emph{reduced} if no such adjacent pairs exist in the word. The \emph{free group} on $S$ is the set $F(S)$ of reduced words with concatenation followed by reduction as the operation.
+\end{definition}
+
+\begin{theorem}
+The free group $F(S)$ on a set $S$ is a group.
+\end{theorem}
+
+\begin{proof}
+The empty word is the identity, and the operation is clearly associative. The inverse of a word is defined to be the reverse of the word with each symbol $s$ replaced with $s^{-1}$ and vice versa. $\square$
+\end{proof}
+
+\begin{theorem}
+Every group $G$ is a quotient of a free group.
+\end{theorem}
+
+\begin{proof}
+Let $S$ be the underlying set of $G$.
+
+Define a map $F(S) \to G$ by sending a reduced word in $F(S)$ to the corresponding product of elements and inverses in $G$.
+
+This map is clearly well-defined and a surjective homomorphism. The result follows from the first isomorphism theorem. $\square$
+\end{proof}
+
+\subsection{Group Presentations}
+
+\subsubsection{Group Presentations}
+
+\begin{definition}
+Let $S$ be a set and $R$ be a set of (reduced) words in $F(S)$. Let $N(R)$ be the smallest normal subgroup of $F(S)$ containing $R$ (the \emph{normal closure} of $R$), then the group $G = F(S)/N(R)$ is said to have \emph{presentation} $\langle S \;|\; R \rangle$.
+\end{definition}
+
+\begin{theorem}
+Let $R$ be the kernel of the map $F(S) \to G$ in the previous theorem. Then $\langle S \;|\; R \rangle$ is a presentation of $G$.
+\end{theorem}
+
+\begin{proof}
+The kernel is normal and so $N(R) = R$. $\square$
+\end{proof}
+
+\begin{definition}
+A presentation $\langle S \;|\; K \rangle$ of a group $G$ is said to be finitely generated if $S$ is finite. It is said to be \emph{finitely related} if $K$ is finite, and a \emph{finite presentation} if both $S$ and $K$ are finite. The group $G$ is also said to be finitely generated or finitely related or finitely presented, respectively, if it has a presentation with the given properties.
+\end{definition}
+
+\begin{theorem}
+Let $G$ be a group. There is a unique homomorphism $\phi : F(G) \to G$ which is the identity on elements of $G$.
+\end{theorem}
+
+\begin{proof}
+The definition of $\phi$ on a word in $F(G)$ is fixed in view of $\phi$ being a homomorphism and from the fact that $gg^{-1}$ and $g^{-1}g$ are equal to the empty word after reduction, for any $g \in G$, so that $\phi(g)\phi(g^{-1}) = \phi(g^{-1})\phi(g) = 1$. $\square$
+\end{proof}
+
+\begin{corollary}
+Every group has a presentation and every finite group has a finite presentation.
+\end{corollary}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsubsection{Fundamental Theorem of Presentations of a Group}
+
+\begin{theorem}
+Let $G = \langle S \;|\; R \rangle$ be a presentation of a group. Let $\theta : S\cup S^{-1} \to H$ be a map to any group $H$ such that $\theta(s^{-1}) = \theta(s)^{-1}$ for any $s \in S$. Suppose that for all relations $r = t_1t_2\ldots t_k \in R$ with $t_i \in S\cup S^{-1}$ we have $\theta(t_1)\theta(t_2)\ldots \theta(t_k) = 1$. Then $\theta$ extends uniquely to a homomorphism $\theta' : G \to H$.
+\end{theorem}
+
+\begin{proof}
+If such a homomorphism exists, it is clearly unique.
+
+Define $\psi : F(X) \to H$ by $\psi(x) = \phi(x)$ for $x \in X$ and $x \in X^{-1}$ and by $\psi(x_1x_2) = \phi(x_1)\phi(x_2)$ for $x_1, x_2 \in X\cup X^{-1}$. This is clearly a well-defined homomorphism.
+
+Now $\psi(r) = 1$ for all $r \in R$ and so $R \subseteq$ ker$(\psi)$.
+
+Let $N =$ ker$(\psi)$ and $R'$ be the normal closure of $R$ in $F(X)$. Then $N \mathrel{\unlhd} F(X)$ and $R' \leq N$. Thus there is a well-defined homomorphism $\theta' : F(X)/R' \to H$. $\square$
+\end{proof}
+
+\subsubsection{Presentation of a Direct Product}
+
+\begin{theorem}
+Let $G_1 = \langle X_1 \;|\; R_1 \rangle$ and $G_2 = \langle X_2 \;|\; R_2 \rangle$ be groups with presentations such that $X_1$ and $X_2$ are disjoint. Then $G_1\times G_2 = \langle X_1\cup X_2 \;|\; R_1\cup R_2\cup [X_1, X_2] \rangle$.
+\end{theorem}
+
+\begin{proof}
+Define $\theta : X_1\cup X_2 \to G_1\times G_2$ by $\theta(x_1) = (x_1, 1)$ and $\theta(x_2) = (1, x_2)$ for $x_i \in X_i$ and extend $\theta$ to $F(X_1\cup X_2)$ by multiplicativity.
+
+Let $H = \langle X_1\cup X_2 \;|\; R_1\cup R_2\cup [X_1, X_2] \rangle$. Let $r = t_1t_2\ldots t_k$ be a relation in $H$ with $t_i \in X_1\cup X_2\cup X_1^{-1}\cup X_2^{-1}$.
+
+If $r \in R_1$ then $\theta(r) = (r, 1) = (1, 1)$. Similarly if $r \in R_2$ then $\theta(r) = (1, 1)$. Finally, if $r = [x_1, x_2]$ for $x_i \in X_i$ then
+$$\theta(r) = \theta(x_1)^{-1}\theta(x_2)^{-1}\theta(x_1)\theta(x_2) = (x_1, 1)^{-1}(x_2, 1)^{-1}(x_1, 1)(x_2, 1) = (1, 1).$$
+
+Therefore by the Fundamental Theorem of Presentations, $\theta$ extends to a map $H \to G_1\times G_2$. It is clearly surjective.
+
+Let $V = \langle X_1\cup X_2 \;|\; H \rangle$.
+
+We will show that ker$(\theta) = 1$. Because elements of $X_1$ and $X_2$ commute in $V$, any element of $V$ can be written $v = s_1s_2\ldots s_mt_1t_2\ldots t_n$ with $s_i \in X_1\cup X_1^{-1}$ and $t_i \in X_2\cup X_2^{-1}$. Then $\theta(v) = (s_1s_2\ldots s_m, t_1t_2\ldots t_n)$.
+
+Thus if $v \in$ ker$(\theta)$ then $s_1s_2\ldots s_m = 1$ and $t_1t_2\ldots t_n = 1$. Thus $\alpha = s_1s_2\ldots s_m$ is in the normal closure of $R_1$ and $\beta = t_1t_2\ldots t_n$ in the normal closure of $R_2$.
+
+Thus both $\alpha$ and $\beta$ are in the normal closure of $H$. Thus both are $1$ in $V$. Thus $v = 1$. $\square$
+\end{proof}
+
+\section{Permutations}
+
+\subsection{Permutations}
+
+\subsubsection{Permutations}
+
+\begin{definition}
+A \emph{permutation} on a set $S$ of $n$ elements is a bijection $\phi : S \to S$. Such a permutation can be defined by its action on the $i$-th element of $S$, which we can denote
+$$\left(\begin{array}{cccc}1 & 2 & \cdots & n\\ \phi(1) & \phi(2) & \cdots & \phi(n)\end{array}\right).$$
+\end{definition}
+
+\subsubsection{Cycles}
+
+\begin{definition}
+A \emph{cycle} $(a_1, a_2, \cdots, a_k)$ is a permutation $\phi$ that maps $a_i \mapsto a_{i+1}$ for $1 \leq i < k$ and $a_k \mapsto a_1$.
+\end{definition}
+
+\begin{theorem}
+A permution $\phi$ on the set $S$ of $n$ elements can be written as a product of disjoint cycles.
+\end{theorem}
+
+\begin{proof}
+Begin with $1 \in S$. Then apply $\phi$ repeatedly until we reach $1$ again (as $\phi$ is a bijection and $S$ is finite, this must eventually happen): $1 \mapsto a_2 \mapsto \cdots \mapsto 1$. This is a cycle.
+
+If any elements of $S$ did not appear in this cycle, let $b_1$ be the first such element. Apply the same trick to get a cycle beginning with $b_1$. As $\phi$ is a bijection, the elements of this cycle must be distinct from the elements of the first cycle.
+
+Apply the same trick until all elements of $S$ appear in a cycle. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $\alpha = (a_1, a_2, \ldots, a_s)$ be a cycle. Let $\sigma$ be a permutation. Then
+$$\sigma\alpha\sigma^{-1} = (\sigma(a_1), \sigma(a_2), \ldots, \sigma(a_s)).$$
+\end{theorem}
+
+\begin{proof}
+Let $b_i = \sigma(a_i)$ for $i \in \{1, 2, \ldots, s\}$.
+
+For $i \in \{1, 2, \ldots, s-1\}$ we have
+$$(\sigma\alpha\sigma^{-1})(b_i) = (\sigma\alpha)(a_i) = \sigma(a_{i+1}) = b_{i+1}.$$
+
+We also have
+$$(\sigma\alpha\sigma^{-1})(b_s) = \sigma\alpha(a_s) = \sigma(a_1) = b_1.$$
+
+As $\alpha$ leaves any $x \not\in \{a_1, a_2, \ldots, a_s\}$ fixed, we have that $(\sigma\alpha\sigma^{-1})(y) = y$ for all $y \not\in \{b_1, b_2, \ldots, b_s\}$. $\square$
+\end{proof}
+
+\subsubsection{Transpositions}
+
+\begin{definition}
+A \emph{transposition} is a cycle of length $2$.
+\end{definition}
+
+\begin{theorem}
+A cycle is a product of transpositions.
+\end{theorem}
+
+\begin{proof}
+$(a_1, a_2, \ldots, a_s) = (a_s, a_{s-1})(a_s, a_{s - 2})\cdots(a_s, a_1)$. $\square$
+\end{proof}
+
+\subsubsection{The Symmetric Group}
+
+\begin{definition}
+The \emph{symmetric group} on the set $S$ of $n$ elements is the set of permutations of $S$. We denote it $S_n$.
+\end{definition}
+
+\begin{theorem}
+The set $S_n$ is a group under composition of permutations.
+\end{theorem}
+
+\begin{proof}
+The trivial permutation is the identity. As a permutation is a bijection, it is invertible. Thus inverses exist. Composition is clearly associative. $\square$
+\end{proof}
+
+\begin{theorem}
+The symmetric group $S_n$ is generated by transpositions of the form $t_i = (i, i + 1)$.
+\end{theorem}
+
+\begin{proof}
+We have already seen that any permutation can be written as a product of disjoint cycles, and each cycle can be written as a product of transpositions.
+
+But $(a_i, a_j)$ for $j > i$ can be expressed as $(a_{j-1}, a_j)\ldots (a_{i+1}, a_{i+2})(a_i, a_{i+1})$. $\square$
+\end{proof}
+
+\begin{theorem}
+$|S_n| = n!$.
+\end{theorem}
+
+\begin{proof}
+Follows immediately by counting the number of possible permutation. $\square$
+\end{proof}
+
+\begin{theorem}
+Two elements of $S_n$ are conjugate iff they have disjoint cycle representations with cycles of the same length.
+\end{theorem}
+
+\begin{proof}
+Let $\alpha = c_1c_2\ldots c_k$ be a product of disjoint cycles in $S_n$. Let $\sigma$ be any permutation. Then
+$$\sigma c_1c_2\ldots c_k\sigma^{-1} = (\sigma c_1\sigma^{-1})(\sigma c_2 \sigma^{-1})\ldots (\sigma c_k\sigma^{-1}).$$
+
+But by the theorem on conjugation of cycles, this will have the same cycle structure as $\alpha$.
+
+Conversely, let $\alpha = c_1c_2\ldots c_k$ and $\beta = d_1d_2\ldots d_k$ be permutations with the same cycle structure.
+
+Let $a_1, a_2, \ldots a_s$ be the elements of the cycles of $\alpha$ in order (including $1$-cycles), and let $b_1, b_2, \ldots, b_s$ be the elements of the cycles of $\beta$ in order (including $1$-cycles). Then the permutation that sends $a_i$ to $b_i$ for all $1 \leq i \leq s$ will conjugate $\alpha$ to $\beta$. $\square$
+\end{proof}
+
+\subsubsection{The Alternating Group}
+
+\begin{definition}
+A permutation is even if it is a product of an even number of transpositions.
+\end{definition}
+
+\begin{theorem}
+Let $\epsilon$ be the identity permutation. Then $\epsilon$ is an even permutation.
+\end{theorem}
+
+\begin{proof}
+We will show that if $\epsilon$ is a product of $k \geq 2$ transpositions, then it is the product of $k - 2$ transpositions, which will prove the result, as the identity is not a transposition.
+
+Let $\epsilon = s_1s_2\ldots s_k$ and suppose that $s_j = (x, a)$ but $x$ does not appear in $s_{j+1}, s_{j+2}, \ldots, s_k$.
+
+Let $s_{j-1} = (y, b)$. There are four cases:
+
+(i) If $s_{j-1} = (x, a)$ we are done.
+
+(ii) If $s_{j-1} = (x, b)$ with $b \neq a$ and $b \neq x$ then $s_{j-1}s_j = (x, a)(a, b)$.
+
+(iii) If $s_{j-1} = (y, a)$ with $y \neq x$, $y \neq a$ then $s_{j-1}s_j = (x, y)(y, a)$.
+
+(iv) If $s_{j-1} = (y, b)$ with $y \neq x$, $y \neq a$, $b \neq x$ and $b\neq a$ then $s_{j-1}s_j = (x, a)(y, b)$.
+
+In all cases, we may move the first appearance of $x$ back or cancel a pair of transpositions.
+
+As $x$ cannot appear just once in the identity, we must always eventually end up in case (i). $\square$
+\end{proof}
+
+\begin{corollary}
+Every permutation is either odd or even, but not both.
+\end{corollary}
+
+\begin{proof}
+If a permutation were both, the identity could be written as a product of an even permutation and the inverse of an odd permutation, which would be odd. $\square$
+\end{proof}
+
+\begin{definition}
+The \emph{alternating group} on $n$ elements is the subset of $S_n$ consisting of even permutations. We denote it $A_n$.
+\end{definition}
+
+\begin{theorem}
+The set $A_n$ is a group under composition of permutations.
+\end{theorem}
+
+\begin{proof}
+It is clearly a subgroup of $S_n$ because it is closed under composition and taking of inverses. $\square$
+\end{proof}
+
+\begin{theorem}
+$|A_n| = n!/2$.
+\end{theorem}
+
+\begin{proof}
+We show that half of the elements of $S_n$ are in $A_n$.
+
+Let $\tau$ be a fixed transposition. Define $f : S_n \to S_n$ by $f(\sigma) = \tau\sigma$. This is a bijection between the sets of odd and even permutations. Note $f(\tau\sigma) = \tau\tau\sigma = \sigma$, which implies that $f$ is surjective, and it is clearly injective. $\square$
+\end{proof}
+
+\begin{theorem}
+The group $A_n$ is generated by its $3$-cycles.
+\end{theorem}
+
+\begin{proof}
+We note:
+
+(i) $(a, b)(c, d) = (a, c, b)(a, c, d)$.
+
+(ii) $(a, b)(b, c) = (a, b, c)$.
+
+(iii) $(a, b)(a, b) = (a, b, c)^2$. $\square$
+\end{proof}
+
+\subsubsection{A Presentation of $S_n$}
+
+\begin{theorem}
+The symmetric group $S_n$ has the presentation
+$$\langle T \;|\; t_i^2 = 1, (t_it_{i+1})^3 = 1, (t_it_j)^2 = 1 \;\;\mbox{for}\;\; |i - j| > 1 \rangle,$$
+where $T = \{t_1, t_2, \ldots, t_{n-1}\}$.
+\end{theorem}
+
+\begin{proof}
+Let the group in the theorem be denoted $G_n$.
+
+We already know that $S_n$ is generated by transpositions $t_i = (i, i+1)$. It is also easy to check that the given relations hold in $S_n$.
+
+Thus there is a surjective group homomorphism $\phi : G_n \to S_n$ which maps the symbol $t_i$ to the transposition $t_i$.
+
+As $S_n$ is finite, it only remains to show that $|G_n| \leq n!$. We will prove this by induction, the basecase $n = 2$ being clear.
+
+Suppose the result is true for $G_n$ and let $H$ be the subgroup of $G_{n + 1}$ generated by $\{t_1, t_2, \ldots, t_n\}$. By induction $|H| \leq n!$. We will investigate the cosets of $H$ in $G_{n+1}$.
+
+Let $H_n = H$, $H_{n-1} = t_nH$, $H_{n-2} = t_{n-1}t_nH$, $\ldots$, $H_0 = t_1t_2\ldots t_nH$. We will show that these are precisely the cosest of $H$ in $G_{n+1}$ which will prove the result.
+
+To prove this, it suffices to show that $\{H_0, H_1, \ldots, H_n\}$ is permuted by left multiplication by elements of $G_{n+1}$, since all such cosets include the cosets of $H = H_0$.
+
+As $G_n$ is generated by $t_1, t_2, \ldots, t_n$ it is enough to show this for left multiplication by these elements. We will compute $t_iH_j$ for all $1 \leq i < n$ and $0 \leq j \leq n$.
+
+It's clear that $t_iH_i = H_{i-1}$ and $t_iH_{i-1} = H_i$. Therefore, suppose that $j \neq i, i - 1$. We will show that $t_iH_j = H_j$ in these cases.
+
+Let us denote $t_kt_{k_1}\ldots t_{l}$ by $P(k, l)$.
+
+Firstly, if $j \geq i + 1$ we have
+$$t_iH_j = t_iP(j+1, n)H = P(j+1, n)t_iH = P(j+1, n)H = H_j.$$
+
+In the case $j \leq i - 2$ we have
+\begin{multline*}
+y_iH_j = y_iP(j+1, n)H = P(j+1, i-2)t_it_{i-1}t_iP(i+1, n)H =\\
+ P(j+1, i-2)t_{i-1}t_it_{i-1}P(i+1, n)H = P(j+1, n)t_{i-1}H = P(j+1, n)H = H_j.
+\end{multline*}
+$\square$
 \end{proof}
 
 \section{Groups Acting on a Set}
@@ -2747,13 +3179,11 @@ $|A_4| = 12$ and we have already shown that either $n_2 = 1$. $\square$
 \end{proof}
 
 
-% presentation of a group
 % fundamental theorem of finitely generated abelian groups
 % composition series
-% Jordan-Holder theorem
-% characteristic subgroups
-% free groups
+% Jordan-H\"{o}lder theorem
 % solvable groups
+% transfer map
 
 \end{document}
 
