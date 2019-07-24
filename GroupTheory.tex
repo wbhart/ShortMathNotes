@@ -3178,12 +3178,84 @@ $A_4$ is not simple.
 $|A_4| = 12$ and we have already shown that either $n_2 = 1$. $\square$
 \end{proof}
 
+\section{Normal Series}
+
+\subsection{Composition Series}
+
+\subsubsection{Composition Series}
+
+\begin{definition}
+Let $G$ be a group. A \emph{composition series} for $G$ of length $n$ is a finite chain of subgroups
+$$1 = G_0 \leq G_1 \leq \cdots \leq G_n = G$$
+satisfying the following:
+\begin{enumerate}
+\item $G_i \mathrel{\unlhd} G_{i + 1}$
+\item $G_{i+1}/G_i$ is simple
+\end{enumerate}
+The quotients $G_{i+1}/G_i$ are called the \emph{composition factors} of the series.
+\end{definition}
+
+\begin{theorem}
+Any finite group $G$ has a composition series.
+\end{theorem}
+
+\begin{proof}
+Start with the group $G_n = G$ and at each step take a maximal, normal, proper subgroup, $G_i$ of $G_{i+1}$, which exists because $G$ is finite.
+
+The quotient $G_{i+1}/G_i$ is simple by the correspondence theorem and the maximality of $G_i$ in $G_{i+1}$.
+
+The process must terminate as $G$ is finite. $\square$
+\end{proof}
+
+\subsubsection{The Jordan-H\"{o}lder Theorem}
+
+\begin{theorem}
+Let $G$ be a group. The composition factors of any two composition series for $G$ are isomorphic in pairs, though the order of the factors may be different.
+\end{theorem}
+
+\begin{proof}
+We proceed by induction on $|G|$. The theorem is true for $|G| = 2$.
+
+Assume the result is true for all groups of order less than $n$ and suppose $G$ is a group of order $n$.
+
+If $G$ is simple, the theorem is trivially true. Otherwise, suppose that
+$$1 \mathrel{\unlhd} A_r \mathrel{\unlhd} \cdots \mathrel{\unlhd} A_1 \mathrel{\unlhd} A \mathrel{\unlhd} G$$
+and
+$$1 \mathrel{\unlhd} B_s \mathrel{\unlhd} \cdots \mathrel{\unlhd} B_1 \mathrel{\unlhd} B \mathrel{\unlhd} G$$
+are two composition series for $G$.
+
+If $A = B$ then $G/A = G/B$ and by the inductive hypothesis all the other quotients are the same in pairs, up to order, and we are done.
+
+If $A \neq B$, consider the group $AB$ of $G$. Now $A$ and $B$ are distinct and maximal in $G$, and thus $AB = G$.
+
+Now let $D = A\cap B$. By the second isomorphism theorem 
+\begin{equation}\label{gabd}
+G/A \cong B/D\;\;\mbox{and}\;\;G/B \cong A/D.
+\end{equation}
+But $G/A$ and $G/B$ are simple, thus so are $B/D$ and $A/D$. In other words, $D$ is a maximal normal subgroup of $A$ and $B$.
+
+Let $1 \mathrel{\unlhd} D_t \mathrel{\unlhd} \cdots \mathrel{\unlhd} D_1 \mathrel{\unlhd} D$ be a composition series for $D$.
+
+Consider the quotient groups
+\begin{equation}\label{comp1}G/A, A/D, D/D_1, \ldots, D_t, 1,\end{equation}
+and
+$$G/A, A/A_1, \ldots, A_r, 1.$$
+By the induction hypothesis, the theorem is true for $A$ and so the sequences above are isomorphic in pairs. In particular, $t = r$.
+
+Similarly, the quotients
+\begin{equation}\label{comp2}G/B, B/D, D/D_1, \ldots, D_t, 1\end{equation}
+is isomorphic in pairs with
+$$G/B, B/B_1, \ldots, B_s, 1,$$
+and $s = r$.
+
+But the sequences \eqref{comp1} and \eqref{comp2} are clearly isomorphic in pairs by \eqref{gabd} and so we are done. $\square$
+\end{proof}
 
 % fundamental theorem of finitely generated abelian groups
-% composition series
-% Jordan-H\"{o}lder theorem
-% solvable groups
 % transfer map
+% solvable groups
+% central series
+% nilpotent groups
 
 \end{document}
 
