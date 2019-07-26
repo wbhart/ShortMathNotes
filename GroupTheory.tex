@@ -3063,15 +3063,15 @@ There are no subgroups other than the trivial and improper subgroup. $\square$
 \subsubsection{Finite Abelian Simple Groups}
 
 \begin{theorem}
-The only finite abelian simple groups are the cyclic groups of prime order.
+The only simple abelian groups are the cyclic groups of prime order.
 \end{theorem}
 
 \begin{proof}
-A subgroup of an abelian group is always normal. Therefore if $G$ is a finite, simple abelian group it has no subgroups.
+A subgroup of an abelian group is always normal. Therefore if $G$ is a simple abelian group it has no nontrivial, proper subgroups.
 
-If $g \in G$ has order $n$ for $n < |G|$ then $\langle g \rangle$ is a normal subgroup of $G$. Thus $G$ must be cyclic.
+If $g \in G$ then $\langle g \rangle$ is a normal subgroup of $G$. Thus $G$ must be cyclic.
 
-Similarly, any cyclic group of non-prime order has a proper, normal subgroup other than the trivial group. $\square$
+But any infinite cyclic group or finite cyclic group of non-prime order has a proper, normal subgroup other than the trivial group. $\square$
 \end{proof}
 
 \subsection{Simple Alternating Groups}
@@ -3437,6 +3437,16 @@ where we have used in turn, the third isomorphism theorem, $G_i \leq G_{i+1}$, t
 As $G_{i+1}/G_i$ is simple, the final quotient above is either trivial or isomorphic to $G_{i+1}/G_i$. The same then applies to $Q_{i+1}/Q_i$.
 
 Upon deleting repetitions, we obtain a composition series for $G/N$. $\square$
+\end{proof}
+
+\subsubsection{Abelian Groups with Composition Series}
+
+\begin{theorem}
+Let $G$ be an abelian group. If $G$ has a composition series then $G$ is finite.
+\end{theorem}
+
+\begin{proof}
+The composition factors of $G$ must be simple and abelian, thus cyclic of prime order. As the order of $G$ is the product of the orders of the composition factors, the result follows. $\square$
 \end{proof}
 
 % fundamental theorem of finitely generated abelian groups
