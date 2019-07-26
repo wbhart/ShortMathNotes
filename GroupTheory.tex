@@ -3215,7 +3215,7 @@ For a finite group $G$, the order of $G$ is the product of the orders of the com
 Clear. $\square$
 \end{proof}
 
-\subsection{The Zassenhaus Butterfly Lemma}
+\subsubsection{The Zassenhaus Butterfly Lemma}
 
 \begin{theorem}
 Let $G$ be a group and let $H$, $H'$, $K$, $K' \leq G$ be such that $H' \mathrel{\unlhd} H$ and $K' \mathrel{\unlhd} K$. Then
@@ -3293,11 +3293,11 @@ We apply a similar construction to create a refinement of the series of $K_k$, b
 $$K'_k = K_i(K_{i+1}\cap H_j).$$
 
 Now let $k = um + v$ and $l = vn + u$. We have
-\begin{eqnarray*}
+\begin{align*}
 \frac{H'_{k+1}}{H'_k} &= \frac{H_u(H_{u+1}\cap K_{v+1})}{H_u(H_{u+1}\cap H_v)}\\
 &\cong \frac{K_v(K_{v+1}\cap H_{u+1})}{K_v(K_{v+1}\cap H_U)}\\
 &= \frac{K'_{l+1}}{K'_l},
-\end{eqnarray*}
+\end{align*}
 where the isomorphism follows from Zassenhaus' lemma.
 
 Thus the series have isomorphic factors.
@@ -3357,9 +3357,91 @@ and $s = r$.
 But the sequences \eqref{comp1} and \eqref{comp2} are clearly isomorphic in pairs by \eqref{gabd} and so we are done. $\square$
 \end{proof}
 
+\subsubsection{Dedekind's Modular Law}
+
+\begin{theorem}
+If $A, B, C \leq G$ with $A \subseteq B$ then
+$$A(B\cap C) = B\cap AC.$$
+\end{theorem}
+
+\begin{proof}
+First note that $A \subseteq B$ and $B\cap C \subseteq B$, thus $A(B\cap C) \subseteq B$. Also note that $B\cap C \subseteq C$, thus $A(B\cap C) \subseteq AC$. Thus we have shown that $A(B\cap C) \subseteq B\cap AC$.
+
+For the other direction, let $b \in B\cap AC$. Then $b = ac$ for some $a \in A$ and $c \in C$. But then $c = ba^{-1}$ and so $c \in B$. Thus $c \in B\cap C$. Thus $b = ac \in A(B\cap C)$. $\square$
+\end{proof}
+
+\subsubsection{Normal Subgroups of a Group with Composition Series}
+
+\begin{theorem}
+Let $G$ be a group with composition series and $N \mathrel{\unlhd} G$, then $N$ has a composition series.
+\end{theorem}
+
+\begin{proof}
+Suppose $G$ has a composition series
+$$1 = G_0 \mathrel{\unlhd} G_1 \mathrel{\unlhd} \cdots \mathrel{\unlhd} G_n = G.$$
+Define $N_i = N\cap G_i$. Then
+$$1 = N_0 \leq N_1 \leq \cdots \leq N_n = N.$$
+
+Let $x \in N_i$ and $g \in N_{i+1}$, then $g^{-1}xg \in G_i\cap N = N_i$ by the normality of $G_i$ in $G_{i+1}$. Thus we see that the $N_i$ form a subnormal series.
+
+But
+\begin{align*}
+N_i/N_{i+1} &= \frac{N\cap G_{i+1}}{N\cap G_i}\\
+&= \frac{N\cap G_{i+1}}{(N\cap G_{i+1})\cap G_i}\\
+&\cong \frac{(N\cap G_{i+1})G_i}{G_i}
+\end{align*}
+by the second isomorphism theorem.
+
+As $N \mathrel{\unlhd} G$ we have that $N\cap G_{i+1} \mathrel{\unlhd} G_{i+1}$. Thus, as $G_i \mathrel{\unlhd} G_{i+1}$ we have that $(N\cap G_{i+1})G_i \mathrel{\unlhd} G_{i+1}$.
+
+Therefore, by the correspondence theorem we have that
+$$\frac{(N\cap G_{i+1})G_i}{G_i} \mathrel{\unlhd} \frac{G_{i+1}}{G_i}.$$
+
+But the latter is simple and so either
+$$\frac{(N\cap G_{i+1})G_i}{G_i} = 1 \;\;\mbox{or}\;\; \frac{G_{i+1}}{G_i}.$$
+
+Applying this to the isomorphism we proved above, we have that either $N_i = N_{i+1}$ or $N_{i+1}/N_i$ is simple.
+
+Therefore if we delete any repetitions in the subnormal series of groups $N_i$, we obtain a composition series for $N$. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group with composition series and $N \mathrel{\unlhd} G$, then $G/N$ has a composition series.
+\end{theorem}
+
+\begin{proof}
+As $N$ is normal in $G$ we have
+$$N = G_0N \leq G_1N \leq \cdots \leq G_nN = G.$$
+
+Thus from the correspondence theorem we have
+$$1 = G_0N/N \leq G_1N/N \leq \cdots \leq G_nN/N = G/N.$$
+
+For simplicity, write $Q_i = G_iN/N$. If $x \in G_i$ and $g \in G_{i+1}$ we have $g^{-1}xg \in G_i$, thus
+$$(Ng)^{-1}(Nx)(Ng) \in G_iN/N = Q_i.$$
+Thus $Q_i \mathrel{\unlhd} Q_{i+1}$.
+
+From $G_i \leq G_{i+1}$ we have by Dedekind's modular law that
+$$G_iN\cap G_{i+1} = (G_{i+1}\cap N)G_i.$$
+
+We then have
+\begin{align*}
+Q_{i+1}/Q_i &= \frac{G_{i+1}}{G_iN/N}\\
+&= \frac{G_{i+1}N}{G_iN}\\
+&= \frac{(G_{i+1}G_i)N}{G_iN}\\
+&= \frac{G_{i+1}}{G_{i+1}\cap G_iN}\\
+&= \frac{G_{i+1}}{(G_{i+1}\cap N)G_i}\\
+&= \frac{G_{i+1}/G_i}{(G_{i+1}\cap N)G_i/G_{i+1}},
+\end{align*}
+where we have used in turn, the third isomorphism theorem, $G_i \leq G_{i+1}$, the second isomorphism theorem, Dedekind's modular law and the third isomorphism theorem.
+
+As $G_{i+1}/G_i$ is simple, the final quotient above is either trivial or isomorphic to $G_{i+1}/G_i$. The same then applies to $Q_{i+1}/Q_i$.
+
+Upon deleting repetitions, we obtain a composition series for $G/N$. $\square$
+\end{proof}
+
 % fundamental theorem of finitely generated abelian groups
 % transfer map
-% zassenhaus butterfly lemma
+% Every abelian group with composition series is finite
 % solvable groups
 % central series
 % nilpotent groups
