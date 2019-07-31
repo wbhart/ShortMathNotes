@@ -1273,6 +1273,16 @@ Thus if $G/N$ is abelian, $[G, G] \subseteq N$ which shows the result. $\square$
 The group $G/[G, G]$ is called the \emph{abelianisation} of $G$.
 \end{definition}
 
+\begin{theorem}
+Let $G$ be a group and $H \mathrel{\unlhd} G$. Then $G/H$ is abelian iff $[G, G] \leq H$.
+\end{theorem}
+
+\begin{proof}
+Suppose $G/H$ is abelian. If $g_1, g_2 \in G$ then we have $(g_1H)(g_2H) = (g_2H)(g_1H)$. Thus $g_1^{-1}g_2^{-1}g_1g_2 \in H$. This shows $[G, G] \in H$. 
+
+The argument can be reverse to show the converse. $\square$
+\end{proof}
+
 \subsubsection{The Correspondence Theorem}
 
 \begin{theorem}
@@ -1380,6 +1390,16 @@ If $\phi : G \to H$ is a homomorphism then im$(\phi) \leq H$.
 
 \begin{proof}
 Clear.
+\end{proof}
+
+\begin{theorem}
+Let $\phi : G \to H$ be a surjective homomorphism and let $N$ be a normal subgroup of $G$. Then $\phi(N) \mathrel{\unlhd} H$.
+\end{theorem}
+
+\begin{proof}
+Let $h \in H$ and $n' \in \phi(N)$. As $\phi$ is surjective, we can find $g \in G$ such that $h = \phi(g)$. We also have $n' = \phi(n)$ for some $n \in N$ by definition.
+
+As $N \mathrel{\unlhd} G$ we have that $g^{-1}ng \in N$. Thus $h^{-1}n'h = \phi(g)^{-1}\phi(n)\phi(g) \in \phi(N)$. As $h$ and $n'$ were arbitrary, this shows that $\phi(N)$ is normal in $H$. $\square$
 \end{proof}
 
 \subsubsection{Endomorphisms of a Group}
@@ -1606,6 +1626,16 @@ If $G$ is a group then $[G, G]$ char $G$.
 Let $S$ be the set of commutators of $G$. If $[x, y] \in S$ and $\phi \in$ Aut$(G)$ then $\phi([x, y] = [\phi(x), \phi(y)]$.
 
 This is clearly a bijective map on $S$. As $[G, G]$ is the smallest subgroup of $G$ containing $S$, we have that $\phi([G, G]) = [G, G]$. $\square$
+\end{proof}
+
+\subsubsection{Subgroups with all Elements of Order Dividing $p$ are Characteristic}
+
+\begin{theorem}
+Let $G$ be a group and $N = \{x \in G \;|\; x^p = 1\}$ for $p$ a prime. Then $N$ char $G$.
+\end{theorem}
+
+\begin{proof}
+Any automorphism of $G$ sends $N$ to an isomorphic subgroup, in which every element must have order $p$ or $1$. In other words, $N$ is sent to an isomorphic subgroup of $N$. $\square$
 \end{proof}
 
 \subsection{The Group Isomorphism Theorems}
@@ -1860,6 +1890,14 @@ Let $g = h_{\mu_1}h_{\mu_2}\ldots h_{\mu_m}$ be another such expression and supp
 This shows that the third condition holds.
 
 Conversely, if the conditions in the theorem hold then clearly the third condition of the definition holds, due to uniqueness of expression as a product. The other conditions follow just as for the proof of the previous theorem. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group that is the internal direct product of subgroups $H_1, H_2, \ldots, H_n$. Suppose $N \mathrel{\unlhd} H_1$, then $N \mathrel{\unlhd} G$.
+\end{theorem}
+
+\begin{proof}
+Let $g = h_1h_2\ldots h_n \in G$ for $h_i \in H_i$ then for $h \in H_1$ we have $g^{-1}hg = h_1^{-1}hh_1 \in H_1$. $\square$ 
 \end{proof}
 
 \subsubsection{Equivalence of Internal and External Direct Products}
@@ -3449,10 +3487,278 @@ Let $G$ be an abelian group. If $G$ has a composition series then $G$ is finite.
 The composition factors of $G$ must be simple and abelian, thus cyclic of prime order. As the order of $G$ is the product of the orders of the composition factors, the result follows. $\square$
 \end{proof}
 
+\subsection{Solvable Groups}
+
+\subsubsection{Solvable Groups}
+
+\begin{definition}
+A group $G$ is said to be \emph{solvable} if it has a subnormal series
+$$1 = G_0 \leq G_1 \leq \cdots \leq G_n = G,$$
+such that $G_{i+1}/G_i$ is abelian.
+\end{definition}
+
+\begin{theorem}
+Every abelian group is solvable.
+\end{theorem}
+
+\begin{proof}
+$1 = G_0 \leq G_1 = G$ is a composition series such that $G_1/G_0$ is abelian. $\square$
+\end{proof}
+
+\begin{theorem}
+The group $S_n$ is not solvable for $n \geq 5$.
+\end{theorem}
+
+\begin{proof}
+We know that $A_n$ is simple for $n \geq 5$ and so the normal series
+$$1 \leq A_n \leq S_n$$
+is a composition series. Its composition factors are $C_2$ and $A_n$, the latter of which is not abelian. $\square$
+\end{proof}
+
+\begin{theorem}
+A finite group $G$ is solvable iff it has a composition series with composition factors that are cyclic of prime order.
+\end{theorem}
+
+\begin{proof}
+Suppose $G$ is solvable so that it has a subnormal series
+$$1 = G_0 \leq G_1 \leq \cdots \leq G_n = G$$
+with abelian factors $G_{i+1}/G_i$.
+
+As it is a finite group it has a composition series. Therefore by the Schreier refinement theorem, the subnormal series can be refined to a composition series. Thus between $G_i$ and $G_{i+1}$ we have a refinement
+$$G_i = H_{i,0} \leq H_{i,1} \leq \cdots \leq H_{i, m} = G_{i+1},$$
+with $H_{i, j+1}/H_{i, j}$ simple for all $j$.
+
+But as $G_i \mathrel{\unlhd} G_{i+1}$ we have that $G_i \mathrel{\unlhd} H_{i, j+1}$ for all $0 \leq j < m$. Then $H_{i, j+1}/G_i$ is a subgroup of $G_{i+1}/G_i$ and therefore abelian.
+
+But now by the second isomorphism theorem, $H_{i, j+1}/H_{i, j}$ is a quotient of $H_{i, j+1}/G_i$ and therefore also abelian. As it is also simple, it must be cyclic of prime order.
+
+Conversely, suppose $G$ has a composition series with each composition factor cyclic of prime order. Then this composition series is a subnormal series with each factor abelian and $G$ is solvable. $\square$
+\end{proof}
+
+\subsubsection{Derived Subgroups}
+
+\begin{definition}
+Let $G$ be a group. We call $[G, G]$ the \emph{first derived subgroup} of $G$, denoted $G'$ or $G^{(1)}$. The \emph{$n$-th derived subgroup} of $G$ is the group $[G^{(n-1)}, G^{(n-1)}]$. We denote it $G^{(n)}$.
+\end{definition}
+
+\begin{theorem}
+Let $G$ be a group. We have that
+$$G^{(n)} \leq G^{(n-1)} \leq \cdots \leq G^{(1)} \leq G.$$
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+A group $G$ is solvable if there is a finite integer $n$ such that the $n$-th derived subgroup of $G$ is trivial.
+\end{theorem}
+
+\begin{proof}
+Let
+$$1 = G_0 \leq G_1 \leq \cdots \leq G_n = G$$
+be a subnormal series for $G$ with abelian factor groups.
+
+Since $G_n/G_{n-1}$ is abelian we have that the derived subgroup $G^{(1)} \leq G_{n-1}$.
+
+By a similar argument, $G_{n-1}^{(1)} \leq G_{n-2}$. But we also have $G^{(2)} \leq G_{n-1}^{(1)}$ because of $G^{(1)} \leq G_{n-1}$. Thus $G^{(2)} \leq G_{n-2}$.
+
+Continuing in the same way, we eventually find that $G^{(n)} \leq 1$.
+
+Conversely, if $G^{(1)} = 1$ then we have a chain of subgroups
+$$1 = G^{(n)} \leq G^{(n-1)} \leq \cdots \leq G^{(1)} \leq G.$$
+
+But this is a subnormal series. But $G^{(i-1)}/G^{(i)}$ is abelian iff $[G^{(i-1)}, G^{(i-1)}] \leq G^{(i)}$. But this is trivially true. $\square$ 
+\end{proof}
+
+\subsubsection{Every $p$-group is solvable}
+
+\begin{theorem}
+If $G$ is a $p$-group then it is solvable.
+\end{theorem}
+
+\begin{proof}
+Begin with the group $G_0 = 1$. As $G$ is a $p$-group, $Z(G)$ is non-trivial by Burnside's theorem. Let $G_1 = Z(G)$. Note that $G_1/G_0$ is abelian since it is isomorphic to $Z(G)$.
+
+Now $Z(G)$ is normal in $G$ and the quotient $G/Z(G)$ is a $p$-group.
+
+Again by Burnside's theorem, the centre $Z(G/G_1)$ is non-trivial. By the correspondence theorem, there is a subgroup $G_2$ of $G$ containing $G_1$ such that $G_2/G_1$ is isomorphic to $Z(G/G_1)$. Note that this quotient is abelian.
+
+We continue the same construction until $G/G_{n-1}$ is abelian because the centre of $G/G_{n-1}$ is the whole group. We then set $G_n = G$ and we have constructed a subnormal series for $G$ with abelian cofactors. $\square$
+\end{proof}
+
+\subsubsection{Groups of Order $pq$ are Solvable}
+
+\begin{theorem}
+If $G$ is a group of order $pq$ with $p$ and $q$ prime, then $G$ is solvable.
+\end{theorem}
+
+\begin{proof}
+If $p = q$ then $G$ is abelian and we are done. Therefore, assume that $p$ and $q$ are distinct primes with $p > q$.
+
+As $n_p \;|\; q$ we either have $n_p = q$ or $n_p = 1$. But as $n_p \equiv 1 \pmod{p}$ the first case is impossible since $p > q$. Thus $n_p = 1$ and the unique Sylow $p$-subgroup $G_1$ is normal in $G$.
+
+We see that
+$$1 = G_0 \leq G_1 \leq G_2 = G$$
+is a subnormal series of $G$ with abelian quotients (cyclic groups of order $p$ and $q$). Thus $G$ is solvable. $\square$
+\end{proof}
+
+\subsubsection{Groups of Order $p^2q$ are Solvable}
+
+\begin{theorem}
+If $G$ is a group of order $p^2q$ for primes $p$ and $q$ then $G$ is solvable.
+\end{theorem}
+
+\begin{proof}
+If $p = q$ then $G$ is a $p$-group, which is solvable. So assume $p \neq q$.
+
+If $p > q$, then by the same argument as for groups of order $pq$, there is a unique Sylow $p$-subgroup $G_1$ of $G$ which is normal in $G$.
+
+Thus we have that
+$$1 = G_0 \leq G_1 \leq G_2 = G$$
+is a subnormal series. Note that $|G_1/G_0| = p^2$, and any group of order $p^2$ is abelian. Thus $G$ is solvable.
+
+The remaining case is when $p < q$. As usual, we have that $n_q$ is $1$, $p$ or $p^2$ by the Sylow theorems. However, $n_q = p$ is not possible as $p < q$.
+
+If $n_q = 1$ then there is a unique Sylow $q$-subgroup $G_1$ of $G$. Then we have that
+$$1 = G_0 \leq G_1 \leq G_2 = G$$
+is a subnormal series, and $|G_2/G_1| = p^2$. Thus all factors are abelian and $G$ is solvable.
+
+If $n_q = p^2$ then $G$ has $p^2(q - 1) = n - p^2$ elements of order $q$. The remaining $p^2$ elements must lie in a Sylow $p$-subgroup $G_1$ of order $p^2$.
+
+As $G_1$ is the unique subgroup of order $p^2$, it is normal in $G$. By a similar argument to the above, $G$ is solvable. $\square$
+\end{proof}
+
+\subsubsection{Homomorphic Images of Solvable Groups are Solvable}
+
+\begin{theorem}
+Let $\phi : G \to H$ be a group homomorphism and $G$ a solvable group. Then $\phi(G)$ is solvable.
+\end{theorem}
+
+\begin{proof}
+Let $G$ be solvable and
+$$1 = G_0 \leq G_1 \leq \cdots \leq G_n = G$$
+be a subnormal series for $G$ in which each factor is abelian.
+
+let $H_k = \phi(G_k)$ for all $k$. Then
+$$1 = H_0 \leq H_1 \leq \cdots \leq H_n = \phi(G)$$
+is a subnormal series with normal quotients.
+
+Let $f : G_{i+1}/G_i \to H_{i+1}/H_i$ be defined by $f(gG_i) = \phi(g)H_i$ for all $g \in G_{i+1}$. It is easy to see that it is a surjective homomorphism.
+
+As $G_{i+1}/G_i$ is abelian, so is $f(G_{i+1}/G_i) = H_{i+1}/H_i$, for all $0 \leq i \leq n - 1$. Thus $\phi(G)$ is solvable. $\square$
+\end{proof}
+
+\begin{corollary}
+Every quotient of a solvable group is solvable.
+\end{corollary}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsubsection{Every Subgroup of a Solvable Group is Solvable}
+
+\begin{theorem}
+Let $G$ be a solvable group. Every subgroup $H$ of $G$ is solvable.
+\end{theorem}
+
+\begin{proof}
+Let
+$$1 = G_0 \leq G_1 \leq \cdots \leq G_n = G$$
+be a subnormal series for $G$ with abelian factors. Let $H_i = H\cap G_i$. We claim that
+$$1 = H_0 \leq H_1 \leq \cdots \leq H_n = (G\cap H) = H$$
+is a normal series of $H$.
+
+Firstly, because $G_i \mathrel{\unlhd} G_{i+1}$ we have that $H_i \mathrel{\unlhd} H_{i+1}$. For if $x \in H_i$ and $y \in H_{i+1}$ then $yxy^{-1} \in H$ and $yxy^{-1} \in G_i$ due to $G_i$ being normal in $G_{i+1}$. Thus $yxy^{-1} \in H\cap G_i = H_i$.
+
+Now we will show that $H_{i+1}/H_i$ is abelian for all $i$.
+
+Note that
+$$H_i = H\cap G_i = (H\cap G_{i+1})\cap G_i = H_{i+1}\cap G_i.$$
+
+By the second isomorhism theorem we therefore have
+$$\frac{H_{i+1}}{H_i} = \frac{H_{i+1}}{H_{i+1}\cap G_i} \cong \frac{H_{i+1}G_i}{G_i} \leq \frac{G_{i+1}}{G_i}.$$
+The last relation follows because $H_{i+1}G_i \leq G_{i+1}$ on account of $G_i$ being normal in $G_{i+1}$.
+
+But $G_{i+1}/G_i$ is abelian, thus $N_{i+1}/N_i$ is isomorphic to a subgroup of an abelian group. $\square$
+\end{proof}
+
+\subsubsection{Direct Products of Solvable Groups}
+
+\begin{theorem}
+Let $G$ be a group with $H \mathrel{\unlhd} G$. If $H$ and $G/H$ are solvable then so is $G$.
+\end{theorem}
+
+\begin{proof}
+Let
+$$1 = K^*_0 \leq K^*_1 \leq \cdots \leq K^*_n = G/H$$
+be a subnormal series for $G/H$ with abelian factors.
+
+By the correspondence theorem, we can construct a partial solvable series of $G$ starting at $H$
+$$H = K_0 \leq K_1 \leq \cdots \leq K_n = G$$
+with $K_i \mathrel{K_{i+1}}$ and $K_{i+1}/K_i$ abelian.
+
+But $H$ is solvable, and so we can complete the series to a subnormal series for $G$ with abelian factors. $\square$
+\end{proof}
+
+\begin{corollary}
+If $H$ and $K$ are solvable groups then so is $G = H\times K$.
+\end{corollary}
+
+\begin{proof}
+We have $H \mathrel{\unlhd} G$ and $G/H \cong K$. $\square$
+\end{proof}
+
+\subsubsection{Groups Without Characteristically Simple Subgroups}
+
+\begin{definition}
+Let $G$ be a group. A subgroup $N$ is said to be a \emph{minimal normal subgroup} of $G$ if $N \neq 1$ and if $K \mathrel{\unlhd} G$ with $K \leq N$ then $K = 1$.
+\end{definition}
+
+\begin{definition}
+A group $G$ is said to be \emph{elementary abelian} if it is an abelian group with every element of order $p$ for a fixed prime $p$.
+\end{definition}
+
+\begin{theorem}
+Every minimal normal subgroup of a finite solvable group $G$ is elementary abelian.
+\end{theorem}
+
+\begin{proof}
+Let $N$ be a minimal normal subgroup of $G$ and suppose $H$ is a characteristic subgroup of $V$. Then $H \mathrel{\unlhd} G$, which violates the minimality of $N$ unless $H = 1$ or $H = N$.
+
+Now $N' = [N, N]$ is characteristic in $N$ and hence $N' = 1$ or $N' = N$. But $N$ is solvable and so $N' \neq N$ otherwise the derived series would not terminate in $1$.
+
+Thus $N' = 1$ and $N$ is abelian. But any Sylow $p$-subgroup of an abelian group is characteristic. Again by the minimality of $N$, this implies that $N$ is an abelian $p$-group.
+
+But $\{x \in N \;|\; x^p = 1\}$ is a characteristic subgroup of $N$. Thus $N$ is elementary abelian. $\square$
+\end{proof}
+
+\begin{theorem}
+A finite group $G$ whose only characteristic subgroups are $1$ and $G$ is either simple or a direct product of isomorphic simple groups.
+\end{theorem}
+
+\begin{proof}
+Let $N_1$ be a minimal normal subgroup of $G$ with minimal order amongst all such groups. 
+
+Consider all subgroups of $G$ of the form $N_1\times N_2\times \cdots \times N_n$ for $N_i \mathrel{\unlhd} G$ and $N_i \cong N_j$ for all $i, j$.
+
+Let $M$ be a subgroup of this form with largest possible order. We will show that $M$ char $G$ so that $M = G$. It is enough to show for any automorphism $\phi \in$ Aut$(G)$ that $\phi(N_i) \leq M$.
+
+We firstly show that $\phi(N_i) \mathrel{\unlhd} G$. Let $a \in G$ and $b = \phi^{-1}(a)$. Then $a\phi(N_i)a^{-1} = \phi(bN_ib^{-1}) \leq \phi(N_i)$ due to the normality of $N_i$.
+
+Suppose $\phi(N_i) \not\leq M$. Then $|\phi(N_i)\cap M| < |\phi(N_i)| = |N|$. But $\phi(N_i)\cap M \mathrel{\unlhd} G$ as we showed above that $\phi(N_i) \mathrel{\unlhd} G$. Thus, by the minimality of $|H|$ we have that $\phi(H_i)\cap M = 1$.
+
+But then $M\times \phi(H_i)$ violates the maximality of $M$.
+
+Thus $\phi(N_i) \leq M$ and so $M$ char $G$ and $M = G$.
+
+Now $N_1$ must be simple. If it has a nontrivial normal subgroup $H$ then $H$ is a normal subgroup of $M = G$. But this contradicts the minimal choice of $N$. $\square$
+\end{proof}
+
 % fundamental theorem of finitely generated abelian groups
 % transfer map
-% Every abelian group with composition series is finite
-% solvable groups
+% Hall theorems
 % central series
 % nilpotent groups
 
