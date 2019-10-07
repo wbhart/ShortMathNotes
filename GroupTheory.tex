@@ -1628,7 +1628,7 @@ Let $S$ be the set of commutators of $G$. If $[x, y] \in S$ and $\phi \in$ Aut$(
 This is clearly a bijective map on $S$. As $[G, G]$ is the smallest subgroup of $G$ containing $S$, we have that $\phi([G, G]) = [G, G]$. $\square$
 \end{proof}
 
-\subsubsection{Subgroups with all Elements of Order Dividing $p$ are Characteristic}
+\subsubsection{Subgroups with Elements of Order Dividing $p$}
 
 \begin{theorem}
 Let $G$ be a group and $N = \{x \in G \;|\; x^p = 1\}$ for $p$ a prime. Then $N$ char $G$.
@@ -2970,6 +2970,19 @@ We must have that $H\cap P_n = \emptyset$ since every element of $H$ has order d
 A similar argument will apply if we replace $P_n$ in the argument by any of the $P_i$. As $G$ is abelian, all the $P_i$ are normal in $G$. Thus $G$ is the direct product of the $P_i$. $\square$
 \end{proof}
 
+\subsubsection{The Frattini Argument}
+
+\begin{theorem}
+Let $G$ be a finite group, $N \mathrel{\unlhd} G$ and $P$ be a Sylow $p$-subgroup of $N$ for some prime $p$. Then
+$$G = NN_G(P).$$ 
+\end{theorem}
+
+\begin{theorem}
+For $g \in G$ we have $gPg^{-1} \leq gNg^{-1} = N$ because $N \mathrel{\unlhd} G$. Thus $gPg^{-1}$ is a Sylow $p$-subgroup of $N$. Thus there exists $n \in N$ such that $nPn^{-1} = gPg^{-1}$ because Sylow $p$-subgroups are conjugate.
+
+Thus $P = (n^{-1}g)P(n^{-1}g)^{-1}$ so that $n^{-1}g \in N_G(P)$. Note that $g = n(n^{-1}g)$ which establishes the theorem as $g$ was arbitrary.
+\end{theorem}
+
 \subsection{Groups of Prescribed Order}
 
 \subsubsection{Groups of Order $pq$}
@@ -3756,11 +3769,519 @@ Thus $\phi(N_i) \leq M$ and so $M$ char $G$ and $M = G$.
 Now $N_1$ must be simple. If it has a nontrivial normal subgroup $H$ then $H$ is a normal subgroup of $M = G$. But this contradicts the minimal choice of $N$. $\square$
 \end{proof}
 
-% fundamental theorem of finitely generated abelian groups
+\subsubsection{Hall's Theorem on Solvable Groups of Order $mn$}
+
+\begin{theorem}
+If $G$ is a solvable group of order $ab$ with gcd$(a, b) = 1$ then $G$ has a subgroup of order $a$. Any two such subgroups are conjugate.
+\end{theorem}
+
+\begin{proof}
+The proof is by induction on $|G|$. For $|G| = 1$ there is nothing to prove.
+
+We break into two cases. In the first case, assume $G$ contains a normal subgroup $H$ of order $m'n'$ with $m' \;|\; m$ and $n' \;|\; n$ and $n' < n$.
+
+In this case, $G/H$ is solvable and has order $(mn)/(m'n') < mn$ as $n' < n$. Thus by the induction hypothesis, $G/H$ has a subgroup $A/H$ of order $m/m'$. By the correspondence theorem $A$ has order $mn'$. But $A$ is now a solvable group of order $mn' < mn$ and so by the inductive hypothesis, $A$ has a subgroup of order $m$ as required.
+
+We now show that any two subgroups $A$ and $A'$ of order $m$ are conjugate in this case.
+
+As $H \mathrel{\unlhd} G$ we have that $AH \leq G$. Moreover, $A, H \leq AH$ and so $|AH| = m\nu$ where $n' \;|\; \nu \;|\; n$.
+
+But if we apply the second isomorphism theorem to $A$ and $H$ we see that $|AH| \;|\; mm'n'$. Thus $\nu \;|\; n'$. Thus $|AH| = mn'$.
+
+A similar computation shows that $|A'H| = mn'$. Thus both $AH/H$ and $A'H/H$ are subgroups of $G/H$ of order $m/m'$.
+
+As $|G/H| = (mn)/(m'n') < mn$ we have by induction that $AH/H$ and $A'H/H$ are conjugate.
+
+Suppose for example that $(xH)(AH/H)(xH)^{-1} = (A'H/H)$. Then $xAHx^{-1} = A'H$ since $H$ is normal in $G$ and so left and right cosets of $H$ are in bijection, so that both sides of the equation are unions of cosets of $H$. But this shows that $xAx^{-1} \leq A'H$.
+
+But we already have that $A' \leq A'H$, therefore as both $xAx^{-1}$ and $A'$ have order $a$ and $|A'H| < ab$ we have by induction that $xAx^{-1}$ and $A'$ are conjugate, which completes the induction for this case assuming the second case also holds.
+
+The first case reduces the to a smaller case whenever $G$ has a proper normal subgroup which is not divisible by $n$. Therefore we may assume without loss of generality that every proper normal subgroup $H$ has order divisible by $n$.
+
+In the case that $H$ is a minimal normal subgroup we have that $H$ is abelian and every element of $H$ is of order $p$ for some prime $p$. In other words, we can assume without loss of generality that $H$ is a Sylow $p$-subgroup of $G$ for some prime $p$ with order $n = p^k$.
+
+As $H$ is normal, it is the unique $p$-Sylow subgroup. We then have $|G| = mp^k$ with $p \not |\; m$. This constitutes the second case, which we shall now prove.
+
+The group $G/H$ is a solvable group of order $m$. Thus if $K/H$ is a minimal normal subgroup of $G/H$ then $|K/H| = q^n$ for some prime $q \neq p$, i.e. $|K| = p^kq^l$. Then if $Q$ is a Sylow $q$-subgroup of $K$ then $K = HQ$.
+
+We let $N^*$ be the normalizer of $Q$ in $G$ and $N = N^*\cap K$ which is clearly the normalizer of $Q$ in $K$. We claim that $|N^*| = m$.
+
+By the Frattini argument $G = KN^*$. But as
+$$G/K = KN^*/K \cong N^*/(N^*\cap K) = N^*/N$$
+we have that $|N^*| = |G||N|/|K|$.
+
+As $K = HQ$ and $Q \leq N \leq K$ we have $K = HN$. Thus $|K| = |H||N|/|H\cap N|$. Thus
+$$|N^*| = |G||N|/|K| = (|G|/|H|)|H\cap N| = m|H\cap N|.$$
+
+If $H\cap N = 1$ we have $|N^*| = m$, which would complete the argument. Thus we will prove that $H\cap N = 1$.
+
+First we claim that $H\cap N \leq Z_K$.
+
+Let $x \in H\cap N$. Let $k = hs \in K = HQ$ be arbitrary, with $h \in H, s \in Q$. We see that $x$ commutes with $h$ because $H$ is abelian.
+
+We have that $(xsx^{-1})s^{-1} \in Q$ because $x$ is in the normalizer of $Q$. Also $x(sx^{-1}s^{-1}) \in H$ as $H$ is normal. Thus $xsx^{-1}x^{-1} \in Q\cap H$ which is trivial because the orders of $Q$ and $H$ are coprime. This proves the claim.
+
+Now $Z_K$ is characteristic in $K$ and $K$ is normal in $G$ by the correspondence theorem. Thus $Z_K \mathrel{\unlhd} G$.
+
+If $Z_K$ is not trivial then it contains a minimal subgroup which must also be normal in $G$. But $H$ is the unique minimal normal subgroup of $G$ by definition, so $H \leq Z_K$.
+
+But $K = HQ$ and so $Q$ char $K$ since it is a $q$-Sylow subgroup of $K$, all of which are conjugate, and $Q$ is preserved under conjugation by any element of $K$ since $H \leq Z_K$.
+
+Now $Q$ char $K \mathrel{\unlhd} G$, thus $Q \mathrel{\unlhd} G$. But as $H$ is the unique minimal normal subgroup of $G$, this implies $H \leq Q$, which contradicts $H\cap Q = 1$.
+
+Thus we must in fact have $Z_K = 1$ and $N^*$ has the required order.
+
+To show that all groups of order $m$ are conjugate in this case, let $A$ be any other subgroup of order $m$.
+
+As $K \mathrel{\unlhd} G$ we have that $|AK|$ is divisible by $m$ and by $|K| = p^kq^l = nq^l$. Thus $|AK| = mn = |G|$ and so $AK = G$. Then
+$$G/K = AK/K \cong A/(A\cap K),$$
+which implies $|A\cap K| = q^l$, i.e. that $A\cap K$ is a Sylow $q$-subgroup. It is therefore conjugate to $Q$.
+
+It is easy to show that conjugate subgroups have conjugate normalizers, and so $N^*$ is conjugate to $N_G(A\cap K)$. Thus $|N_G(A\cap K)| = m$.
+
+As $A\cap K \mathrel{\unlhd} A$ we have that $A \leq N_G(A\cap K)$ and so $A = N_G(A\cap K)$. But this implies that $A$ is conjugate to $N^*$. $\square$
+\end{proof}
+
+\subsection{Central Series and Nilpotent Groups}
+
+\subsubsection{Lower Central Series}
+
+\begin{definition}
+Let $G$ be a group. The \emph{lower central series} of $G$ is the series
+$$G = G_1 \geq G_2 \geq \cdots$$
+where $G_{i+1} = [G_i, G]$.
+\end{definition}
+
+Clearly $G_{i+1} \leq G_i$ for all $i$.
+
+\begin{theorem}
+Let $G$ be a group with lower central series
+$$G = G_1 \geq G_2 \geq \cdots$$
+then $G_i$ char $G$ for all $i$.
+\end{theorem}
+
+\begin{proof}
+Note that $G_1 = G$ and $G_2 = [G, G]$, both of which are characteristic.
+
+The proof is completed by induction. If $[x, y] \in [G_i, G]$ and $\phi \in$ Aut$(G)$ then $\phi([x, y]) = [\phi(x), \phi(y)]$. But $\phi(y) \in G$ and $\phi(x) \in G_i$ by the inductive hypothesis. Thus $\phi([x, y]) \in [G_i, G]$. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $K \mathrel{\unlhd} G$ and $K \leq H \leq G$. Then $[H, G]$, the group generated by commutators of the form $h^{-1}g^{-1}hg$ for $h \in H$ and $g \in G$, is a subgroup of $K$ iff $H/K \leq Z(G/K)$.
+\end{theorem}
+
+\begin{proof}
+As $K \mathrel{\unlhd} G$ we certainly have $K \mathrel{\unlhd} H$. We also have that $(hK)(gK) = (gK)(hK)$ iff $h^{-1}g^{-1}hg \in K$. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a group with lower central series
+$$G = G_1 \geq G_2 \geq \cdots$$
+then $G_i/G_{i+1} \leq Z(G/G_{i+1})$.
+\end{theorem}
+
+\begin{proof}
+As $[G_i, G] = G_{i+1}$ and $G_{i+1} \mathrel{\unlhd} G$ we can apply the previous theorem which gives that $G_i/G_{i+1} \leq Z(G/G_{i+1})$. $\square$ 
+\end{proof}
+
+\subsubsection{Upper Central Series}
+
+\begin{definition}
+Let $G$ be a group. The \emph{higher centers} of $G$ are the groups defined by
+$$Z^0(G) = 1, \;\; Z^{i+1}(G)/Z^i(G) = Z(G/Z^i(G)),$$
+i.e. $Z^{i+1}(G)$ is the inverse image of the center in the canonical projection $v_i : G \to G/Z^i(G)$.
+\end{definition}
+
+Note that $Z^1(G) = Z(G)$ and $Z_{i+1} \mathrel{\unlhd} G$ by the correspondence theorem.
+
+\begin{definition}
+The \emph{upper central series} of the group $G$ is
+$$1 = Z^0(G) \leq Z^1(G) \leq Z^2(G) \leq \cdots .$$
+\end{definition}
+
+\begin{definition}
+Let $G$ be a group. A \emph{central series} for $G$ is a series
+$$1 = H_n \leq H_{n-1} \leq \cdots \leq H_0 = G,$$
+where $H_i$ is a normal subgroup of $G$ and $H_{i-1}/H_i \leq Z(G/H_i)$ for all $i$.
+\end{definition}
+
+Note that a central series terminates and a group need not have a central series.
+
+\begin{theorem}
+Suppose
+$$1 = H_n \leq H_{n-1} \leq \cdots \leq H_0 = G,$$
+is a central series for a group $G$ and groups $G_i$ form a lower central series and $Z_i$ an upper central series for $G$. Then
+$$G_{i+1} \leq H_i \;\;\mbox{and}\;\; H_{n-i} \leq Z_{i+1}.$$
+\end{theorem}
+
+\begin{proof}
+We prove the first inclusion by induction.
+
+Note that $G_1 = H_0 = G$. Now suppose that $G_i \leq H_{i-1}$ for some $i$. If $x \in G_i$ and $y \in G$ then
+$$H_ix \in G_{i-1}/G_i \leq Z(G/H_i)$$
+by the assumption and the fact that the $H_i$ form a central series. Thus $H_ix$ and $H_iy$ commute.
+
+Thus
+$$H_i[x, y] = (H_ix)^{-1}(H_iy)^{-1}(H_ix)(H_iy) = H_i,$$
+and so $[x, y] \in H_i$.
+
+Thus $$G_{i+1} = [G_i, G] \leq H_i$$ completing the induction.
+
+We will also prove the second inclusion by induction.
+
+First note that $Z_0 = H_n = 1$. Now suppose that $H_{n-i} \leq Z_i$ for some $i$. As the $H_i$ form a central series we have
+$$H_{n-i-1}/H_{n-i} \leq Z(G/H_{n-i}).$$
+
+Thus if $x \in H_{n-i-1}$ and $y \in G$ we have that $H_{n-i}x$ and $H_{n-i}y$ commute. Thus $[x, y] \in H_{n-i} \leq Z_i$. Thus $Z_ix$ commutes with $Z_iy$. Thus $Z_ix \in Z(G/Z_i) = Z_{i+1}/Z_i$.
+
+But $x$ was an arbitrary element of $H_{n-i-1}$, thus $H_{n-i-1} \leq Z_{i+1}$ which completes the induction. $\square$
+\end{proof}
+
+\begin{corollary}
+Let $G$ be a group and $G_i$, $Z_i$ form a lower and upper central series as per the theorem. Then the following are equivalent
+\begin{enumerate}
+\item $G_{c+1} = 1$ for some $c$
+\item $Z_c = G$ for some $c$
+\item $G$ has a central series.
+\end{enumerate}
+Moreover if the conditions hold for a group $G$, the value of $c$ is the same in the first two conditions.
+\end{corollary}
+
+\begin{proof}
+If $G$ has a central series of length $n$ of groups $H_i$ as per the theorem then $G_{n+1} \leq H_n = 1$ and $G = H_0 \leq Z_n$. Thus $(3)$ implies $(1)$ and $(2)$.
+
+If $Z_c = G$ then
+$$1 = Z_0 \leq Z_1 \leq \cdots \leq Z_{c-1} \leq Z_c = G$$
+is a central series for $G$. Thus $(2)$ implies $(3)$.
+
+If $G_{c+1} = 1$ then
+$$1 = G_{c+1} \leq G_c \leq \cdots \leq G_1 = G$$
+is a central series for $G$ by a similar argument to the cases in the theorem. 
+
+It is clear that if the lower central series has $G_{c+1} = 1$ then as it is a central series, the upper central series must have $Z_c = G$. Similarly the other way around, thus the final statement of the theorem holds. $\square$
+\end{proof}
+
+\subsubsection{Nilpotent Groups}
+
+\begin{definition}
+Any group $G$ which satisfies the equivalent conditions of the corollary in the previous section is said to be a \emph{nilpotent} group. The number $c$ is called the \emph{nilpotence} class of $G$.
+\end{definition}
+
+\begin{theorem}
+A group $G$ is abelian iff its nilpotence class is $1$.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsubsection{Nonabelian Groups of Order $p^3$}
+
+\begin{theorem}
+Let $G$ be a nonabelian group of order $p^3$ for a prime $p$. Then $|Z(G)| = p$, $G/Z(G) \cong C_p\times C_p$ and $Z(G) = [G, G]$.
+\end{theorem}
+
+\begin{proof}
+We have previously shown that $|Z(G)| = p$. Now either $G/Z(G)$ is cyclic of order $p^2$ or isomorphic to $C_p\times C_p$. As $G$ is abelian if $G/Z(G)$ is cyclic we must have the latter.
+
+As $G/Z(G)$ is abelian, we must have $[G, G] \leq Z(G)$. As $G$ is nonabelian, $[G, G]$ is nontrivial and so the result follows. $\square$
+\end{proof}
+
+\begin{corollary}
+A nonabelian group of order $p^3$ for a prime $p$ is nilpotent of class $2$.
+\end{corollary}
+
+\begin{proof}
+Consider the sequence $1 \leq Z(G) \leq G$. This is the upper central series for $G$ since $Z(G/Z(G)) = G/Z(G)$ by the theorem. Thus the nilpotence class is $2$. $\square$
+\end{proof}
+
+\subsubsection{Every Finite $p$-group is Nilpotent}
+
+\begin{theorem}
+Every finite $p$-group is nilpotent.
+\end{theorem}
+
+\begin{proof}
+The centre of a finite $p$-group is nontrivial. But for each higher centre $Z_i$ we have that $G/Z_i$ is a $p$-group and hence its centre is nontrivial. Thus the upper central series for $G$ terminates at $G$. $\square$
+\end{proof}
+
+\subsubsection{Every Nilpotent Group is Solvable}
+
+\begin{theorem}
+Every nilpotent group $G$ is solvable.
+\end{theorem}
+
+\begin{proof}
+We previously showed that if $G_i$ are the derived subgroups and $Z_i$ the higher centres of $G$ then $G_i \leq Z_{c-i}$ where $c$ is the nilpotence class. Thus each of the $G_i$ is abelian and $G$ is solvable. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is nontrivial and nilpotent then $Z(G)$ is nontrivial.
+\end{theorem}
+
+\begin{proof}
+If $Z(G)$ is trivial then there is no upper central series for $G$. $\square$
+\end{proof}
+
+\begin{corollary}
+$S_3$ is solvable but not nilpotent.
+\end{corollary}
+
+\begin{proof}
+$S_3$ has trivial centre, thus by the theorem is not nilpotent. However, it is easy to see that it is solvable since $A_3$ is a normal subgroup of index $2$ and order $3$. $\square$
+\end{proof}
+
+\subsubsection{Subgroups, Quotients and Direct Products of Nilpotent Groups are Nilpotent}
+
+\begin{theorem}
+Every subgroup $H$ of a nilpotent group $G$ of class $c$ is nilpotent with class at most $c$.
+\end{theorem}
+
+\begin{proof}
+By induction $Z_i(H) \leq Z_i(G)$ for all $i$. $\square$
+\end{proof}
+
+\begin{theorem}
+If $G$ is nilpotent of class $c$ and $H \mathrel{\unlhd} G$ then $G/H$ is nilpotent of class at most $c$.
+\end{theorem}
+
+\begin{proof}
+Suppose that $\phi: G \to M$ is a group homomorphism and $H, K \leq G$. Clearly $\phi([h, k]) = [\phi(h), \phi(k)]$ for all $h \in H$, $k \in K$. Thus $\phi([H, K]) = [\phi(H), \phi(K)]$.
+
+Suppose now that $\phi$ is surjective. As $G_{i+1} = [G, G_i]$ and $M_{i+1} = [M, M_i]$ we have inductively that $M_i \leq \phi(G_i)$. Thus if $G$ is nilpotent of class $c$, $M$ has lower central series bounded in length by that of $G$ and the result follows. $\square$
+\end{proof}
+
+\begin{theorem}
+If $H$ and $K$ are nilpotent, so is $H\times K$.
+\end{theorem}
+
+\begin{proof}
+It is clear that $[H\times K, H\times K] \leq [H, H]\times [K, K]$. By induction $(H\times K)_i \leq H_i\times K_i$ for all $i$. Thus if $H$ has nilpotence class $c_1$ and $K$ has nilpotence class $c_2$ then $H\times K$ is nilpotent with class at most max$\{c_1, c_2\}$. $\square$
+\end{proof}
+
+\subsubsection{Nilpotent Groups are the Product of their Sylow Subgroups}
+
+\begin{theorem} \label{normalizercond}
+If $G$ is a nilpotent group and $H < G$ then $H < N_G(H)$.
+\end{theorem}
+
+\begin{proof}
+There must exist an $i$ such that $G_{i+1} \leq H$ but $G_i \not\leq H$.
+
+But $[G_i, H] \leq [G_i, G] = G_{i+1} \leq H$. Thus $G_i \leq N_G(H)$. 
+
+Recall that $H \leq N_G(H)$ for all $H \leq G$. But if $H = N_G(H)$ then $G_i \leq H$, a contradiction. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $P$ be a $p$-Sylow subgroup of a group $G$ and suppose that $N_G(P) \leq H \leq G$. Then $N_G(H) = H$.
+\end{theorem}
+
+\begin{proof}
+Clearly $H \leq N_G(H)$ so it suffices to show the reverse inclusion.
+
+Let $a \in N_G(H)$. As $P \leq N_G(P) \leq H$ we have
+$$aPa^{-1} \subseteq aHa^{-1} = H,$$
+since $a \in N_G(H)$.
+
+We therefore have that both $P$ and $aPa^{-1}$ are Sylow subgroups of $H$.
+
+As all Sylow subgroups are conjugate, there exists $b \in H$ such that
+$$(b^{-1}a)P(b^{-1}a)^{-1} = P.$$
+
+In other words, $b^{1}a \in N_G(P) \leq H$.
+
+As $b \in H$ we must have $a \in H$ and so $H \leq N_G(H)$ as required. $\square$ 
+\end{proof}
+
+\begin{theorem}
+A group $G$ is nilpotent iff it is the direct product of its Sylow subgroups.
+\end{theorem}
+
+\begin{proof}
+As Sylow subgroups are $p$-groups, they are nilpotent. Thus their direct product is nilpotent.
+
+For the converse, suppose $G$ is nilpotent and that $H$ is a $p$-Sylow subgroup of $G$.
+
+By the previous theorem $N_G(N_G(P)) = N_G(P)$.
+
+Now suppose that $N_G(P)$ is a proper subgroup of $G$. Then by Theorem \ref{normalizercond} we have that $N_G(P)$ is a proper subgroup of $N_G(N_G(P))$. As this would be a contradiction, we must have that $G = N_G(P)$, i.e. $P \mathrel{\unlhd} G$.
+
+As Sylow subgroups intersect trivially and clearly generate $G$, the result follows. $\square$
+\end{proof}
+
+\subsubsection{Maximal Subgroups of Nilpotent Groups are of Prime Index}
+
+\begin{theorem}
+Every maximal subgroup $H$ of a nilpotent group $G$ is normal and of prime index in $G$.
+\end{theorem}
+
+\begin{proof}
+Let $H$ be maximal in $G$. Then as $H < N_G(H)$ we must have $N_G(H) = G$, i.e. $H \mathrel{\unlhd} G$. If the quotient $G/H$ were not of prime order it would have a nontrivial proper subgroup which by the correspondence theorem would contradict the maximality of $H$ in $G$. $\square$
+\end{proof}
+
+\section{The Fundamental Theorem of Finitely Generated Abelian Groups}
+
+\subsection{Finite Abelian $p$-groups}
+
+\subsubsection{Finite Abelian $p$-groups are a Product of Cyclic Groups}
+
+\begin{theorem}
+Let $G$ be an abelian group of order $p^n$ for a prime $p$ and let $a \in G$ have maximal order. Then $G$ can be written $\langle a \rangle \times K$ for some $K \leq G$.
+\end{theorem}
+
+\begin{proof}
+We proceed by induction on $n$. The result is obvious for $n = 1$.
+
+Suppose $a$ has order $p^m$. For any $x \in G$ we have $|x| = p^i$ for some $i \leq m$. Thus for all $x \in G$ we have $x^{p^m} = 1$.
+
+Assume $G \neq \langle a \rangle$, otherwise the result is trivial.
+
+Let $b \in G$, $b \notin \langle a \rangle$ be chosen such that $|c| < |b|$ implies $c \in \langle a \rangle$. We will show that $\langle a \rangle \cap \langle b \rangle = \{1\}$.
+
+As $|b^p| < |b|$ we have that $b^p \in \langle a \rangle$, i.e. $b^p = a^i$ for some $i$.
+
+Clearly $|a^i| \leq p^{m-1}$. Thus $a^i$ is not a generator of $\langle a \rangle$ and so gcd$(p^m, i) \neq 1$. Thus $i = pj$ for some $j$, i.e. $b^p = a^{pj}$.
+
+Consider $c = a^{-j}b$. Clearly $c \notin \langle a \rangle$ otherwise we would have $b \in \langle a \rangle$. But $c^p = 1$ and so $|c| = p$. Therefore by definition $|b| = p$.
+
+As $b \notin \langle a \rangle$ we must have $\langle a \rangle \cap \langle b \rangle = 1$ as claimed.
+
+Returning to the induction, consider the quotient group $\bar{G} = G/\langle b \rangle$.
+
+Let $\bar{x}$ denote the coset $x\langle b \rangle$.
+
+Suppose that $|\bar{a}| < |a| = p^m$. This means that $\bar{a}^{p^{m-1}} = \bar{1}$, i.e. $a^{p^{m-1}}\langle b \rangle = \langle b \rangle$. But then $a^{p^{m-1}} \in \langle a \rangle \cap \langle b \rangle = \{1\}$, which contradicts $|a| = p^m$.
+
+Thus we must have that $|\bar{a}| = |a| = p^m$ and $bar{a}$ is an element of maximal order in $\bar{G}$.
+
+As $|\bar{G}| = p^{n-1}$ we can apply the induction hypothesis, i.e. $\bar{G}$ can be written $\langle \bar{a} \rangle\times \bar{K}$ for some $\bar{K} \leq \bar{G}$.
+
+Let $K = \{x \in G \;|\; \bar{x} \in \bar{K}\}$. Then $K \leq G$ and $|K| = p|\bar{K}|$.
+
+Let $x \in \langle a \rangle \cap K$. Then $\bar{x} \in \langle \bar{a} \rangle \cap \bar{K} = \bar{1} = \langle \bar{b} \rangle$. Thus $x \in \langle a \rangle \cap \langle b \rangle = \{1\}$.
+
+It is easy to check that $|\langle a \rangle K| = |G|$ and thus $G = \langle a \rangle K$.
+
+As $G$ is abelian, the result follows. $\square$
+\end{proof}
+
+\begin{corollary}
+Let $G$ be a finite abelian $p$-group. Then $G$ is a direct product of cyclic groups of prime power order.
+\end{corollary}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsection{Finitely Generated Abelian Groups}
+
+\subsubsection{The Fundamental Theorem of Finite Abelian Groups}
+
+\begin{theorem}
+Every finite abelian group is a direct product of cyclic groups of prime power order. The product is unique up to reordering.
+\end{theorem}
+
+\begin{proof}
+A finite abelian group is a direct product of its Sylow subgroups, and this product is clearly unique.
+
+By the corollary of the previous section, each of the Sylow subgroups is a product of cyclic groups of prime power order. It remains to prove that each such decomposition of a Sylow $p$-subgroup is unique up to reordering.
+
+To this end, let $G$ be a group with order $p^k$. We will prove the result by induction on $k$, the base case $k = 1$ being trivial.
+
+Suppose that
+$$G = H_1\times H_2\times \cdots \times H_m = K_1\times K_2 \times \cdots \times K_n$$
+is a decomposition of $G$ in two different ways into nontrivial cyclic groups of $p$-power order, with
+$$|H_1| \geq |H_2| \geq \cdots \geq |H_m|$$
+$$|K_1| \geq |K_2| \geq \cdots \geq |K_m|$$.
+
+The set $G^p = \{x^p \;|\; x \in G\}$ is a proper subgroup of $G$.
+
+We have that
+$$G^p = H_1^p\times \cdots \times H_{m'}^p = K_1^p \times \cdots \times K_{n'}^p$$
+where $m'$ is the largest integer $i$ such that $|H_i| > p$ and $n'$ is the largest integer $j$ such that $|K_i| > p$.
+
+By Cauchy's theorem $|G^p| < |G|$. Thus the induction hypothesis applies.
+
+We have that $|H_i| = p|H_i^p|$ and $|K_i| = p|K_i^p|$. Thus $|H_i| = |K_i|$ for $i \leq m' = n'$.
+
+As all the remaining $H_i$ and $K_j$ have order $p$, a simple comparison of orders shows that $m = n$ and we are done. $\square$
+\end{proof}
+
+\subsection{The Fundamental Theorem of Finitely Generated Abelian Groups}
+
+\subsubsection{Finitely Generated Abelian Groups}
+
+\begin{definition}
+An abelian group $G$ is finitely generated if there exist $g_1, g_2, \ldots, g_n \in G$ such that every element of $G$ is a product of powers of the $g_i$ and their inverses.
+\end{definition}
+
+\begin{theorem}
+Every finite group is finitely generated.
+\end{theorem}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\subsubsection{The Fundamental Theorem}
+
+\begin{theorem}
+Every subgroup of $\mathbb{Z}^n$ is finitely generated (by at most $n$ generators).
+\end{theorem}
+
+\begin{proof}
+We proceed by induction on $n$. For $n = 1$ we know that every subgroup is of the form $k\mathbb{Z}$ for some $k \geq 0$. The proof is classical and makes use of the fact that if $a$ and $b$ are in the subgroup then $d = $gcd$(a, b)$ is in the subgroup. As $a$ and $b$ are both in the subgroup generated by $d$, we can replace the generators $a$ and $b$ by the single generator $d$.
+
+In general, let $H$ be a subgroup of $\mathbb{Z}^n$ and let $F$ be the set of all $f$ such that $(f, a_2, a_3, \ldots, a_n) \in H$. Clearly $F$ is a subgroup of $\mathbb{Z}$. Let $F$ be $k\mathbb{Z}$ for some $k \geq 0$. Now choose any element $(k, a_2, a_3, \ldots, a_n)$ of $H$.
+
+For any $(h_1, h_2, \ldots, h_n) \in K$ we have
+$$(h_1, h_2, \ldots, h_n) = s(k, a_2, a_3, \ldots, a_n) + (0, h_2 - sa_2, h_3 - sa_3, \ldots, h_n - sa_n).$$
+
+It is easy to check that the set of all elements $(h_2 - sa_2, h_3 - sa_3, \ldots, h_n - sa_n)$ is a subgroup of $\mathbb{Z}^{n-1}$, which is finitely generated with at most $n - 1$ generators, by the inductive hypothesis.
+
+It is then easy to see that $H$ itself must be finitely generated with at most $n$ generators. $\square$
+\end{proof}
+
+\begin{theorem}
+If $H$ is a subgroup of $\mathbb{Z}^n$ then
+$$H \cong d_1\mathbb{Z} \oplus d_2\mathbb{Z} \oplus \cdots \oplus d_r\mathbb{Z}$$ 
+and
+$$\mathbb{Z}^n/H \cong \mathbb{Z}/d_1\mathbb{Z} \oplus \mathbb{Z}/d_2\mathbb{Z} \oplus \cdots \oplus \mathbb{Z}/d_r\mathbb{Z}\oplus \mathbb{Z} \oplus \mathbb{Z} \oplus \cdots \oplus \mathbb{Z}.$$
+\end{theorem}
+
+\begin{proof}
+The subgroup $H$ is finitely generated by the previous theorem. Let $h_1, h_2, \ldots, h_m$ be generators of $H$. Write out the matrix whose rows are given by these generators
+$$A = \left(\begin{array}{ccc}h_{1,1} & \cdots & h_{1,n}\\ \vdots & \vdots & \vdots\\ h_{m,1} & \cdots & h_{m, n}\end{array}\right).$$
+
+We reduce $A$ to Smith Normal Form by row and column operations (swap rows or columns, multiply rows or columns by $-1$ or add two rows or columns).
+
+Row operations change the generators of $H$ and column operations change the generators of $\mathbb{Z}^n$.
+
+The result is a matrix with zeroes everywhere except on the diagonal, where we have values $d_1, d_2, \ldots d_r$, followed by zeroes.
+
+It's easy to see that we can arrange things so that $d_i \;|\; d_{i+1}$ via row and column operations and using the extended GCD algorithm.
+
+The result is that we have found bases for both the groups such that one has the required form in terms of the other. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $G$ be a finitely generated abelian group. Then
+$$G \cong C_{d_1}\times C_{d_2}\times \cdots \times C_{d_k}\times \mathbb{Z}^r$$
+where $1 < d_1 \;|\; d_2 \;|\; \ldots \;|\; d_k$. The $d_i$ are uniquely determined, as is $r$.
+\end{theorem}
+
+\begin{proof}
+Let $g_1, g_2, \ldots, g_n$ be generators of $G$. Consider the homomorphism $\mathbb{Z}^n \to G$ sending $(a_1, a_2, \ldots, a_n)$ to $a_1g_1 + a_2g_2 + \cdots + a_ng_n$. Let $K$ be the kernel of the homomorphism. By the first isomorphism theorem $G \cong \mathbb{Z}/K$.
+
+Now the result follows by applying the previous theorem. Uniqueness follows as per the theorem for finite abelian groups. $\square$
+\end{proof}
+
+\begin{definition}
+The value $r$ in the previous theorem is called the \emph{rank} of the finitely generated group $G$.
+\end{definition}
+
 % transfer map
-% Hall theorems
-% central series
-% nilpotent groups
 
 \end{document}
 
