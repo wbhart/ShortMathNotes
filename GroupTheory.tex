@@ -4031,7 +4031,7 @@ $S_3$ is solvable but not nilpotent.
 $S_3$ has trivial centre, thus by the theorem is not nilpotent. However, it is easy to see that it is solvable since $A_3$ is a normal subgroup of index $2$ and order $3$. $\square$
 \end{proof}
 
-\subsubsection{Subgroups, Quotients and Direct Products of Nilpotent Groups are Nilpotent}
+\subsubsection{Subgroups, Quotients and Products of Nilpotent Groups are Nilpotent}
 
 \begin{theorem}
 Every subgroup $H$ of a nilpotent group $G$ of class $c$ is nilpotent with class at most $c$.
@@ -4120,7 +4120,7 @@ Every maximal subgroup $H$ of a nilpotent group $G$ is normal and of prime index
 Let $H$ be maximal in $G$. Then as $H < N_G(H)$ we must have $N_G(H) = G$, i.e. $H \mathrel{\unlhd} G$. If the quotient $G/H$ were not of prime order it would have a nontrivial proper subgroup which by the correspondence theorem would contradict the maximality of $H$ in $G$. $\square$
 \end{proof}
 
-\section{The Fundamental Theorem of Finitely Generated Abelian Groups}
+\section{Fundamental Theorem of Finitely Generated Abelian Groups}
 
 \subsection{Finite Abelian $p$-groups}
 
@@ -4208,12 +4208,12 @@ We have that $|H_i| = p|H_i^p|$ and $|K_i| = p|K_i^p|$. Thus $|H_i| = |K_i|$ for
 As all the remaining $H_i$ and $K_j$ have order $p$, a simple comparison of orders shows that $m = n$ and we are done. $\square$
 \end{proof}
 
-\subsection{The Fundamental Theorem of Finitely Generated Abelian Groups}
+\subsection{Fundamental Theorem of Finitely Generated Abelian Groups}
 
 \subsubsection{Finitely Generated Abelian Groups}
 
 \begin{definition}
-An abelian group $G$ is finitely generated if there exist $g_1, g_2, \ldots, g_n \in G$ such that every element of $G$ is a product of powers of the $g_i$ and their inverses.
+An abelian group $G$ is finitely generated if there exists a set of \emph{generators} $g_1, g_2, \ldots, g_n \in G$ such that every element of $G$ is a product of powers of the $g_i$ and their inverses.
 \end{definition}
 
 \begin{theorem}
@@ -4247,7 +4247,8 @@ It is then easy to see that $H$ itself must be finitely generated with at most $
 If $H$ is a subgroup of $\mathbb{Z}^n$ then
 $$H \cong d_1\mathbb{Z} \oplus d_2\mathbb{Z} \oplus \cdots \oplus d_r\mathbb{Z}$$ 
 and
-$$\mathbb{Z}^n/H \cong \mathbb{Z}/d_1\mathbb{Z} \oplus \mathbb{Z}/d_2\mathbb{Z} \oplus \cdots \oplus \mathbb{Z}/d_r\mathbb{Z}\oplus \mathbb{Z} \oplus \mathbb{Z} \oplus \cdots \oplus \mathbb{Z}.$$
+$$\mathbb{Z}^n/H \cong \mathbb{Z}/d_1\mathbb{Z} \oplus \mathbb{Z}/d_2\mathbb{Z} \oplus \cdots \oplus \mathbb{Z}/d_r\mathbb{Z}\oplus \mathbb{Z} \oplus \mathbb{Z} \oplus \cdots \oplus \mathbb{Z},$$
+where $1 < d_1 \;|\; d_2 \;|\; \ldots \;|\; d_r$.
 \end{theorem}
 
 \begin{proof}
@@ -4281,7 +4282,87 @@ Now the result follows by applying the previous theorem. Uniqueness follows as p
 The value $r$ in the previous theorem is called the \emph{rank} of the finitely generated group $G$.
 \end{definition}
 
-% transfer map
+\section{Group Transfer}
+
+\subsection{The Transfer Map}
+
+\subsubsection{Complements}
+
+\begin{definition}
+Let $G$ be a group and $K$ a (not necessarily normal) subgroup of $G$. We say that $Q \leq G$ is a \emph{complement} of $K$ in $G$ if $K\cap Q = 1$ and $KQ = G$.
+\end{definition}
+
+Even a normal subgroup $K$ of a group $G$ need not have a complement. If it does, it need not be unique. However, we have the following result.
+
+\begin{theorem}
+Let $K$ be a normal subgroup of a group $G$. Any complements of $K$ in $G$, if they exist, are isomorphic.
+\end{theorem}
+
+\begin{proof}
+We have
+$$G/K = KQ/K \cong Q/(K\cap Q) = Q/1 \cong Q.$$ $\square$
+\end{proof}
+
+Recall that $G$ is a direct product of normal subgroups $K$ and $Q$ if $Q$ is a complement of $K$ in $G$.
+
+We also have that $G = K\rtimes Q$ if $K \mathrel{\unlhd} G$ and $K$ has a complement isomorphic to $Q$.
+
+\begin{definition}
+Let $K$ be a subgroup of a group $G$, then a (right) transversal of $K$ in $G$ is a subset $T$ of $G$ consisting of one element from each right coset of $K$ in $G$. A left transversal is defined similarly.
+\end{definition}
+
+If $G$ is a semidirect product of a normal subgroup $K$ with complement $Q$ then $Q$ is a transversal of $K$ in $G$.
+
+\subsubsection{The Transfer Map}
+
+\begin{theorem}
+Let $Q$ be a subgroup of finite index $n$ in a group $G$. Suppose that $\{l_1, l_2, \ldots, l_n\}$ and $\{h_1, h_2, \ldots, h_n\}$ are two left traversals of $Q$ in $G$. For fixed $g \in G$ and each $i$ there is a unique $\sigma(i)$ and a unique $x_i \in Q$ with
+$$gh_i = l_{\sigma(i)}x_i.$$
+Moreover, $\sigma$ is a permutation of $\{1, 2, \ldots, n\}$.
+\end{theorem}
+
+\begin{proof}
+The left cosets of $Q$ partition $G$, and so there is a unique left coset $l_jQ$ containing $gh_i$. The first part of the theorem follows if we set $\sigma(i) = j$.
+
+We will now show that $\sigma$ is injective (on a finite set) and therefore a permutation. Assume that $\sigma(i) = \sigma(k) = j$. Then $gh_i = l_jx_i$ and $gh_k = l_jx_k$. Then $gh_ix_i^{-1}  gh_kx_k^{-1}$ and so $h_i^{-1}h_k = x_i^{-1}x_k$ and $h_iQ = h_kQ$, i.e. $i = k$. $\square$
+\end{proof}
+
+\begin{definition}
+Let $Q$ be a subgroup of finite index $n$ in a group $G$. The \emph{transfer} is the map $V : G \to H/H'$ defined by
+$$V(g) = \prod_{i=1}^n x_iQ',$$
+where $\{l_1, l_2, \ldots, l_n\}$ is some transversal of $Q$ in $G$ and $gl_i = l_jx_i$.
+\end{definition}
+
+\begin{theorem}
+Let $Q$ be a subgroup of finite index in a group $G$, then the transfer is a homomorphism. Moreover it does not depend on the choice of transversal in the definition.
+\end{theorem}
+
+\begin{proof}
+Let $\{l_1, l_2, \ldots, l_n\}$ and $\{h_1, h_2, \ldots, h_n\}$ be two transversals of $Q$ in $G$. By the previous theorem we have $gl_i = l_{\sigma(i)}x_i$, $gh_i = h_{\tau(i)}y_i$ and $h_i = l_{\alpha(i)}z_i$ for some permutations $\sigma$, $\tau$ and $\alpha$ and some $x_i, y_i, z_i \in Q$.
+
+Combining these, we have
+$$gh_i = gk_{\alpha(i)}z_i = l_{\sigma(\alpha(i))}x_{\alpha(i)}z_i.$$
+
+Define $j$ by $\alpha(j) = \sigma(\alpha(i))$ we have $h_j = l_{\sigma(\alpha(i))}z_j$, from which we get
+$$gh_i = h_jz_j^{-1}x_{\alpha(i)}z_i.$$
+
+By uniqueness from the previous theorem, and the definition of $j$ we have $j = \tau(i)$ and
+$y_i = z_j^{-1}x_{\alpha(i)}z_i = z_{\alpha^{-1}(\sigma(\alpha(i)))}^{-1}x_{\alpha(i)}z_i.$
+
+We can ignore order of factors in the abelian group $Q/Q'$. Therefore
+$$\prod y_iQ' = \prod z_{\alpha^{-1}(\sigma(\alpha(i)))}^{-1}x_{\alpha(i)}z_iQ' = \prod x_{\alpha(i)}Q',$$
+since $\alpha^{-1}\sigma\alpha$ is a permutation and so the inverse of each $z_i$ occurs and cancels it.
+
+Because $\alpha$ is a permutation we have $\prod x_{\alpha(i)}Q' = \prod x_iQ'$. But this now precisely establishes the independence of the choice of transversal.
+
+Now we will show $V$ is a homomorphism. Let $g, g' \in G$ and $\{l_1, l_2, \ldots, l_n\}$ be a left transversal of $Q$ in $G$. Then $gl_i = l_{\sigma(i)}x_i$ and $g'l_i = l_{\tau(i)}y_i$ for permutations $\sigma$ and $\tau$ and some $x_i, y_i \in Q$. Then
+$$gg'l_i = gl_{\tau(i)}y_i = l_{\sigma(\tau(i))}x_{\tau(i)}y_i.$$
+
+Thus
+\begin{align*}
+V(gg') = \prod x_{\tau(i)}y_iQ' &= \left(\prod x_{\tau(i)}Q'\right)\left(\prod y_{i}Q'\right)\\
+                                &= \left(\prod x_{i}Q'\right)\left(\prod y_{i}Q'\right) = V(g)V(g').
+\end{align*} $\square$
+\end{proof}
 
 \end{document}
-
