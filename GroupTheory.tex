@@ -4365,4 +4365,88 @@ V(gg') = \prod x_{\tau(i)}y_iQ' &= \left(\prod x_{\tau(i)}Q'\right)\left(\prod y
 \end{align*} $\square$
 \end{proof}
 
+\subsubsection{Normal Complements}
+
+\begin{theorem}
+Let $Q$ be a subgroup of finite index in a group $G$ and let $\{l_1, l_2, \ldots l_n\}$ be a left transversal of $Q$ in $G$. For each $g \in G$ there exist $h_1, h_2, \ldots, h_m \in G$ and $n_1, n_2, \ldots, n_m > 0$ depending on $g$ such that 
+\begin{itemize}
+\item $h_i \in \{l_1, l_2, \ldots, l_n\}$
+\item $h_i^{-1}g^{n_i}h_i \in Q$
+\item $\sum n_i = n = [G:Q]$
+\item $V(g) = \prod (h_i^{-1}g^{n_i}h_i)Q'$.
+\end{itemize}
+In other words, the transfer is a product of conjugages of powers of $g$.
+\end{theorem}
+
+\begin{proof}
+We have that $gl_i = l_{\sigma(i)}x_i$ for some permutation $\sigma$ and $x_i \in Q$. Write $\sigma$ as a product of disjoint cycles
+$$\sigma = \alpha_1\alpha_2\ldots \alpha_m,$$
+with 1-cycles included (so that the sum of the lengths of the cycles is $n$).
+
+Suppose $\alpha_i = (j_1, j_2, \ldots, j_r)$. Then
+$$gl_{j_1} = l_{\sigma(j_1)}x_{j_1} = l_{j_2}x_{j_1}, \ldots, gl_{j_r} = l_{j_1}x_{j_r}.$$
+
+Now the following product is contained in $Q$
+$$x_{j_r}\cdots x_{j_1} = (l_{j_1}^{-1}gl_{j_r})\cdots (l_{j_2}^{-1}gl_{j_1}) = l_{j_1}^{-1}g^rl_{j_1}.$$
+
+All of the conclusions follow trivially. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $Q$ be an abelian subgroup of finite index in a group $G$. If $Q \leq Z(G)$ then $V(g) = g^n$ for all $g\in G$.
+\end{theorem}
+
+\begin{proof}
+As $Q$ is an abelian subgroup, the map $V$ can be regarded as a homomorphism to $Q$. Furthermore, $Q \leq Z(G)$ implies that $Q \mathrel{\unlhd} G$.
+
+If $g \in G$ and $h^{-1}g^rh \in Q$ then by normality of $Q$ we have
+$$g^r = h(h^{-1}g^rh)h^{-1} \in Q.$$
+
+But as $Q \leq Z(G)$ we now have that $h^{-1}g^rh = g^r$. The result now follows from the previous theorem. $\square$
+\end{proof}
+
+\begin{corollary}
+If $Q$ is a subgroup of finite index in a group $G$, with $Q \leq Z(G)$, the map $g \to g^n$ is a homomorphism.
+\end{corollary}
+
+\begin{proof}
+Clear. $\square$
+\end{proof}
+
+\begin{theorem}
+Let $Q$ be a $p$-Sylow subgroup of a finite group $G$. If $g, h \in C_G(Q)$ are conjugate in $G$, they are conjugate in $N_G(Q)$.
+\end{theorem}
+
+\begin{proof}
+Let $h = \alpha^{-1}g\alpha$ for some $\alpha \in G$. Thus $h \in \alpha^{-1}C_G(Q)\alpha = C_G(\alpha^{-1}Q\alpha)$.
+
+As $Q$ and $\alpha^{-1}Q\alpha$ are contained in $C_G(h)$, these are both Sylow subgroups of $C_G(h)$.
+
+By the Sylow theorems, $Q = c^{-1}\alpha^{-1}Q\alpha c$ for some $c \in C_G(h)$. Thus $\alpha c \in N_G(Q)$ and $c^{-1}\alpha^{-1}g\alpha c = c^{-1}hc = h$, showing that $g$ and $h$ are conjugate in $N_G(Q)$. $\square$
+\end{proof}
+
+\begin{theorem} (Burnside Normal Complement)
+Let $G$ be a finite group and let $Q$ be an abelian Sylow subgroup with $Q \leq Z(N_G(Q))$. Then $Q$ has a complement $K$ which is normal in $G$.
+\end{theorem}
+
+\begin{proof}
+As $Q$ is abelian, we may identify $Q/Q'$ with $Q$ and regard $V$ as a homomorphism $V: G \to Q$.
+
+We have that $V(g) = \prod h_i^{-1}g^{n_i}h_i$ for some powers $n_i$ and $h_i$ in some transversal of $Q$.
+
+If $g \in Q$ then $g^{n_i}$ and $h_i^{-1}g^{n_i}h_i$ are also in $Q$, by the theorems above.
+
+As $Q$ is abelian, $Q \leq C_G(Q)$ and so the elements $g^{n_i}$ and $h_i^{-1}g^{n_i}h_i$ are conjugate in $C_G(Q)$. Thus by the previous theorem there is a $c \in N_G(Q)$ such that $h_i^{-1}g^{n_i}h_i = c^{-1}g^{n_i}c$.
+
+But if $Q \leq Z(N_G(C))$ then $c^{-1}g^{n_i}c = g^{n_i}$ and so if $n = [G:Q]$, we have that $V(g) = g^n$ for all $g \in Q$.
+
+As $Q$ is a Sylow subgroup, gcd$(n, q) = 1$, where $q = |Q|$. Thus by the extended Euclidean algorithm, there exist $\alpha, \beta \in \Z$ with $\alpha n + \beta q = 1$.
+
+Thus for $g \in Q$ we have $g = g^{\alpha n}g^{\beta q} = (g^\alpha)^n$. Thus $V : G \to Q$ is surjective.
+
+By the first isomorphism theorem $G/K \cong Q$ where $K =$ ker$(V)$. Thus $G = KQ$, $K\cap Q = 1$ because $|K| = n$ and thus gcd$(|K|, |Q|) = 1$.
+
+Thus $K$ is a normal complement of $Q$ as required. $\square$
+\end{proof}
+
 \end{document}
