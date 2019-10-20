@@ -1,0 +1,969 @@
+\documentclass[10pt]{article}
+\usepackage{amsfonts}
+\usepackage{amssymb, amsmath}
+\usepackage{eucal}
+\usepackage{amscd}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{algorithmic}
+\usepackage{enumerate}
+\urlstyle{sf}
+\pagestyle{plain}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Pee}{\mathbb{P}}
+\newcommand{\Op}{\mathcal{O}}
+\newcommand{\Qbar}{\Opverline{\mathbb{Q}}}
+\newcommand{\code}{\lstinline}
+\newcommand{\qed}{\square}
+\newcommand{\im}{\mbox{im}}
+\newcommand{\id}{\mbox{id}}
+
+\newcommand{\ljk}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\modulo}[1]{\;\left(\mbox{mod}\;#1\right)}
+\newcommand{\fr}{\mathfrak}
+
+\def\notdivides{\mathrel{\kern-3pt\not\!\kern4.5pt\bigm|}}
+\def\nmid{\notdivides}
+\def\nsubseteq{\mathrel{\kern-3pt\not\!\kern2.5pt\subseteq}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{proof}[1][Proof]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+	  
+\parindent=0pt
+\parskip 4pt plus 2pt minus 2pt 
+
+\title{Foundations : numbers}
+
+\author{
+William B. Hart
+}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+Numbers are fundamental to all of mathematics and science. However pure mathematicians don't just care about counting and arithmetic, but about the properties of systems of numbers and how they can be formalised and generalised.
+
+In this set of notes we will look beyond the arithmetic of the counting numbers, fractions and decimals and look at how mathematicians describe the properties of the natural numbers, rationals, real numbers and complex numbers in a rigorous, axiomatic way.
+
+\section{Natural numbers}
+
+The \emph{natural numbers} are the counting numbers starting from $1$. We denote the set of natural numbers 
+$$\N = \{1, 2, 3, \ldots\}.$$
+
+\subsection{Peano axioms}
+
+It was Guiseppe Peano (1858--1932) who first developed a set of axioms that describe the natural numbers. These axioms are called the Peano axioms.
+
+The Peano axioms formalise the idea that there is a first natural number $1$, that any natural number is followed by precisely one more natural number, and that nothing else is a natural number.
+
+\begin{definition}
+Given a natural number $n$, we call the natural number that follows it the \emph{successor} of $n$, denoted $S(n)$.
+\end{definition}
+
+\begin{example}
+We have that $S(1) = 2$, $S(2) = 3$, $S(3) = 4$, etc. $\qed$
+\end{example}
+
+Here is Peano's list of axioms.
+
+\begin{definition} (Peano axioms)
+The set of natural numbers $\N$ is a set with a successor function $S$ that obeys the following rules
+\begin{itemize}
+\item $1 \in \N$
+\item If $n \in \N$ then $S(n) \in \N$
+\item There is no $n \in \N$ such that $S(n) = 1$
+\item If $m, n \in \N$ then $m = n$ iff $S(m) = S(n)$
+\item If $T$ is any set for which (i) $1 \in T$, and (ii) $S(n) \in T$ whenever $n \in T$; then $\N \subseteq T$
+\end{itemize}
+\end{definition}
+
+The fifth Peano axiom is called the axiom of \emph{induction}. It's purpose is to exclude numbers that can't be reached from $1$ by repeated application of the successor function.
+
+For example, consider a set containing the standard natural numbers plus three additional elements $a$, $b$ and $c$ such that $S(a) = b$, $S(b) = c$ and $S(c) = a$. Or it could contain additional nonstandard numbers $\ldots, -2^*, -1^*, 0^*, 1^*, 2^*, \ldots$. Such sets obey the first four Peano axioms, just as the set of standard natural numbers does.
+
+But the axiom of induction says that $\N$ must be a subset of all the other sets, and the only one of these sets contained in all the others is the set of standard natural numbers. Thus we conclude that it alone can be $\N$.
+
+\subsection{Addition of natural numbers}
+
+The two most important operations are addition and multiplication. Addition is defined recursively using the successor function.
+
+\begin{definition}
+For $n \in \N$ we define
+\begin{itemize}
+\item $n + 1 = S(n)$
+\item $n + S(m) = S(n + m)$ for all $m \in \N$
+\end{itemize}
+\end{definition}
+
+Note the second part turns the sum of $n$ and the successor of $m$ into the sum of $n$ and $m$. Each application of the rule makes the required computation smaller.
+
+\begin{example}
+We have $1 + 2 = 1 + S(1) = S(1 + 1) = S(S(1)) = S(2) = 3$. $\qed$
+\end{example}
+
+The recursive definition allows us to add any natural number $m'$ to $n$. If $m'$ is $1$ the first case applies. Otherwise the following theorem shows that the second case applies.
+
+\begin{theorem}
+If $m' \in \N$ and $m' \neq 1$ then $m' = S(m)$ for some $m \in \N$.
+\end{theorem}
+
+\begin{proof}
+We give a proof by contradiction. Suppose $m' \in \N$ with $m' \neq 1$ but that there is no $m \in \N$ with $m' = S(m)$.
+
+Let $T$ be the set of natural numbers excluding $m'$. We see that $1 \in T$ since $m' \neq 1$. Also if $m \in T$ then $m \in \N$, thus $S(m) \in \N$. However $S(m) \neq m'$ by assumption, thus $S(m) \in T$. Thus $T$ obeys the conditions of the axiom of induction.
+
+But then $\N \subseteq T$, which is a contradiction since $m' \in \N$ but $m' \notin T$.
+
+Thus our assumption was false and the theorem is proved. $\qed$
+\end{proof}
+
+\subsection{The principle of mathematical induction}
+
+The axiom of induction is often used to show that a given result holds for all natural numbers $n$. To this end it is given the following form.
+
+\begin{theorem} (Principle of mathematical induction)
+Let $P(n)$ be a mathematical proposition which holds for some natural numbers $n$. Suppose that
+\begin{itemize}
+\item $P(1)$ holds
+\item $P(n + 1)$ holds whenever $P(n)$ holds
+\end{itemize}
+then $P(n)$ holds for all $n \in \N$.
+\end{theorem}
+
+\begin{proof}
+Let $T$ be the set of all natural numbers $n$ such that $P(n)$ holds. 
+
+By assumption, $P(1)$ holds. Thus $1 \in T$. Also by assumption $P(n + 1)$ holds whenever $P(n)$ holds. Thus $n + 1 \in T$ whenever $n \in T$.
+
+The axiom of induction then says that $\N \subseteq T$ as required. $\qed$
+\end{proof}
+
+A proof using the principle of mathematical induction to show some proposition $P(n)$ holds for all $n \in \N$ is called a \emph{proof by induction}.
+
+Let us see an example of proof by induction.
+
+\begin{theorem} (Associative Law for Addition)
+If $a, b, c \in \N$ then $(a + b) + c = a + (b + c)$.
+\end{theorem}
+
+\begin{proof}
+Fix $a$ and $b$. Let $P(c)$ be the statement that $(a + b) + c = a + (b + c)$. 
+
+We have that $(a + b) + 1 = S(a + b) = a + S(b) = a + (b + 1)$. Thus $P(1)$ holds.
+
+If $P(n)$ holds then $(a + b) + n = a + (b + n)$. Thus by the fourth Peano axiom $S((a + b) + n) = S(a + (b + n))$. 
+
+Hence by the definition of addition, $(a + b) + S(n) = a + S(b + n)$. Again by the definition of addition, $(a + b) + (n + 1) = a + (b + S(n))$. Thus $(a + b) + (n + 1) = a + (b + (n + 1))$, i.e. $P(n + 1)$ holds.
+
+Therefore by the principle of mathematical induction $P(n)$ holds for all $n \in \N$. $\qed$
+\end{proof}
+
+The associative law says that we don't require parentheses when doing additions of natural numbers. 
+
+Here is another simple induction proof.
+
+\begin{theorem}
+If $n \in \N$ then $1 + n = n + 1$.
+\end{theorem}
+
+\begin{proof}
+Let $P(n)$ be the proposition that $1 + n = n + 1$.
+
+$P(1)$ says that $1 + 1 = 1 + 1$, which obviously holds.
+
+If $P(n)$ holds then $n + 1 = 1 + n$. By the fourth Peano axiom $(n + 1) + 1 = (1 + n) + 1$. By the associative law this becomes $(n + 1) + 1 = 1 + (n + 1)$. Thus $P(n + 1)$ holds.
+
+Therefore by induction $P(n)$ holds for all $n \in \N$. $\qed$
+\end{proof}
+
+The following important addition laws can also be proved by induction. We leave the proofs as exercises.
+
+\begin{theorem} (Commutative law for addition)
+If $m, n \in \N$ then $m + n = n + m$.
+\end{theorem}
+
+\begin{theorem} (Additive cancellation law)
+If $a + n = b + n$ for $a, b, n \in \N$ then $a = b$. The converse also holds.
+\end{theorem}
+
+\subsection{Multiplication of natural numbers}
+
+We define multiplication recursively as we did for addition.
+
+\begin{definition}
+For $m, n \in \N$ we define 
+\begin{itemize}
+\item $n\times 1 = n$
+\item $n\times S(m) = n\times m + n$
+\end{itemize}
+\end{definition}
+
+\begin{example}
+We have $2\times 2 = 2\times S(1) = 2\times 1 + 2 = 2 + 2 = 4$. $\qed$
+\end{example}
+
+A number of identities hold for multiplication. Again their proofs by induction are left as exercises.
+
+\begin{theorem} (Distributive law)
+For all $a, b, n \in \N$ we have $(a + b)n = an + bn$.
+\end{theorem}
+
+
+\begin{theorem}
+For all $n \in \N$ we have $1\times n = n$.
+\end{theorem}
+
+\begin{theorem} (Commutative law of multiplication)
+For all $a, b \in \N$ we have that $ab = ba$.
+\end{theorem}
+
+\begin{corollary}
+For all $a, b, n \in \N$ we have $n(a + b) = na + nb$.
+\end{corollary}
+
+\begin{proof}
+Follows immediately from the distributive law and the commutative law for multiplication. $\qed$
+\end{proof}
+
+\begin{theorem} (Associative law of multiplication)
+For all $a, b, n \in \N$ we have $(ab)n = a(bn)$.
+\end{theorem}
+
+\subsection{Comparison of natural numbers}
+
+We define what it means for a natural number to be less than another using addition.
+
+\begin{definition}
+For $m, n \in \N$ we say that $m$ is \emph{less than} $n$, denoted $m < n$ if there exists $k \in \N$ such that $n = m + k$.
+\end{definition}
+
+\begin{example}
+We have that $3 < 5$ since $5 = 3 + 2$.
+\end{example}
+
+We can defined $\leq$, $>$ and $\geq$ in terms of $<$ and equality.
+
+The less-than relation has many useful properties. We prove some here.
+
+\begin{theorem} (Transitivity)
+If $a, b, c \in \N$ with $a < b$ and $b < c$ then $a < c$.
+\end{theorem}
+
+\begin{proof}
+If $a < b$ then $b = a + x$ for some $x \in \N$. Similarly if $b < c$ then $c = b + y$ for some $y \in \N$.
+
+Thus $c = b + y = a + x + y = a + (x + y)$. Thus $a < c$ by definition. $\qed$
+\end{proof}
+
+\begin{theorem}
+If $a, b, x \in \N$ and $a < b$ then $a + x < b + x$.
+\end{theorem}
+
+\begin{proof}
+Fix $a$ and $b$ and prove by induction on $x$.
+
+If $a < b$ then $b = a + y$ for some $y \in \N$. Then $b + 1 = a + y + 1 = (a + 1) + y$. Thus $a + 1 < b + 1$. Thus the result holds for $x = 1$.
+
+Suppose $a < b$ implies $a + x < b + x$ for some $x \in \N$. Then $b + x = a + x + y$ for some $y \in \N$.
+
+Thus $b + (x + 1) = a + x + y + 1 = a + (x + 1) + y$. Thus we have that $a + (x + 1) < b + (x + 1)$. Thus the result holds for $x + 1$. 
+
+By induction the result holds for all $x \in \N$. $\qed$
+\end{proof}
+
+We can relate $<$ and $\leq$ as follows.
+
+\begin{theorem} (Creeping lemma)
+If $a < b$ for $a, b \in \N$ then $a + 1 \leq b$.
+\end{theorem}
+
+\begin{proof}
+We begin by fixing $b$.
+
+If $a < b$ then $b = a + n$ for some $n \in \N$.
+
+But we previously showed that $1 \leq n$ for all $n \in \N$. We examine two cases: $1 = n$ or $1 < n$.
+
+If $1 = n$ then $a + 1 = b$, so certainly $a + 1 \leq b$.
+
+If $1 < n$ then $n = 1 + x$ for some $x \in \N$ and $b = a + 1 + x$. Thus $a + 1 < b$. So in this case we also have $a + 1 \leq b$.
+
+Thus in either case the result holds. $\qed$
+\end{proof}
+
+We can now prove the following fact.
+
+\begin{theorem}
+If $a, b \in \N$ then $a < b$, $a = b$ or $a > b$.
+\end{theorem}
+
+\begin{proof}
+We fix $b$ and prove the result by induction on $a$.
+
+If $a = 1$, then as $1 \leq b$ we have $a \leq b$. Thus either $a = b$ or $a < b$ by definition. So the result holds for $a = 1$.
+
+Suppose the result holds for some $a \in \N$, i.e. either $a < b$, $a = b$ or $a > b$. We examine each case separately.
+
+If $a < b$ then by the creeping lemma $a + 1 \leq b$. Thus either $a + 1 = b$ or $a + 1 < b$.
+
+If $a = b$ then $a + 1 = b + 1$ and $b < a + 1$. Thus $a + 1 > b$ by definition.
+
+If $a > b$ then $a = b + x$ for some $x \in \N$ and so $a + 1 = b + 1 + x$. Thus $b < a + 1$ and so $a + 1 > b$.
+
+Thus in all cases the result is true for $a + 1$. By induction it is true for all $a \in \N$. $\qed$
+\end{proof}
+
+A stronger version of the last theorem is the following.
+
+\begin{theorem} (Strong trichotomy)
+For all $a, b \in \N$ precisely one of $a < b$, $a = b$ or $a > b$ holds.
+\end{theorem}
+
+\begin{proof}
+Suppose $a < b$ and $a = b$. Then $a > a$. Therefore $a = a + x$ for some $x \in \N$. But then $a + 1 = a + x + 1$. By the additive cancellation law we have that $1 = x + 1$. This is impossible since $1$ is not the successor of any number. Thus we cannot have both $a < b$ and $a = b$.
+
+A similar argument shows that we cannot have both $a > b$ and $a = b$.
+
+Finally suppose that $a < b$ and $a > b$. Then $b < a$ and by transitivity we have $a < a$. But we've already shown this to be impossible. Thus we cannot have both $a < b$ and $a > b$.
+
+By the previous theorem at least one of the cases holds. But we've just showed that no two hold. Thus precisely one holds.$\qed$
+\end{proof}
+
+We prove a very useful result involving multiplication.
+
+\begin{theorem}
+If $a < b$ for $a, b \in \N$ then $na < nb$ for all $n \in \N$.
+\end{theorem}
+
+\begin{proof}
+If $a < b$ then $b = a + x$ for some $x \in \N$. Thus $nb = n(a + x) = na + nx$ by the distributive law. Thus $na < nb$ by definition. $\qed$
+\end{proof}
+
+\begin{corollary} (Cancellation law for multiplication)
+If $na = nb$ for $a, b, n \in \N$ then $a = b$.
+\end{corollary}
+
+\begin{proof}
+If $a < b$ then $na < nb$. Similarly if $a > b$ then $b < a$ and $nb < na$, i.e $na > nb$.
+
+Thus by strong trichotomy if $na = nb$ we must have $a = b$. $\qed$
+\end{proof}
+
+\subsection{Strong induction}
+
+Induction is not always the easiest way to prove something holds for all $n \in \N$. The following stronger form is sometimes more useful.
+
+\begin{theorem} (Strong induction)
+Let $P(n)$ be a proposition which holds for some natural numbers $n$. If
+\begin{itemize}
+\item $P(1)$ holds
+\item $P(k + 1)$ holds whenever $P(1), P(2), ..., P(k)$ all hold
+\end{itemize}
+then $P(n)$ holds for all $n \in \N$.
+\end{theorem}
+
+\begin{proof}
+We will prove the result using standard induction.
+
+Let $P'(n)$ be the proposition that $P(1), P(2), \ldots, P(n)$ all hold. We will prove by induction that if the conditions of the theorem hold then $P'(n)$ holds for all $n \in \N$.
+
+But $P(n)$ holds if $P'(n)$ holds and so we will have shown that if the conditions of the theorem hold then $P(n)$ holds for all $n \in \N$.
+
+The first condition of the theorem implies $P'(1)$ holds.
+
+If $P'(n)$ holds then $P(1), P(2), \ldots, P(n)$ all hold. But then the second condition of the theorem says that $P(n + 1)$ holds, i.e. $P(1), P(2), \ldots, P(n + 1)$ all hold. Thus $P'(n + 1)$ holds.
+
+Thus by standard induction, $P'(n)$ holds for all $n \in \N$. $\qed$
+\end{proof}
+
+\subsection{The well-ordering principle}
+
+We will use strong induction to prove that every non-empty set $S$ of natural numbers has a \emph{least element}, i.e. an element $m$ such that $m \leq x$ for all $x \in S$.
+
+
+\begin{theorem} (Well-ordering principle)
+A non-empty set $S$ of natural numbers has a least element.
+\end{theorem}
+
+\begin{proof}
+For $n \in \N$ let $P(n)$ be the proposition that the theorem is true if $n \in S$.
+
+If $1 \in S$ then since $1 \leq n$ for all $n \in \N$ then $1 \leq n$ for all $n \in S$. In this case, $1$ is a least element of $S$. Thus $P(1)$ holds.
+
+Suppose $P(k)$ holds for all $k < n + 1$. We will show that $P(n + 1)$ holds.
+
+To this end, suppose that $S$ is a non-empty set of natural numbers containing $n + 1$.
+
+If $n + 1$ is a least element of $S$ then we are done. Otherwise $n + 1$ is not a least element of $S$ and there must be some $m \in S$ with $m < n + 1$.
+
+But as $m < n + 1$ and $m \in S$ we have by assumption that $S$ has a leat element. Thus we have shown that $P(n + 1)$ holds.
+
+By strong induction, $P(n)$ holds for all $n \in \N$.
+
+If $S$ is a non-empty set then it contains some $n \in \N$. But as $P(n)$ holds we have that $S$ contains a least element, proving the theorem. $\qed$
+\end{proof}
+
+The condition that the set be non-empty is essential, since an empty set contains no elements, and so certainly no least element.
+
+\section{Integers}
+
+We can define subtraction of natural numbers as follows.
+
+\begin{definition}
+We define $a - b = x$ for $a, b, x \in \N$ if $a + x = b$.
+\end{definition}
+
+But notice it is only defined when a suitable $x \in \N$ exists. The following characterises when this is the case.
+
+\begin{theorem}
+The difference $a - b$ is defined for $a, b \in \N$ iff $a > b$.
+\end{theorem}
+
+\begin{proof}
+We have by definition that $a > b$ iff $a = b + x$ for some $x \in \N$. But this is precisely when $a - b$ is defined. $\qed$
+\end{proof}
+
+\begin{example}
+We have that $5 - 3 = 2$ since $3 + 2 = 5$. $\qed$
+\end{example}
+
+As for addition and multiplication, we can prove many arithmetic identities involving subtraction of natural numbers. But a more interesting question is how we should define $a - b$ in the case that $a \leq b$.
+
+This leads us to the concept of zero and negative numbers, which together with the natural numbers give the integers, 
+$$\Z = \{\ldots, -2, -1, 0, 1, 2, \ldots\}.$$
+
+We'd like to capture the notion that an integer is the difference of a pair of natural numbers $(a, b)$. The natural numbers themselves correspond to pairs $(a, b)$ with $a > b$.
+
+We observe that if $n \in \N$ and $a - b = n$ and $c - d = n$ then $a - b = c - d$ so that $a + d = b + c$. This leads us to the following definition.
+
+\begin{definition}
+An \emph{integer} is represented by a pair of natural numbers $(a, b)$ where two such representations $(a, b)$ and $(c, d)$ correspond to the same integer if $a + d = b + c$. In this case we write $(a, b) \sim (c, d)$.
+\end{definition}
+
+\begin{example}
+The two pairs $(4, 5)$ and $(6, 7)$ represent the same integer (which we usually denote $-1$) since $4 + 7 = 5 + 6$.
+\end{example}
+
+However, our definition wouldn't make sense if for example $(a, b)$ represented the same integer as $(c, d)$ but the converse didn't hold. We need to check three things.
+
+\begin{theorem}
+Let $a, b, c, d, f, g \in \N$ then
+\begin{itemize}
+\item $(a, b) \sim (a, b)$
+\item If $(a, b) \sim (c, d)$ then $(c, d) \sim (a, b)$
+\item If $(a, b) \sim (c, d)$ and $(c, d) \sim (f, g)$ then $(a, b) \sim (f, g)$.
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+These follow easily from the definition. For example, if $(a, b) \sim (c, d)$ then $a + d = b + c$. Thus $c + b = d + a$ and so $(c, d) \sim (a, b)$, thus proving the second part of the theorem. We leave the other cases as exercises. $\qed$
+\end{proof}
+
+Of course we usually don't make use of the ordered pair notation for integers.
+
+\begin{definition}
+If $a > b$ for $a, b \in \N$ and $a - b = n$ then we denote the integer represented by $(b, a)$ by $-n$. For any $a \in \N$ we denote the integer represented by $(a, a)$ by $0$.
+\end{definition}
+
+In order to prove the elementary properties of the integers, however, we must stick with the ordered pair representation.
+
+\subsection{Addition and multiplication of the integers}
+
+Now we would like to define addition and multiplication of integers.
+
+\begin{definition}
+We define $(a, b) + (c, d) = (a + c, b + d)$ and $(a, b)\cdot (c, d) = (ac + bd, ad + bc)$.
+\end{definition}
+
+In order to show that these definitions make sense, we must show that replacing a pair in the definition with another pair representing the same integer doesn't change the result.
+
+\begin{theorem}
+The sum of integers is well-defined.
+\end{theorem}
+
+\begin{proof}
+Suppose that $(a', b') \sim (a, b)$ and $(c, d) \sim (c', d')$. Then $a' + b = b' + a$ and $c + d' = d + c'$.
+
+Thus $a' = b' + a - b$ and $d' = c' + d - c$.
+
+Now $(a', b') + (c', d') = (a' + c', b' + d') = (b' + c' + a - b, b' + c' + d - c)$ after making the substitutions for $a'$ and $d'$.
+
+But this is equivalent to $(b' + c' + a + c, b' + c' + d + b)$ as can be seen by adding $b + c$ to each side of the pair. And this is equivalent to $(a + c, d + b)$.
+
+Thus $(a', b') + (c', d') \sim (a + c, d + b) = (a, b) + (c, d)$. $\qed$
+\end{proof}
+
+\begin{theorem}
+The product of integers is well-defined.
+\end{theorem}
+
+\begin{proof}
+Suppose that $(a', b') \sim (a, b)$ and $(c, d) \sim (c', d')$. Then $a' + b = b' + a$ and $c + d' = d + c'$.
+
+Now $(a', b')\cdot (c', d') = (a'c' + b'd', a'd' + b'c')$.
+
+This is equivalent to $(a'c' + b'd' + a'c + b'c, a'd' + b'c' + a'c + b'c)$. 
+
+Now substituting the expression for $d' + c$ on both sides we obtain $(a'c' + a'c + b'd + b'c', a'c' + a'd + b'c' + b'c)$ which is equivalent to $(a'c + b'd, a'd + b'c)$ and thus to $(a'c + b'd + ad + bc, a'd + b'c + ad + bc)$. 
+
+Now substituting the expressions for $a' + b$ and $a + b'$ on the left side of this, we obtain $(ac + b'c + a'd + bd, a'd + b'c + ad + bc)$ which is equivalent to $(ac + bd, ad + bd) = (a, b)\cdot (c, d)$.
+
+Thus $(a', b')\cdot (c', d') \sim (a, b)\cdot (c, d)$.
+$\qed$
+\end{proof}
+
+We must also show that this definition of sum and product agrees with the definition of the sum and product of natural numbers.
+
+\begin{theorem}
+If $m$ and $n$ are natural numbers then $m + n$ agrees with their sum as integers.
+\end{theorem}
+
+\begin{proof}
+As integers, $m, n \in \N$ are represented as $(m + 1, 1)$ and $(n + 1, 1)$. Their sum is then $(m + n + 2, 2) \sim (m + n + 1, 1)$.
+
+But this is a representative of the class of $m + n$ as an integer. $\qed$
+\end{proof}
+
+The same holds multiplication of natural numbers. The proof is an exercise.
+
+\begin{theorem}
+The product of natural numbers $m$ and $n$ agrees with their product as integers.
+\end{theorem}
+
+Finally, we can prove that many of the identities that held for natural numbers also hold for integers. Again we leave the proofs as exercises.
+
+\begin{theorem}
+For $a, b, c \in \Z$ we have
+\begin{itemize}
+\item (Associative law for addition) $a + (b + c) = (a + b) + c$
+\item (Commutative law for addition) $a + b = b + a$
+\item (Associative law for multiplication) $a(bc) = (ab)c$
+\item (Commutative law for multiplication) $ab = ba$
+\item (Distributive law) $a(b + c) = ab + ac$
+\item (Additive cancellation) $a + c = b + c$ iff $a = b$
+\item (Multiplicative cancellation) If $ac = bc$ and $c \neq 0$ then $a = b$ and conversely
+\end{itemize}
+\end{theorem}
+
+There are also a number of new identities which hold for the integers.
+
+\begin{theorem}
+For $a, b \in \Z$ we have
+\begin{itemize}
+\item (Additive identity) $a + 0 = a = 0 + a$
+\item (Multiplicative identity) $1.a = a = a.1$
+\item $(-a)\times b = -(ab) = a\times (-b)$
+\item $(-a)\times (-b) = ab$
+\item $0.a = 0 = a.0$
+\end{itemize}
+\end{theorem}
+
+\subsection{Ordering the integers}
+
+We can also define the less-than relation for the integers.
+
+\begin{definition}
+For $a, b \in \Z$ we write $a < b$ if there exists $n \in \N$ such that $a + n = b$.
+\end{definition}
+
+Notice that $n$ is a natural number in the definition, not an integer.
+
+We easily show that the relation is well-defined and $>$, $\leq$ and $\geq$ are defined in terms of $<$ as usual and that strong trichotomy holds for integers.
+
+\begin{definition}
+We say that $a \in \Z$ is \emph{positive} if $a > 0$, \emph{negative} if $a < 0$ and \emph{zero} otherwise.
+\end{definition}
+
+We can show numerous useful theorems involving the less-than relation.
+
+\begin{theorem}
+Let $x, y, z \in \Z$. We have $x < y$ iff $x + z < y + z$.
+\end{theorem}
+
+\begin{theorem}
+Let $x, y, z \in \Z$ with $x < y$. If $z > 0$ then $xz < yz$ and if $z < 0$ then $xz > yz$.
+\end{theorem}
+
+All of these results can be proved using the ordered pair notation.
+
+\section{Rational numbers}
+
+As for subtraction, division is defined conditionally for natural numbers.
+
+\begin{definition}
+We define $a/b = x$ for $a, b, x \in \N$ if $a = bx$.
+\end{definition}
+
+We can extend this definition to the integers.
+
+\begin{definition}
+We define $a/b = x$ for $a, b, x \in \Z$ with $b \neq 0$ if $a = bx$.
+\end{definition}
+
+We have to exclude the case $b = 0$ from the definition because $0 = 0x$ for all $x \in \Z$, so the result of division by $0$ would not be well-defined.
+
+As for addition, multiplication and subtraction, we can prove many identities involving division for either the natural numbers or the integers. But it is natural to ask how we should define $a/b$ for $b \neq 0$ when there is no integer $x$ such that $a = bx$.
+
+This leads to fractions, or what mathematicians call \emph{rational} numbers. The set of rational numbers will be denoted $\Q$. The construction is similar to that of the integers.
+
+\begin{definition}
+A \emph{rational} number is represented by a pair of integers $(a, b)$ with $b \neq 0$. We often denote such a pair by $a/b$. We call such pairs \emph{fractions}.
+\end{definition}
+
+\begin{definition}
+Two fractions $a/b$ and $c/d$ are defined to represent the same rational number if $ad = bc$.
+\end{definition}
+
+We can easily show that this definition is well-defined.
+
+\begin{definition}
+We identify each $x \in \Z$ with the fractions $a/b$ with $b \neq 0$ for which $a = bx$. Thus $\Z \subseteq \Q$.
+\end{definition}
+
+The definitions of addition and multiplication of rationals are as follows.
+
+\begin{definition}
+For $a, b, c, d \in \Z$ with $b, d \neq 0$ we define $a/b + c/d = (ad + bc)/(bd)$.
+\end{definition}
+
+\begin{definition}
+For $a, b, c, d \in \Z$ with $b, d \neq 0$ we define $(a/b)\times (c/d) = (ac)/(bd)$.
+\end{definition}
+
+We easily check that these definitions are well-defined and that they agree with the usual addition of integers.
+
+It's easy to see that the following result holds.
+
+\begin{theorem}
+If $a, b \in \Z$ with $b \neq 0$ then $a/b = (-a)/(-b)$.
+\end{theorem}
+
+This means that every rational number is represented by a fraction $a/b$ where $b > 0$. From now on we will assume all rationals are represented in this way.
+
+We can now define the less-than operator conveniently for rationals.
+
+\begin{definition}
+If $a, c \in \Z$ and $b, d \in \N$ then we define $a/b < c/d$ if $ad < bc$.
+\end{definition}
+
+It is easy to check that the less-than operator is well-defined.
+
+Once we have all these definitions, we can prove that all of the identities and theorems that held for the integers also hold for the rationals.
+
+In addition to this, we can define division of any two rational numbers except for division by zero.
+
+\begin{definition}
+If $a, c \in \Z$ and $b, d \in \N$ with $c \neq 0$ we define $(a/b)/(c/d) = (a/b)(d/c)$.
+\end{definition}
+
+It is easy to check that the following theorem holds.
+
+\begin{theorem}
+If $s, t, x \in \Q$ with $s/t = x$ then $s = tx$.
+\end{theorem}
+
+\section{Real numbers}
+
+\begin{definition}
+We say that two numbers $x$ and $y$ are \emph{commensurable} if there exist $m, n \in \N$ such that $mx = ny$.
+\end{definition}
+
+\begin{theorem}
+If $x = a/b$ and $y = c/d$ are rational numbers then $x$ and $y$ are commensurable.
+\end{theorem}
+
+\begin{proof}
+Simply take $m = d$ and $n = b$ in the definition of commensurable. $\qed$
+\end{proof}
+
+It was the ancient Greeks that first realised that it was possible to conceive of quantities that were not commensurable.
+
+They considered the hypotenuse of a right angled triangle with sides of length $1$. By Pythagoras' theorem if $x$ is the length of the hypotenuse then $x^2 = 1^2 + 1^2 = 2$. In our modern notation we write $x = \sqrt{2}$.
+
+The Greeks showed that the side and hypotenuse of the triangle were not commensurable, i.e. that $1$ and $\sqrt{2}$ were not commensurable.
+
+If they were commensurable then by definition $m.1 = n.\sqrt{2}$ for some $m, n \in \N$. Squaring both sides we would have $m^2 = 2n^2$.
+
+But the Greeks showed the following.
+
+\begin{theorem}
+There are no natural numbers $m$ and $n$ such that $m = 2n$.
+\end{theorem}
+
+\begin{proof}
+If $m$ and $n$ are both even, say $m = 2m'$ and $n = 2n'$ then we would have $4m'^2 = 8n'^2$. Dividing through by $4$ we'd have $m'^2 = 2n'^2$, where $n' < n$.
+
+If $m'$ and $n'$ are both even then we can apply the same argument again to obtain even smaller values.
+
+By the well-ordering principle this process must stop, and so there must be natural numbers $m$ and $n$ with $n$ odd such that $m^2 = 2n^2$.
+
+But as the right hand side is even, the left hand side must be also. Thus $m$ is even, i.e. $m = 2m'$ say. But then $4m'^2 = 2n^2$.
+
+Dividing by $2$ we have $2m'^2 = n^2$. By a similar argument to the above, $n$ is now even. But this is a contradiction since $n$ is odd. Thus there do not exist $m, n \in \N$ such that $m = 2n^2$. $\qed$
+\end{proof}
+
+\subsection{Dedekind cuts}
+
+The notion of incommensurability shows that there ought to be numbers between rational numbers that are not themselves rational. Such numbers, along with the rationals will be called \emph{real} numbers.
+
+There are a number of ways of defining the real numbers. We will look at a definition due to Richard Dedekind (1831--1916) known as Dedekind cuts.
+
+The basic intuition is that a real number $\alpha$ is a cut of the rational numbers into two subsets, namely all the rational numbers that are less than $\alpha$ and all the rational numbers that are greater than or equal to $\alpha$.
+
+Here is the formal definition.
+
+\begin{definition} (Dedekind cut)
+A subset $R$ of the rational numbers is said to be \emph{closed downwards} if for each $s \in R$ all rational numbers $r$ with $r < s$ are also in $R$. A \emph{Dedekind cut} is a subset $R$ of the rational numbers that is closed downwards and which has no greatest element.
+\end{definition}
+
+\begin{example}
+Consider the set $R$ of all rational numbers less than the square root of $2$. What we mean by this is the set of all rational numbers $m/n$ such that $m^2 < 2n^2$.
+
+If $m/n \in R$ then $m^2 < 2n^2$. Now suppose that $k/l$ is another rational number with $k/l < m/n$. Then $kn < lm$.
+
+Multiplying $m^2 < 2n^2$ through by $l^2$ we have $l^2m^2 < 2l^2n^2$. But as $kn < lm$ we have $k^2n^2 < l^2m^2$ and so by transitivity we have $k^2n^2 < 2l^2n^2$.
+
+Dividing through by $n^2$ we have $k^2 < 2l^2$. In other words $k/l \in R$.
+
+Suppose contrary to the theorem that $R$ has a greatest element $m/n$. 
+
+However we find with some algebra that if $k = 8m^3n + 16mn^3$ and $l = m^4 + 12m^2n^2 + 4n^4$ then $2l^2 - m^2 = (2n^2 - m^2)^4 > 0$. This allows us to show that $k/l < \sqrt{2}$.
+
+Similarly $kn - lm = m(m^2 - 2n^2)(m^2 + 6n^2) > 0$. Thus $m/n < k/l$.
+
+Thus $k/l \in R$ and $m/n$ is not the greatest element of $R$ and so $R$ is a Dedekind cut. $\qed$
+\end{example}
+
+Note that the definition of a Dedekind cut doesn't refer to a real number, but only to subsets of the rational numbers. Thus we can think of a real number as being represented by a Dedekind cut. In the example above, $\sqrt{2}$ is represented by the Dedekind cut $R = \{m/n \in \Q \;|\; m < 2n^2\}$.
+
+Of course whilst square roots of positive integers correspond to Dedekind cuts, there are many other Dedekind cuts. We think of any Dedekind cut as corresponding to a real number. We also define two Dedekind cuts to be equal precisely if they are the same as subsets of the rational numbers.
+
+We can define addition, multiplication and the less-than relation for any two Dedekind cuts as follows.
+
+\begin{definition}
+If $A$ and $B$ are Dedekind cuts then we define $A + B = \{a + b \;|\; a \in A, b \in B\}$.
+\end{definition}
+
+\begin{definition}
+If $A$ and $B$ are Dedekind cuts then we define $B < A$ if there is a Dedekind cut $X$ such that $A = B + X$.
+\end{definition}
+
+\begin{definition}
+We define the set of \emph{real} numbers to be the set of Dedekind cuts. The rational number $m/n$ can be identified with the Dedekind cut $R_{m/n} = \{r/s \;|\; r/s < m/n\}$ so that $\Q \subseteq \R$.
+\end{definition}
+
+We sometimes think of real numbers as decimal numbers with possibly infinitely many digits beyond the decimal point.
+
+\begin{definition}
+If $A$ is a Dedekind cut, we define $-A$ to be the Dedekind cut $\{a \in \Q \;|\; a < -p \;\;\mbox{for some}\;\; p \notin A\}$.
+\end{definition}
+
+The definition of $-A$ is quite convoluted. We'd have liked to define $-A$ as the set of all rationals in $R = \{-a \;|\; a \in A\}$. But this is closed upwards not closed downwards.
+
+We can't even define it as $R'$ the set of rationals \emph{not} in $R$ since $R'$ has a greatest element.
+
+The definition above avoids this complication by only including the rational numbers that are less than an element of $R'$. This avoids the greatest element of $R'$.
+
+\begin{definition}
+If $A$ and $B$ are Dedekind cuts, we define $A\times B$ to be $0$ if either $A = 0$ or $B = 0$. If $A > 0$ we define $AB = \{ab \;|\; a \in A \;\;\mbox{and}\;\; a > 0, b \in B\}$ and if $B > 0$ we define $AB = \{ab \;|\; a \in A, b \in B \;\;\mbox{and}\;\; b > 0\}$. If both $A < 0$ and $B < 0$ we define $AB = (-A)\times (-B)$.
+\end{definition}
+
+After quite some work we can prove that this definition is well-defined and that all the identities that hold for the rational numbers also hold for the real numbers.
+
+\subsection{Reciprocals}
+
+A most important property of the real numbers is the following.
+
+\begin{theorem}
+If $r \in R$ with $r \neq 0$ then there exists a unique $r' \in \R$ such that $rr' = 1$. 
+\end{theorem}
+
+\begin{definition}
+We call $r'$ of the previous theorem the \emph{reciprocal} of $r$ and denote it $r^{-1}$ or $1/r$.
+\end{definition}
+
+Like the rationals, this allows us to define division of any two real numbers except for division by zero.
+
+\begin{definition}
+If $a, b \in \R$ with $b \neq 0$ we define $a/b = a\times b^{-1}$.
+\end{definition}
+
+To prove the theorem above, the following is the definition that works.
+
+\begin{definition}
+If $R$ is a nonzero Dedekind cut then we define the \emph{reciprocal} of $R$, denoted $R^{-1}$ to be the Dedekind cut 
+$$R^{-1} = \begin{cases}\{a \in \Q \;|\; a < 1/p \;\;\mbox{for some}\;\; p \in Q, p \notin R\}, & \;\;\mbox{if}\;\; R > 0\\\{a \in \Q \;\; a < 1/p \;\;\mbox{for some}\;\; p \in Q, p \notin R \;\;\mbox{with}\;\; p < 0\}, & \;\;\mbox{if}\;\; R < 0\end{cases}$$
+\end{definition}
+
+\subsection{Suprema}
+
+\begin{definition}
+Given a subset $S$ of the real numbers, we say that $S$ has an \emph{upper bound} in $\R$ if there is a real number $\alpha$ such that $x < \alpha$ for all $x \in S$.
+\end{definition}
+
+\begin{definition}
+A \emph{supremum} of a set $S \subseteq \R$ is a least upper bound of $S$, i.e. an upper bound $s$ for $S$ such that every other upper bound of is greater than $s$.
+\end{definition}
+
+Perhaps the most important property of the real numbers which the rational numbers do not have is the following.
+
+\begin{theorem} (Supremum property)
+If a non-empty subset $S$ of the real numbers has an upper bound in $\R$ then it has a supremum in $\R$.
+\end{theorem}
+
+\begin{proof}
+We will show that $T = \bigcup_{A \in S} A$, i.e. the union of the Dedekind cuts representing the real numbers in $S$, is the supremum of $S$.
+
+Let $B$ be the Dedekind cut representing an upper bound for $S$. 
+
+We must show that $T$ is a Dedekind cut.
+
+Suppose $p \in T$. Then $p \in A_0$ for some $A_0 \in S$. Then if $q < p$ then $q \in A_0$ and so $q \in T$. Thus $T$ is closed below.
+
+Since $A_0$ has no greatest element, there is an $r \in A_0$ with $r > p$. But $r \in A_0$ and so $r \in T$. Therefore $p$ is not a greatest element of $T$. As $p \in T$ was arbitrary, this shows that $T$ has no greatest element.
+
+Since $T$ is non-empty, there is at least one $A \in S$. As $A$ is non-empty, it contains at least one element $p$, and $p \in T$. Thus $T$ is non-empty.
+
+Finally, since $B$ is an upper bound for $S$, and $B$ is a Dedekind cut, there exists a $q \in \Q$ with $b < q$ for all $b \in B$. Furthermore, since $B$ is an upper bound for $S$, $A < B$ for all $A \in S$. Thus $A \subseteq B$ for all $A \in S$. Thus $p < q$ for all $p \in A$ since $p \in B$.
+
+But this shows that $p < q$ for all $p \in T$. Thus $q \notin T$, and so $T$ is a proper subset of $\Q$.
+
+Thus $T$ is a Dedekind cut.
+
+Now $A \subseteq T$ for all $A \in S$. Thus $A \leq T$ for all $T \in S$ and so $T$ is an upper bound for $S$.
+
+Now if $A < T$ for some Dedekind cut $A$ then there exists a $p \in \Q$ such that $p \in T$ but $p \notin A$. But $p \in A_0$ for some $A_0 \in S$. Thus $A$ is not greater than $A_0$ and therefore $A$ is not an upper bound for $S$.
+
+Therefore $T$ is the least upper bound for $S$. $\qed$ 
+\end{proof}
+
+Intuitively the supremum property says that there are no holes in the real number line. If we applied the Dedekind cut construcion to the real numbers instead of the rationals, we wouldn't get any new numbers. The supremum of any Dedekind cut of real numbers would just be another real number.
+
+\section{Complex numbers}
+
+Linear equations of the form $ax + b = 0$ for $a, b \in \R$ with $a \neq 0$ can be solved straightforwardly in the reals. The given equation clearly has solution $x = -b/a$.
+
+Quadratic equations are already more involved.
+
+If we have a quadratic equation $a'x^2 + b'x + c' = 0$ with $a, b, c \in \R$ and $a \neq 0$ we can divide through by $a'$ and obtain an equation of the form $x^2 + bx + c = 0$.
+
+Let us write $p = b/2$ so that the equation becomes $x^2 + 2px + c = 0$. We can rewrite this as $(x + p)^2 = p^2 - c$.
+
+Clearly if $c < p^2$ the right hand side is positive and the equation has two real solutions $x = -p \pm \sqrt{p^2 - c}$.
+
+But things are more interesting if $c \geq p^2$. This corresponds to the case where $c = p^2 + q^2$ for some $q \in \R$. In other words, we are solving the equation $x^2 + 2px + p^2 + q^2 = 0$.
+
+If $q = 0$ this has just one real solution and if $q \neq 0$ it has no real solutions.
+
+We observe that changing the sign of $q$ doesn't change the equation.
+
+Informally complex numbers are solutions of such equations.
+
+\begin{definition}
+We represent the two complex number solutions of the equation $x^2 + 2px + p^2 + q^2 = 0$, by the pairs $(p, q)$ and $(p, -q)$. Two such pairs $(a, b)$ and $(c, d)$ are declared to represent the same complex number precisely when $a = c$ and $b = d$. The set of complex numbers is denoted $\C$.
+\end{definition}
+
+\begin{definition}
+We identify a real number $p$ with the pair $(p, 0)$. Thus $\R \subseteq \C$.
+\end{definition}
+
+We see that $(0, 1)$ is a root of the equation $x^2 + 1 = 0$. The complex number represented by $(0, 1)$ is often denoted $i$. By definition $i^2 = -1$.
+
+We can define addition and multiplication of complex numbers.
+
+\begin{definition}
+If $A = (a, b)$ and $B = (c, d)$ with $a, b, c, d \in \R$, we define $A + B = (a + c, b + d)$.
+\end{definition}
+
+\begin{definition}
+If $A = (a, b)$ and $B = (c, d)$ with $a, b, c, d \in \R$, we define $AB = (ac - bd, ad + bc)$.
+\end{definition}
+
+Note that in the special case where $A = (a, 0)$ is a real number we have $AB = (ac, ad)$. Because of this, for all $a, b \in \R$ we have $(a, b) = a(1, 0) + b(0, 1) = a + bi$.
+
+After quite a lot of work we can verify that the complex numbers obey all the same identities as the real numbers involving addition and multiplication.
+
+However, there is no way to define a less-than operator for arbitrary complex numbers. Unlike the reals, the complex numbers are not ordered.
+
+\subsection{Complex conjugates}
+
+\begin{definition}
+Given a complex number $\alpha = a + bi$ the \emph{complex conjugate} of $\alpha$ is the complex number $a - bi$. We denote it $\bar{\alpha}$.
+\end{definition}
+
+The following result is obvious from the definition.
+
+\begin{theorem}
+A complex number $\alpha$ is equal to its complex conjugate iff $\alpha \in \R$.
+\end{theorem}
+
+The complex conjugate allows us to define the reciprocal of a nonzero complex number. This depends on the following theorem.
+
+\begin{theorem}
+If $\alpha = a + bi$ for $a, b \in \R$ is a complex number, then $\alpha\bar{\alpha}$ is a non-negative real number. It is zero iff $a = b = 0$.
+\end{theorem}
+
+\begin{proof}
+By definition $\alpha\bar{\alpha} = (a + bi)(a - bi) = a^2 - b^2i^2$. However $i^2 = -1$, so the product is $a^2 + b^2$ which is real.
+
+As it is the sum of two squares it is non-negative. It is zero iff $a = b = 0$. $\qed$
+\end{proof}
+
+We are now able to prove the following.
+
+\begin{theorem}
+Let $\alpha = a + bi$ be a nonzero complex number. Define $\alpha' = (a/r) - (b/r)i$ where $r$ is the real number $\alpha\bar{\alpha}$. Then $\alpha\alpha' = 1$.
+\end{theorem}
+
+\begin{proof}
+Clearly $\alpha' = (1/r)\bar{\alpha}$. The result follows by simplifying the expression $\alpha\alpha'$. $\qed$
+\end{proof}
+
+\begin{definition}
+We denote the reciprocal of a nonzero complex number $\alpha$ by $\alpha^{-1}$ or $1/\alpha$.
+\end{definition}
+
+Because we can define the reciprocal of any nonzero complex number, we can divide any two complex numbers except for division by zero.
+
+\begin{definition}
+For complex numbers $\alpha$ and $\beta$ with $\beta \neq 0$ we define $\alpha/\beta = \alpha\times \beta^{-1}$.
+\end{definition}
+
+It is easy to check that if $\alpha/\beta = \gamma$ for $\alpha, \beta, \gamma \in \C$ then $\alpha = \beta\gamma$.
+
+\subsection{Roots of polynomials}
+
+Complex numbers don't just provide solutions to quadratic polynomial equations. A very famous theorem is the following.
+
+\begin{theorem} (Fundamental theorem of algebra)
+If $f(x) = x^n + a_{n-1}x^{n-1} + \ldots a_1x + a_0$ for $a_i \in \R$ then $f(x)$ can be written $(x - \alpha_1)(x - \alpha_2)\ldots(x - \alpha_n)$ for some $\alpha_i \in \C$. Moreover the $\alpha_i$ are either real or come in complex conjugate pairs.
+\end{theorem}
+
+We see that the complex values $\alpha_i$ of the theorem satisfy the polynomial equation $f(x) = 0$. We call the $\alpha_i$ the complex \emph{roots} of $f(x)$.
+
+A proof of this theorem is not easy and makes use of results from analysis. It was first proved by Carl Friedrich Gauss (1777--1855).
+
+\end{document}

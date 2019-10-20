@@ -1,0 +1,1746 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts}
+\usepackage{amssymb, amsmath}
+\usepackage{eucal}
+\usepackage{amscd}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{algorithmic}
+\usepackage{enumerate}
+\urlstyle{sf}
+\pagestyle{plain}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Pee}{\mathbb{P}}
+\newcommand{\Op}{\mathcal{O}}
+\newcommand{\Qbar}{\Opverline{\mathbb{Q}}}
+\newcommand{\code}{\lstinline}
+\newcommand{\rref}[1]{\hfill {\tiny(\ref{#1})}}
+\newcommand{\sref}[1]{{\tiny(\ref{#1})}}
+
+\newcommand{\ljk}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\modulo}[1]{\;\left(\mbox{mod}\;#1\right)}
+\newcommand{\fr}{\mathfrak}
+\newcommand{\qed}{\square}
+
+\def\notdivides{\mathrel{\kern-3pt\not\!\kern4.5pt\bigm|}}
+\def\nmid{\notdivides}
+\def\nsubseteq{\mathrel{\kern-3pt\not\!\kern2.5pt\subseteq}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{construction}[theorem]{Construction}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{property}[theorem]{Property}
+
+\newenvironment{lemma}[1][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{proof}[1][Proof:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{summary}[1][Summary.]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\parindent=0pt
+\parskip 8pt plus 2pt minus 2pt 
+
+\title{Elements of homological algebra}
+
+\author{
+William B. Hart
+}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Maps}
+
+\textbf{1. A concrete category $C$ is a (small) category with a functor $F$ to the category of sets which is faithful, i.e. for objects $X$ and $Y$ of the category the functor $F$ induces a map from the set of morphisms from $X$ to $Y$ to the set of maps from $F(X)$ to $F(Y)$ and this map is injective.}
+
+\textbf{2. An epimorphism is a morphism $f : X \to Y$ such that $g_1\circ f = g_2\circ f$ for morphisms $g_1$ and $g_2$ implies that $g_1 = g_2$.}
+
+\textbf{3. In the category of sets with maps a morphism is an epimorphism iff it is a surjective map.}
+
+Suppose $f : X \to Y$ is not a surjection. In particular, suppose there exists $y_0 \in Y$ such that $f(x) \neq y_0$ for all $x \in X$.
+
+Let $g_1 : Y \to Y \cup \{Y\}$ be defined by $g_1(y) = y$ and $g_2 : Y \to Y \cup \{Y\}$ be defined by $g_2(y) = y$ if $y \neq y_0$ and $g_2(y_0) = Y$. Then $g\circ f = h\circ f$ but $g \neq h$, i.e. $f$ is not an epimorphism. As $f$ was an arbitrary map that was not surjective, we have shown that if $f$ is an epimorphism then $f$ is surjective. 
+
+For the converse, suppose that $f$ is surjective and $g_1, g_2 : Y \to Z$ are arbitrary maps with $g_1 \neq g_2$. In particular, suppose that $g_1(y) \neq g_2(y)$ for some $y \in Y$.
+
+As $f$ is surjective, there exists $x \in X$ such that $f(x) = y$. Then $g_1(f(x)) \neq g_2(f(x))$, i.e. $g_1\circ f \neq g_2\circ f$.
+
+As $g_1$ and $g_2$ were arbitrary maps with $g_1 \neq g_2$ we have shown that if $f$ is surjective and $g_1\circ f = g_2\circ f$ then $g_1 = g_2$, i.e. $f$ is an epimorphism. QED.
+
+\textbf{4. In a concrete category (where the objects are sets with structure and the morphisms are structure preserving maps), a surjective morphism is an epimorphism.}
+
+If $f$ is a surjective morphism it is a surjective map. By the previous result it is an epimorphism in the category of sets with maps and hence it is an epimorphism in the category in question. QED.
+
+\textbf{5. In the category of $R$-modules over a commutative ring $R$ with module homomorphisms, an epimorphism is surjective.}
+
+Suppose $f : X \to Y$ is an epimorphism in the category of $R$-modules. Consider the canonical quotient map $g_1 : Y \to Y/f(X)$ and the zero map $g_2 : Y \to Y/f(X)$ which maps $y \mapsto 0$ for all $y \in Y$.
+
+As $(g_1\circ f)(x) = 0 = (g_2\circ f)(x)$ for all $x \in X$ we have $g_1\circ f = g_2\circ f$. As $f$ is an epimorphism then $g_1 = g_2$. But this implies that $Y = f(X)$, i.e. $f$ is a surjection. QED.
+
+\textbf{6. In the category of rings with ring homomorphisms the inclusion $f : \Z \to \Q$ is an epimorphism but not surjective.}
+
+It is clearly not surjective, since for example there does not exist $n \in \Z$ such that $f(n) = 1/2$.
+
+But if $g_1\circ f = g_2\circ f$ then for all $a, b \in \Z$ with $b \neq 0$ we have 
+\begin{multline*}g_1(a/b) = g_1(a)/g_1(b) = g_1(f(a))/g_1(f(b))\\
+= g_2(f(a))/g_2(f(b)) = g_2(a)/g_2(b) = g_2(a/b),
+\end{multline*}
+i.e. $g_1 = g_2$. Thus $f$ is an epimorphism. QED.
+
+\textbf{7. A monomorphism is a morphism $f : X \to Y$ such that $f\circ g_1 = f\circ g_2$ for morphisms $g_1$ and $g_2$ implies that $g_1 = g_2$.}
+
+\textbf{8. In the category of sets with maps a morphism is a monomorphism iff it is an injective map.}
+
+Suppose $f : X \to Y$ is an injective map and suppose that $g_1, g_2 : Z \to X$ are maps such that $g_1 \neq g_2$. In particular suppose that $g_1(z) \neq g_2(z)$ for some $z \in Z$.
+
+As $f$ is injective we have that $f(g_1(z)) \neq f(g_2(z))$. Thus we have $f\circ g_1 \neq f\circ g_2$. As $g_1$ and $g_2$ were arbitrary maps that are not equal we have shown that if $f\circ g_1 = f\circ g_2$ then $g_1 = g_2$, i.e. $f$ is a monomorphism. 
+
+For the converse suppose that $f : X \to Y$ is a monomorphism. We wish to show that $f(x) \neq f(x')$ for $x, x' \in X$ if $x \neq x'$.
+
+To this end, suppose $x \neq x'$ for $x, x' \in X$. Let $Z = \{a\}$ be a set containing a single element. Define $g_1, g_2 : Z \to X$ by $g_1(a) = x$ and $g_2(a) = x'$.
+
+We see that $g_1 \neq g_2$. As $f$ is a monomorphism we therefore have that $f\circ g_1 \neq f\circ g_2$. But now $f(x) = f(g_1(a)) \neq f(g_2(a)) = f(x')$. As $x \neq x'$ were arbitrary we have shown that $f$ is injective. QED.
+
+\textbf{9. In any concrete category (where the objects are sets with structure and the morphisms are structure preserving maps), an injective morphism is a monomorphism.}
+
+An injective morphism in the category is an injective map in the category of sets and thus a monomorphism of maps. As it is a morphism in the category in question it is a monomorphism. QED.
+
+\textbf{10. If $f : X \to Y$ is an $R$-module homomorphism with $\ker(f) = \{0\}$ then $f$ is injective.}
+
+Suppose $f(x_1) = f(x_2)$ for $x_1, x_2 \in X$. Then as $f$ is a homomorphism $f(x_1 - x_2) = f(x_1) - f(x_2) = 0$.
+
+As $\ker(f) = \{0\}$ we have that $x_1 = x_2$, i.e. $f$ is injective. QED.
+
+\textbf{11. In the category of $R$-modules over a commutative ring $R$ with module homomorphisms, an epimorphism is surjective.}
+
+Suppose $f : X \to Y$ is a monomorphism of $R$-modules. Let $g_1 : \ker(f) \to X$ be the inclusion map and let $g_2 : \ker(f) \to X$ be the zero map. We have that $(f\circ g_1)(x) = 0 = (f\circ g_2)(x)$ for all $x \in \ker(f)$.
+
+As $f$ is a monomorphism $g_1 = g_2$. Thus $\ker(f) = \{0\}$, i.e. $f$ is injective. QED.
+
+\textbf{12. An isomorphism in a category $C$ is a morphism $f : X \to Y$ for objects $X$ and $Y$ in the category such that there exists a two sided inverse, i.e. $f^{-1} : Y \to X$ such that $f^{-1}\circ f = 1_X$ and $f\circ f^{-1} = 1_Y$ where $1_X$ and $1_Y$ are the identity morphisms on $X$ and $Y$ respectively.}
+
+\textbf{13. An isomorphism is a monomorphism.}
+
+Suppose $f : X \to Y$ is an isomorphism. Then there exists $f^{-1}$ such that $f^{-1}\circ f = 1_X$ and $f\circ f^{-1} = 1_Y$. Now suppose that $f\circ g_1 = f\circ g_2$ for morphisms $g_1$ and $g_2$. Then $g_1 = f^{-1}\circ f \circ g_1 = f^{-1}\circ f\circ g_2 = g_2$ and so $f$ is an monomorphism. QED.
+
+\textbf{14. An isomorphism is an epimorphism.}
+
+Suppose $f : X \to Y$ is an isomorphism. Then there exists $f^{-1}$ such that $f^{-1}\circ f = 1_X$ and $f\circ f^{-1} = 1_Y$. Now suppose that $g_1\circ f = g_2\circ f$ for morphisms $g_1$ and $g_2$. Then $g_1 = g_1\circ f\circ f^{-1}  = g_2\circ f\circ f^{-1} = g_2$ and so $f$ is an epimorphism. QED.
+
+\textbf{15. A retraction of a morphism $f : X \to Y$ is a morphism $g : Y \to X$ such that $g\circ f = 1_X$.}
+
+\textbf{16. A retraction is an epimorphism.}
+
+We see that $f$ is a right inverse of the retraction $g$. The same argument used to show that an isomorphism is an epimorphism can be applied to show that the retraction is an epimorphism. QED.
+
+\textbf{17. A section of a morphism $f : X \to Y$ is a morphism $g : Y \to X$ such that $f\circ g = 1_Y$.}
+
+\textbf{18. A section is a monomorphism.}
+
+We see that $f$ is a left inverse for the section $g$. Thus the same argument that was used to show an isomorphism is a monomorphism can be applied to show that the section is a monomorphism. QED.
+
+\textbf{19. If $f : X \to Y$ is a retraction of $g : Y \to X$ then $g$ is a section of $f$ and conversely.}
+
+Immediate from the definitions. QED.
+
+\textbf{20. A split epimorphism is a morphism $f : X \to Y$ with section $g : Y \to X$.}
+
+\textbf{21. A split monomorphism is a morphism $g : Y \to X$ with retraction $f : X \to Y$.}
+
+\textbf{20. In the category of sets every monomorphism with a non-empty domain is a section.}
+
+A monomorphism in the category of sets is the same thing as an injective map. Therefore suppose that $f : X \to Y$ is an injective map with non-empty domain $X$.
+
+Since $X$ is non-empty, there exists an $x_0 \in X$. We define a morphism $g : Y \to X$ as follows. For all $y \in \;\mbox{Im}(f)$ there is a unique $x \in X$ such that $f(x) = y$. We define $g(y) = x$. If $y \notin \;\mbox{Im}(f)$ we can define $g(y) = x_0$.
+
+By construction $g\circ f = 1_X$. Thus $g$ is a section of $f$. QED.
+
+\textbf{21. In the category of sets every epimorphism is a retraction.}
+
+An epimorphism in the category of sets is a surjective map. Therefore let $f : X \to Y$ be a surjective map.
+
+We wish to show that there exists a morphism $g : Y \to X$ such that $f\circ g = 1_Y$.
+
+Since $f$ is surjective, for every $y \in Y$ there exists an $x \in X$ such that $f(x) = y$. By the axiom of choice we can choose such an $x$ for each $y$ and define $g(y) = x$. Then by construction we have $f\circ g = 1_Y$ and so $f$ is a retraction of $g$. QED.
+
+\textbf{22. If $f : X \to Y$ and $g : Y \to Z$ are epimorphisms then the composition $g\circ f : X \to Z$ is an epimorphism.}
+
+Suppose that $h_1, h_2 : Z \to V$ are morphisms such that $h_1\circ g\circ f = h_2\circ g\circ f$. As $f$ is an epimorphism $h_1\circ g = h_2\circ g$. But then as $g$ is an epimorphism we have that $h_1 = h_2$. Thus $g\circ f$ is an epimorphism.
+
+\textbf{22. If $f : X \to Y$ and $g : Y \to Z$ are monomorphisms then the composition $g\circ f : X \to Z$ is a monomorphism.}
+
+Suppose $h_1, h_2 : V \to X$ are morphisms such that $g\circ f\circ h_1 = g\circ f\circ h_2$. As $g$ is a monomorphism we have that $f\circ h_1 = f\circ h_2$. Then as $f$ is a monomorphism we have that $h_1 = h_2$. Thus $g\circ f$ is a monomorphism.
+
+\textbf{23. If $f : X \to Y$ and $g : Y \to Z$ are morphisms with $g\circ f$ an epimorphism, then $g$ is an epimorphism.}
+
+Suppose that $h_1\circ g = h_2\circ g$ for morphisms $h_1, h_2 : Z \to V$. Then $h_1\circ g\circ f = h_2\circ g\circ f$. Then because $g\circ f$ is an epimorphism, $h_1 = h_2$. Thus $g$ is an epimorphism. QED.
+
+\textbf{24. If $f : X \to Y$ and $g : Y \to Z$ are morphisms with $g\circ f$ a monomorphism, then $f$ is an monomorphism.}
+
+Suppose that $f\circ h_1 = f\circ h_2$ for morphisms $h_1, h_2 : V \to X$. Then $g\circ f\circ h_1 = g\circ f\circ h_2$. Then because $g\circ f$ is a monomorphism, $h_1 = h_2$. Thus $f$ is a monomorphism. QED.
+
+\textbf{25. If If $f : X \to Y$ and $g : Y \to Z$ are morphisms with $g\circ f$ an isomorphism, then $g$ is an epimorphism.}
+
+An isomorphism is an epimorphism. Thus $g\circ f$ is an epimorphism and thus so is $g$. QED.
+
+\textbf{26. If $f : X \to Y$ and $g : Y \to Z$ are morphisms with $g\circ f$ a isomorphism, then $f$ is an monomorphism.}
+
+An isomorphism is a monomorphism. Thus $g\circ f$ is a monomorphism and thus so is $f$. QED.
+
+\section{Zero objects and morphisms}
+
+\textbf{1. An initial object in a category $C$ is an object $I$ such that for every object $X$ there exists precisely one morphism $I \to X$.}
+
+\textbf{2. A terminal object in a category $C$ is an object $F$ such that for every object $X$ there exists precisely one morphism $X \to F$.}
+
+\textbf{3. In the category of sets the empty set is the unique initial object.}
+
+It is clear that the empty set is an initial object for sets. No other set $X$ can be an initial object, since if $x \in X$ then for the set $Y = \{0, 1\}$ we have the map which sends $x$ to $0$ and every other element of $X$ to $1$ and we have the map which sends $x$ to $1$ and every other element of $X$ to $0$.
+
+These maps are clearly distinct and so $X$ cannot be an initial object. Thus the initial object in sets in unique. QED.
+
+\textbf{4. In the category of sets, every singleton $\{x\}$ is a terminal object. No other objects are terminal.}
+
+The only map from a set $X$ to the singleton $\{x\}$ is the map which sends all elements of $X$ to $x$. Thus $\{x\}$ is a terminal object in the category of sets.
+
+There are no morphisms from an arbitrary set to the empty set, and if a set has more than one element there is more than one morphism from any nonempty set to that set. Thus no other sets are terminal in the category of sets. QED.
+
+\textbf{5. In the category of $R$-modules over a commutative ring $R$ the zero module, containing just zero, is both an initial and terminal object.}
+
+Since an $R$-module homomorphism must send $0$ to $0$, there is only one morphism from any $R$-module or to any $R$-module. QED.
+
+\textbf{6. A zero object in a category is an object that is both an initial and terminal object.}
+
+\textbf{7. If a category has an initial object, it is unique up to unique isomorphism.}
+
+If $X$ and $Y$ are initial objects in a category $C$ then there is a unique morphism $f : X \to Y$ and a unique morphism $g : Y \to X$. There is also a unique morphism from $X \to X$ which must be the identity morphism, and similarly for $Y$.
+
+The composition $f\circ g$ must therefore be the identity morphism on $Y$ and similarly $g\circ f$ must be the identity morphism on $X$. Thus $f$ and $g$ are unique isomorphisms. QED.
+
+\textbf{8. If a category has a terminal object, it is unique up to unique isomorphism.}
+
+If $X$ and $Y$ are terminal objects in a category $C$ then there is a unique morphism $f : X \to Y$ and a unique morphism $g : Y \to X$. There is also a unique morphism from $X \to X$ which must be the identity morphism, and similarly for $Y$.
+
+The composition $f\circ g$ must therefore be the identity morphism on $Y$ and similarly $g\circ f$ must be the identity morphism on $X$. Thus $f$ and $g$ are unique isomorphisms. QED.
+
+\textbf{9. If a category has a zero object it is unique.}
+
+This follows immediately from the definition and the previous two theorems. QED.
+
+\textbf{10. A category with zero morphisms is one where for each pair of objects $A$ and $B$ there is a unique morphism $0_{AB} : A \to B$ such that for all morphisms $f : Y \to Z$ and $g : X \to Y$ we have $f\circ 0_{XY} = 0_{XZ}$ and $0_{YZ}\circ g = 0_{YZ}$.}
+
+\textbf{11. In we define $0_{XY} : X \to Y$ to be the composition of $h_1 : X \to 0$ and $h_2 : 0 \to Y$ in a category with a zero object $0$ then it is a category with zero morphisms.}
+
+If $0$ is a zero object then $0_{XY}$ is defined uniquely since $h_1$ and $h_2$ are unique.
+
+If $f : Y \to Z$ and $g : X \to Y$ are arbitrary morphisms in the category then $f\circ 0_{XY} = f\circ h_2\circ h_1$ for morphisms $h_1 : X \to 0$ and $h_2 : 0 \to Y$.
+
+Here $f\circ h_2$ is the unique morphism from $0$ to $Z$ and $h_1$ is the unique morphism from $X$ to $0$. Thus their composition is the morphism $0_{XZ}$.
+
+Similarly $0_{YZ}\circ g = h_1\circ h_2\circ g$ for morphisms $h_2 : Y \to 0$ and $h_1 : 0 \to Z$.
+
+Here $h_2\circ g$ is the unique morphism from $X$ to $0$ and $h_1$ is the unique morphism from $0$ to $Z$. Thus their composition is the morphism $0_{XY}$. Thus the category is a category with zero morphisms. QED.
+
+\section{Preadditive categories}
+
+\textbf{1. A homset is the collection of all morphisms in a category between given source and target objects.}
+
+The collection of all morphisms between two objects $A$ and $B$ is denoted $\hom(A, B)$.
+
+\textbf{2. A locally small category is a category in which homsets are required to be sets.}
+
+\textbf{3. The category of sets with maps is locally small.}
+
+The class of all maps between two sets $A$ and $B$ is a subclass of their cartesian product $A\times B$, which is a set. QED.
+
+\textbf{4. The category of modules over a commutative ring $R$, with module homomorphisms, is a locally small category.}
+
+The class of all $R$-module homomorphisms between two $R$-modules $X$ and $Y$ is a comprehension over the set of all maps between $X$ and $Y$. Thus it is a set. QED.
+
+\textbf{5. A preadditive category is a category in which every homset $\hom(A, B)$ has the structure of an additive abelian group, composition of morphisms is (left and right) distributive over addition and which contains a zero object.}
+
+\textbf{6. In a preadditive category whose zero object is denoted $0$, the groups $\hom(A, 0)$ and $\hom(0, B)$ are trivial for all objects $A$ and $B$ in the category, containing only the zero morphisms from $A$ to $0$ and $0$ to $B$ respectively.}
+
+This follows immediately from the definition of the zero object as an initial and terminal object, i.e. there is a unique morphism from $A$ to $0$ and a unique morphism from $0$ to $B$.
+
+Since $\hom(A, 0)$ and $\hom(0, B)$ are abelian groups they contain at least the identity element. This must be the unique morphism from $A$ to $0$ or $0$ to $B$ respectively.
+
+\textbf{7. If $A$, $B$ and $C$ are objects in a preadditive category and the identity elements of $\hom(X, Y)$ is denoted $0_{XY}$ then $0_{BC}\circ 0_{AB} = 0_{AC}$.}
+
+Consider the subset $S = \{f\circ 0_{AB} \;|\; f \in \hom(B, C)\}$ of $\hom(A, C)$. By right distributivity if $f_1$ and $f_2$ are in $S$ then $f_1 - f_2$ is in $S$. Thus $S$ is a subgroup of $\hom(A, C)$.
+
+The additive identity of $S$ is the additive identity of $\hom(A, C)$, namely $0_{AC}$. We will show that $0_{BC}\circ 0_{AB}$ is the additive identity of $S$ and is thus equal to $0_{AC}$.
+
+Let $f\circ 0_{AB}$ be an element of $S$ with $f \in \hom(B, C)$. Then $f\circ 0_{AB} + 0_{BC}\circ 0_{AB} = (f + 0_{BC})\circ 0_{AB} = f\circ 0_{AB}$ by distributivity and definition of the identity element of $\hom(B, C)$. Similarly $0_{BC}\circ 0_{AB} + f\circ 0_{AB} = f\circ 0_{AB}$. Thus $0_{BC}\circ 0_{AB}$ is the identity of $\hom(A, C)$. QED.
+
+\textbf{8. Every preadditive category is a category with zero morphisms.}
+
+This follows immediately from the previous theorem. QED.
+
+\textbf{9. The endomorphism set of an object $X$ of a category is the set $\hom(X, X)$.}
+
+We denote the endomorphism set of $X$ by End$(X)$.
+
+\textbf{10. For any object $X$ of a preadditive category, the endomorphism set End$(X)$ is a ring with multiplication given by composition of morphisms.}
+
+The identity morphism id$_X$ serves as the multiplicative identity. It is easy to check the ring axioms hold for End$(X)$.
+
+\textbf{11. The category of $R$-modules for a commutative ring $R$ is a preadditive category.}
+
+We have seen that the category has a zero object. For $R$-modules $X$ and $Y$ we define $(f_1 + f_2)(x) = f_1(x) + f_2(x)$ for all $x \in X$ and $f_1, f_2 : X \to Y$. 
+
+The zero morphism $0_{AB} : A \to B$ sending every element of $A$ to $0$ is the identity element of $\hom(A, B)$. The additive inverse of the morphism $f : A \to B$ is the morphism which sends $a \mapsto -f(a)$. As addition is associative and commutative in an $R$-module $B$, it is clear that $\hom(A, B)$ is associative and commutative under addition of homomorphisms. Thus $\hom(A, B)$ is an abelian group for all $R$-modules $A$ and $B$.
+
+If $f_1, f_2 : B \to C$ and $g : A \to B$ are $R$-module homomorphisms then $(f_1 + f_2)\circ g = f_1\circ g + f_2\circ g$.
+
+Similarly $f\circ (g_1 + g_2) = f\circ g_1 + f\circ g_2$ for $R$-module homomorphisms $f : B \to C$ and $g_1, g_2 : A \to B$. Thus composition distributes over addition of homomorphisms and the category of $R$-modules is a preadditive category. QED.
+
+\textbf{12. An $R$-linear category for a commutative ring $R$ is a preadditive category in which each hom set Hom$(A, B)$ has the structure of an $R$-module and such that composition of morphisms is $R$-bilinear, i.e. $f\circ (rg) = (rf)\circ g = r(f\circ g)$ and it is additive in each argument.}
+
+\section{Additive categories}
+
+\textbf{1. A product of a family of objects $\{P_\alpha\}_{\alpha \in I}$ in a category is an object $D$ and a collection of morphisms $\{\pi_\alpha : D \to P_\alpha\}_{\alpha \in I}$ such that given any other object $S$ and morphisms $\{s_\alpha : S \to P_\alpha\}$ there exists a unique morphism $\phi : S \to D$ such that $s_\alpha = \pi_\alpha\circ \phi$ for all $\alpha \in I$.}
+
+The morphisms $\pi_\alpha$ are called projection morphisms and the product of the $P_\alpha$ is denoted $\prod_{\alpha \in I} P_\alpha$.
+
+\textbf{2. A coproduct of a family of objects $\{P_\alpha\}_{\alpha \in I}$ in a category is an object $C$ and a collection of morphisms $\{i_\alpha : P_\alpha \to C\}_{\alpha \in I}$ such that given any other object $S$ and morphisms $\{t_\alpha : P_\alpha \to S\}$ there exists a unique morphism $\rho : C \to S$ such that $t_\alpha = \rho\circ i_\alpha$ for all $\alpha \in I$.}
+
+The morphisms $i_\alpha$ are called coprojection morphisms and the coproduct of the $P_\alpha$ is denoted $\coprod_{\alpha \in I} P_\alpha$ or $\bigoplus_{\alpha \in I} P_\alpha$.
+
+\textbf{3. Products and coproducts, if they exist, are unique up to unique isomorphism.}
+
+They are defined by a universal property and thus they are unique up to unique isomorphism. QED.
+
+\textbf{4. The product over the empty set is a terminal object in the category of sets.}
+
+Let $T$ be a product over the empty set. The collection of projection morphisms is empty. If $T'$ is any other object with an empty collection of projection morphisms then there is a unique morphism from $T'$ to $T$. In other words, $T$ is a terminal object for the category. QED.
+
+\textbf{5. The coproduct over the empty set is an initial object in the category of sets.}
+
+Let $I$ be an coproduct over the empty set. The collection of coprojection morphisms is empty. If $I'$ is any other object with an empty collection of coprojection morphisms then there is a unique morphism from $I$ to $I'$. In other words, $I$ is an initial object for the category. QED.
+
+\textbf{6. The cartesian product of two non-empty sets is a product in the category of sets.}
+
+Let $A$ and $B$ be non-empty sets. Let $\pi_1 : A\times B \to A$ and $\pi_2 : A\times B \to B$ be the projection maps.
+
+Let $S$ be any set and let $f_1 : S \to A$ and $f_2 : S \to B$ be any other maps. Let $g : S \to A\times B$ be given by $g(s) = (f_1(s), f_2(s))$ for all $s \in S$. Then $(\pi_1\circ g)(s) = \pi_1((f_1(s), f_2(s))) = f_1(s)$ and similarly $(\pi_2\circ g)(s) = \pi_2((f_1(s), f_2(s))) = f_2(s)$. Thus $g$ satisfies the first part of the universal property.
+
+We must now show that $g$ is the unique map with this property. Suppose there exists another $h : S \to A\times B$ such that $\pi_1\circ h = f_1$ and $\pi_2\circ h = f_2$.
+
+For $s \in S$ we have $h(s) = (a, b)$ say. Then $f_1(s) = \pi_1(h(s)) = \pi_1((a, b)) = a$ and $f_2(s) = \pi_2(h(s)) = \pi_2((a, b)) = b$. Thus $h(s) = (a, b) = (f_1(s), f_2(s)) = g(s)$ for all $s \in S$ and so $h = g$ and $g$ is unique. QED.
+
+\textbf{7. The disjoint union of two sets $A$ and $B$ is the set $A'\cup B'$ where $A' = \{0\}\times A$ and $B' = \{0\}\times B$.}
+
+We denote the disjoint union of sets $A$ and $B$ by $A \coprod B$.
+
+\textbf{8. The disjoint union of two sets $A$ and $B$ is a coproduct in the category of sets.}
+
+Let $i_1 : A \to A'\cup B'$ be given by $i_1(a) = (0, a)$ and $i_2 : B \to A'\cup B'$ be given by $i_2(b) = (1, b)$ for all $a \in A$ and $b \in B$.
+
+Let $S$ be any other set and $f_1 : A \to S$ and $f_2 : B \to S$ be maps. Define $g : A\coprod B \to S$ by $g((0, a)) = f_1(a)$ and $g((1, b)) = f_2(b)$. We see that $f_1 = g\circ i_1$ and $f_2 = g\circ i_2$.
+
+Now suppose that there exists another map $h : A\coprod B \to S$ with $f_1 = h\circ i_1$ and $f_2 = h\circ i_2$. Then $h((0, a)) = h(i_1(a)) = f_1(a) = g((0, a))$. Similarly $h((1, b)) = h(i_2(b)) = f_2(b) = g((1, b))$. Thus $g = h$ and the morphism is unique. QED.
+
+\textbf{9. The direct product of two $R$-modules $A$ and $B$ over a commutative ring is the cartesian product $A\times B$ endowed with addition and scalar multiplication coordinatewise.}
+
+\textbf{10. The direct product of two $R$-modules over a commutative ring $R$ is a product in the category of $R$-modules.}
+
+It is easy to check that the projection maps on the set $A\times B$ respect addition and scalar multiplication and map zero to zero. Thus they are $R$-module homomorphisms.
+
+Let $M$ be any other $R$-module and $f_1 : M \to A$ and $f_2 : M \to B$ be $R$-module homomorphisms. Precisely the same argument as that for sets shows that $A\times B$ satisfies the first part of the universal property for a product in the category of $R$-modules.
+
+Similarly the same argument as for sets shows that the $R$-module homomorphism $g : M \to A\times B$ defined by $g(m) = (f_1(m), f_2(m))$ is the unique $R$-module homomorphism such that $\pi_1\circ g = f_1$ and $\pi_2\circ g = f_2$. QED.
+
+\textbf{11. The direct product of two $R$-modules $A$ and $B$ over a commutative ring $R$ is a coproduct in the category of $R$-modules.}
+
+It is easy to check that the coprojection maps $i_1 : A \to A\times B$ and $i_2 : B \to A\times B$ respect addition and scalar multiplication and map zero to zero. Thus they are $R$-module homomorphisms.
+
+Let $M$ be any other $R$-module and $f_1 : A \to M$ and $f_2 : B \to M$ be $R$-module homomorphisms. Let us define $g : A\times B \to M$ by $g((a, b)) = f_1(a) + f_2(b)$ for all $a \in A$ and $b \in B$.
+
+We have that $g((0, 0)) = f_1(0) + f_2(0) = 0$. We also have $g((a_1, b_1) + (a_2, b_2)) = f_1(a_1 + a_2) + f_2(b_1 + b_2) = f_1(a_1) + f_1(a_2) + f_2(b_1) + f_2(b_2)$ by linearity of $f_1$ and $f_2$. But this in turn is equal to $g((a_1, b_1)) + g((a_2, b_2))$.
+
+Similarly, for any $r \in R$ we have $g(r(a, b)) = f_1(ra) + f_2(rb) = r(f_1(a) + f_2(b))$ by linearity of $f_1$ and $f_2$. But this in turn is equal to $fg((a, b))$. Thus $g$ is an $R$-module homomorphism.
+
+We note that $f_1 = g\circ i_1$ and $f_2 = g\circ i_2$.
+
+Now suppose that there exists another $R$-module homomorphism $h : A\times B \to M$ with $f_1 = h\circ i_1$ and $f_2 = h\circ i_2$. Then $h((a, b)) = h((a, 0)) + h((0, b)) = h(i_1(a)) + h(i_2(b)) = f_1(a) + f_2(b)$. But as we have seen, this is equal to $g(i_1(a)) + g(i_2(b)) = g((a, b))$. Thus $g = h$ and the morphism is unique. QED.
+
+\textbf{12. If $M_1, M_2, \ldots, M_n$ are objects in a preadditive category, the finite product $\prod_i M_i$ exists in the category iff the finite coproduct $\bigoplus_i M_i$ exists. Furthermore the finite product and coproduct agree when they exist.}
+
+Suppose $\prod_i M_i$ exists with projection morphisms $p_i : \prod_i M_i \to M_i$. For each $i$ we have the identity morphism id$_{M_i} : M_i \to M_i$ and the zero morphism $0_{M_iM_j} : M_i \to M_j$ for any $j$.
+
+Fix an $M_i$. Then by the universal property of the product there exists a unique morphism $\phi_i : M_i \to \prod_i M_i$ such that $p_j\circ \phi_i = 0_{M_iM_j}$ for $j \neq i$ and $p_i\circ \phi_i =$ id$_{M_i}$.
+
+Let $L$ be any object in the category with morphisms $f_i : M_i \to L$. We define a morphism $f : \prod_i M_i \to L$ by $f = \sum_{i=1}^n f_i\circ p_i$.
+
+By distributivity of composition over addition of morphisms in a preadditive category we have that
+$$f\circ \phi_i = \sum_{j=1}^n f_j\circ p_j\circ \phi_i = \sum_{j=1}^n f_j\circ \delta_{ij} = f_i,$$
+where $\delta_{ij}$ is the identity morphism if $i = j$ and the zero morphism otherwise.
+
+Thus we will have shown that $\prod_i M_i$ along with the morphisms $\phi_i$ are a coproduct of the $M_i$ if we can show that the morphism $f$ is unique.
+
+Consider the morphism $h = \sum_{i=1}^n \phi_i\circ p_i$. It is an endomorphism of $\prod_i M_i$. We have that
+$$p_j\circ h = \sum_{i=1}^n p_j\circ j_i\circ p_i = \sum_{i=1}^n \delta_{ij}\circ p_i = p_j.$$
+
+By the definition of the product, there is a unique morphism $h : \prod_i M_i \to \prod_i M_i$ such that $p_j\circ h = p_j$ for all $j$. That morphism is the identity morphism, and thus $h =$ id. 
+
+Now we can prove the uniqueness of $f$. Suppose $g : \prod_i M_i \to L$ is another morphism with $g\circ \phi_i = f_i$. Then $(f - g)\circ \phi_i = f_i - f_i = 0$. Thus
+$$0 = 0\circ p_i = (f - g)\circ \sum_{i=1}^n \phi_i\circ p_i.$$
+
+But by what we just proved, this is equal to $(f - g)\circ$ id$ = f - g$. Thus $f = g$ as required and $\prod_i M_i$ along with the $\phi_i$ is a coproduct. 
+
+The converse argument that the product exists and agrees with the coproduct if it exists is dual to the above argument. QED.
+
+\textbf{13. An additive category is a preadditive category in which finite products and coproducts exist.}
+
+\textbf{14. The category of $R$-modules over a commutative ring is an additive category.}
+
+We have seen that the finite direct product is a product and therefore in the preadditive category of $R$-modules. QED.
+
+\textbf{15. In a category with zero morphisms, the projection morphisms $\pi_i : \prod_i M_i \to M_i$ are epimorphisms.}
+
+For an index $i$ let id$_i : M_i \to M_i$ be the identity morphism and $0_{ij} : M_i \to M_j$ be the zero morphism for all $j \neq i$.
+
+By the universal property of the product we get a morphism $p_i : M_i \to \prod_i M_i$ with $\pi_i\circ p_i =$ id$_i$ and $\pi_j\circ p_i = 0_{ij}$ for all $j \neq i$.
+
+Suppose there exists an object $X$ and morphisms $f, g : M_i \to X$ such that $f\circ \pi_i = g\circ \pi_i$. Then $f\circ \pi_i\circ p_i = f\circ$ id$_i = f$. Similarly $g\circ \pi_i \circ p_i = g\circ$ id$_i = g$. But the left sides of both expressions are equal and thus $f = g$, i.e. $\pi_i$ is an epimorphism. QED.
+
+\textbf{16. In a category with zero morphisms, the coprojection morphisms $i_\alpha : M_\alpha \to \prod_\alpha M_\alpha$ are monomorphisms.}
+
+The argument is dual to the argument for the product above. QED.
+
+\textbf{17. A biproduct of objects $M_1, M_2, \ldots, M_n$ in a category with zero object is an object $M_1\oplus M_2\oplus \cdots \oplus M_n$ together with projection morphisms $\pi_i : M_1\oplus \cdots \oplus M_n \to M_i$ and coprojection morphisms $\iota_i : M_\alpha \to M_1\oplus \cdots \oplus M_n$ such that $\pi_i\circ \iota_i =$ id$_{M_i}$ and $\pi_i\circ \iota_j = 0_{ij}$ for all $j \neq i$ and such that $M_1\oplus \cdots M_n$ along with the $\pi_i$ is a product of the $M_i$ and along with the $\iota_i$ is a coproduct of the $M_i$.}
+
+\textbf{18. In a preadditive category products and coproducts are biproducts.}
+
+\textbf{19. The product of objects in a category with products is weakly associative, i.e. if $A$, $B$ and $C$ are objects then $(A\times B)\times C \cong A\times (B\times C)$.}
+
+Let the projections of $A\times B$ be $p_1 : A\times B \to A$ and $p_2 : A\times B \to B$. Similarly let the projections of $B\times C$ be $q_1 : B\times C \to B$ and $q_2 : B\times C \to C$.
+
+Let the projections of $(A\times B)\times C$ be $r_1 : (A\times B)\times C \to A\times B$ and $r_2 : (A\times B)\times C \to C$ and the projections of $A\times (B\times C)$ be $s_1 : A\times(B\times C) \to A$ and $s_2 : A\times(B\times C) \to B\times C$.
+
+By the univeral property of the product of $B$ and $C$ there exists a morphism $f$ such that $q_1\circ f = p_2\circ r_1$ and $q_2\circ f = r_2$.
+
+By the universal property of the $A$ and $B\times C$ there exists a morphism $g$ such that $s_1\times g = p_1\circ r_1$ and $s_2\circ g = f$.
+
+Similarly there exist morphisms $h$ and $i$ such that $p_1\circ h = s_1$, $p_2\circ h = q_1\circ s_2$, $r_1\circ i = h$ and $r_2\circ i = q_2\circ s_2$.
+
+We have $q_1\circ s_2\circ g\circ i = q_1\circ f\circ i = p_2\circ r_1\circ i = p_2\circ h = q_1\circ s_2$. Similarly $q_2\circ s_2\circ g\circ i = q_2\circ f\circ i = r_2\circ i = q_2\circ s_2$.
+
+By the uniqueness of the universal property of $B\times C$ it follows that $s_2\circ g\circ i = s_2$.
+
+We also have $s_1\circ g\circ i = p_1\circ r_1\circ i = p_1\circ h = s_1$. Thus by the uniqueness of the universal property for $A\times (B\times C)$ we have that $g\circ i =$ id$_{A\times(B\times C)}$.
+
+Similarly one can prove that $i\circ g =$ id$_{(A\times B)\times C}$. Thus $i$ and $g$ are inverse isomorphisms showing that $A\times(B\times C) = (A\times B)\times C$. QED.
+
+\textbf{20. The coproduct of objects in a category with coproducts is weakly associative, i.e. if $A$, $B$ and $C$ are objects then $(A\oplus B)\oplus C \cong A\oplus (B\oplus C)$.}
+
+The argument is dual to the case of products. QED.
+
+\textbf{21. In a category with products, $(M_1\times \cdots \times M_{n-1})\times M_n$ and $M_1\times \cdots \times M_{n-1}\times M_n$ are isomorphic.}
+
+Let us write $M = (M_1\times \cdots \times M_{n-1})\times M_n$ and $M' = M_1\times \cdots \times M_{n-1}$.
+
+Let $p_i : M' \to M_i$ be the projection maps of the inner product, for $i < n$. Similarly let $q_1 : M \to M'$ and $q_2 : M \to M_n$ be the projection maps of the outer product.
+
+We can define projection maps $r_i : M \to M_i$ by $r_i = p_i\circ q_1$ for $i < n$ and $r_n = q_2$.
+
+Suppose that $S$ is any object in the category with morphisms $s_i : S \to M_i$. Since $M'$ is a product there exists a unique morphism $\phi' : S \to M'$ such that $s_i = p_i\circ \phi'$ for $i < n$.
+
+Moreover, since $M$ is a product and morphisms $\phi' : S \to M$ and $s_n : S \to M_n$ exist, there exists a unique morphism $\phi : S \to M$ such that $phi' = q_1\circ \phi$ and $s_n = q_2\circ \phi$.
+
+But now $s_i = p_i\circ q_1\circ \phi$ for $i < n$ and $s_n = q_2\circ \phi$. Thus if we define $t_i = p_i\circ q_1$ for $i < n$ and $t_n = q_2$ we have that $s_i = t_i\circ \phi$ for all $i$.
+
+Thus we will have shown that $M$ is a product of the $M_i$ with projections $t_i$ if we can show that $\phi$ is the unique morphism with $s_i = t_i\circ \phi$.
+
+Suppose that $\rho$ is another such morphism, i.e. with $s_i = t_i\circ \rho$. Thus for $i < n$ we have $s_i = p_i\circ q_1\circ \rho$. But $\phi'$ is the unique morphism such that $s_i = p_i\circ \phi'$ and so $\phi' = q_1\circ \rho$. Similarly $s_i = t_i\circ q_1\circ \phi$ for $i < n$ and so $\phi' = q_1\circ \phi$. Thus $q_1\circ \phi = q_1\circ \rho$.
+
+Similarly, $s_n = t_n\circ \phi = q_2\circ \phi$ and $s_n = q_2\circ \rho$, i.e. $q_2\circ \phi = q_2\circ \rho$.
+
+But since $\phi$ is the unique morphism such that $\phi' = q_1\circ \phi$ and $s_n = q_2\circ \phi$ we must have $\phi = \rho$ and the morphism is unique. Thus $M$ is a product of the $M_i$ and is thus isomorphic to $M_1\times \cdots \times M_n$. QED.
+
+\textbf{22. In a category with coproducts, $(M_1\oplus \cdots \oplus M_{n-1})\oplus M_n$ and $M_1\oplus \cdots \oplus M_{n-1}\oplus M_n$ are isomorphic.}
+
+The proof is dual to that for products. QED.
+
+\textbf{23. In a category with products $M_1\times M_2$ and $M_2\times
+ M_1$ are isomorphic. Similarly $M_1\oplus M_2$ and $M_2\oplus M_1$ are isomorphic.}
+
+Clear from the definitions. QED.
+
+\textbf{24. In a category with coproducts and initial object $0$ we have $X\oplus 0 \cong 0 \oplus X \cong X$.}
+
+It suffices to show that $X$ is a coproduct of $X$ and $0$. In fact, we claim that $X$ along with the identity morphism id$_X : X \to X$ and the unique map $0_X : 0 \to X$ is a coproduct of $X$ and $0$.
+
+Let $Y$ be any object with morphisms $f_1 : X \to Y$ and $f_2 : 0 \to Y$. Then $f_1$ has the property that $f_1 = f_1\circ$ id$_X$ and $f_2 = f_1\circ 0_X$.
+
+We claim that $f_1$ is the unique morphism $h$ such that $f_1 = h\circ$ id$_X$ and $f_2 = h\circ 0_X$. However this is clear since $h\circ$ id$_X = h$. Thus $X$ is a coproduct of $X$ and $0$. QED.
+
+\textbf{25. In a category with products and terminal object $1$ we have $X\times 1 \cong 1 \times X \cong X$.}
+
+The proof is dual to that for the coproduct with initial object. QED.
+
+\textbf{26. In a category with coproducts, if $f : X \to Y$ is a morphism then for any object $Z$ in the category there is a morphism $f_Z : X\oplus Z \to Y\oplus Z$.}
+
+We have $X\oplus Z$ is a coproduct of $X$ and $Z$ with maps $\pi_1 : X \to X\oplus Z$ and $\pi_2 : Z \to X\oplus Z$ and $Y\oplus Z$. Suppose that $f_1 : Y \to Y\oplus Z$ and $f_2 : Z \to Y\oplus Z$ are the morphisms for the coproduct $Y\oplus Z$. Then there are morphisms $f\circ f_1 : X \to Y\oplus Z$ and $f_2 : Z\to Y\oplus Z$.
+
+Thus as $X\oplus Z$ is a coproduct there exists a unique morphism $f_Z : X\oplus Z to Y\oplus Z$ such that $f\circ f_1 = f_Z\circ \pi_1$ and $f_2 = f_Z\circ \pi_2$. QED.
+
+\textbf{27. In a category with products, if $f : X \to Y$ is a morphism then for any object $Z$ in the category there is a morphism $f_Z : X\times Z \to Y\times Z$.}
+
+The argument is dual to that for the coproduct. QED.
+
+\textbf{28. In a category with finite products if $f_1 : X_1 \to Y_1$ and $f_2 : X_2 \to Y_2$ are morphisms then there is a morphism from $X_1\times X_2$ to $Y_1\times Y_2$.}
+
+Let the projection morphisms of $X_1\times X_2$ be $\pi_1 : X_1\times X_2 \to X_1$ and $\pi_2 : X_1\times X_2 \to X_2$. Then $f_1\circ \pi_1$ is a morphism from $X_1\times X_2$ to $Y_1$ and $f_2\circ \pi_2$ is a morphism from $X_1\times X_2$ to $Y_2$.
+
+By the definition of the product $Y_1\times Y_2$ there is then a morphism from $X_1\times X_2 \to Y_1\times Y_2$. QED.
+
+\textbf{29. In a category with finite coproducts if $f_1 : X_1 \to Y_1$ and $f_2 : X_2 \to Y_2$ are morphisms then there is a morphism from $X_1\oplus X_2$ to $Y_1\oplus Y_2$.}
+
+The argument is dual to that for products. QED.
+
+\textbf{30. In a category with finite products and coproducts and a zero object $0$ we have that there is a canonical morphism $X\oplus Y \to X\times Y$ for all objects $X$ and $Y$.}
+
+As $0$ is terminal, there exists a unique morphism $X \to 0$ and thus a morphism $X\oplus Y \to 0\oplus Y$. But as $0$ is initial we have that $0\oplus Y \cong Y$. Thus there is a morphism from $X\oplus Y$ to $Y$. Similarly there is a morphism from $X\oplus Y$ to $X$.
+
+Thus by the definition of the product there is a morphism from $X\oplus Y$ to $X\times Y$. QED.
+
+\textbf{31. In a locally small category with products and coproducts, for any object $Y$ and family of objects $(X_\alpha)_\alpha$ we have 
+$$\mbox{Hom}\left(\coprod_\alpha X_\alpha, Y\right) \cong \prod_\alpha \mbox{Hom}(X_\alpha, Y).$$}
+
+Note that the product on the right is a product in the category of sets, i.e. a cartesian product.
+
+Consider the map sending a tuple of morphisms $(f_\alpha)_\alpha \in \prod_\alpha \mbox{Hom}(X_\alpha, Y)$ to the morphism $\coprod_\alpha f_\alpha \in \mbox{Hom}\left(\coprod_\alpha X_\alpha, Y\right)$. Here $\coprod_\alpha f_\alpha$ is the unique morphism given by the universal property of the coproduct.
+
+Firstly we will show that the map is a surjection. To this end let $f \in \mbox{Hom}\left(\coprod_\alpha X_\alpha, Y\right)$.
+
+Let $i_\alpha : X_\alpha \to \coprod_\alpha X_\alpha$ be the coprojection maps of the coproduct of the $X_\alpha$. Then the maps $f\circ i_\alpha$ are morphisms from $X_\alpha$ to $Y$.
+
+The coproduct of the morphisms $f\circ i_\alpha$ is the unique morphism $h : \coprod_\alpha X_\alpha \to Y$ such that $f\circ i_\alpha = h\circ i_\alpha$. In other words, it is the morphism $f$ itself. Thus $f$ is a coproduct of morphisms and the map described above is surjective.
+
+We have that $f_\alpha = f\circ i_\alpha$ for all $\alpha$. This shows that the $f_\alpha$ are unique for any given $f$, i.e. the map is injective. QED.
+
+\textbf{32. In a category with finite products and coproducts there is a morphism $X\times Y \oplus X\times Z \to X\times(Y\oplus Z)$.}
+
+Let $\pi_X$ and $\pi_Y$ be the projection morphisms of $X\times Y$ and $\pi'_X$ and $\pi'_Y$ be the projection morphisms of $X\times Z$. Let $i_Y$ and $i_Z$ be the coprojection morphisms of $Y\oplus Z$ and $i_{X\times Y}$ and $i_{X\times Z}$ be the coprojection morphisms of $X\times Y\oplus X\times Z$.
+
+We have morphisms $i_Y\circ \pi_Y : X\times Y \to Y\oplus Z$ and $i_Z\circ \pi'_Z : X\times Z \to Y\oplus Z$.
+
+By the universal property of $X\times Y\oplus X\times Z$ there is a unique morphism $\phi : X\times Y\oplus X\times Z \to X$ such that $\pi'_X = \phi\circ i_{X\times Z}$ and $\pi_X = \phi\circ i_{X\times Y}$.
+
+Similarly there exists a unique morphism $\phi' : X\times Y\oplus X\times Z \to Y\oplus Z$ such that $i_Y\circ \pi_Y = \phi'\circ i_{X\times Y}$ and $i_Z\circ \pi'_Z = \phi'\circ i_{X\times Z}$.
+
+Thus by the universal property for $X\times(Y\oplus Z)$ there exists a morphism from $X\times Y\oplus X\times Z$ to $X\times(Y\oplus Z)$. QED.
+
+\textbf{33. A distributive category is one in which $X\times Y\oplus X\times Z \cong X\times(Y\oplus Z)$.}
+
+\textbf{34. The category of sets is a distributive category.}
+
+Let $X$, $Y$ and $Z$ be sets. We have a map $f : X\times Y\oplus X\times Z \to X\times(Y\oplus Z)$ given by $((x, y), 0) \mapsto (x, (y, 0))$ and $((x, z), 1) \mapsto (x, (z, 1))$.
+
+The map is clearly injective and surjective and thus $X\times Y\oplus X\times Z \cong X\times(Y\oplus Z)$ in the category of sets. QED.
+
+\section{Preabelian categories}
+
+\textbf{1. A kernel of a morphism $f : X \to Y$ in a category with zero morphisms is an object $K$ together with a morphism $k : K \to X$ such that $f\circ k$ is $0_{KY}$ and such that given any other object $K'$ and morphism $k' : K' \to X$ such that $f\circ k'$ is $0_{K'Y}$, there is a unique morphism $u : K' \to K$ such that $k\circ u = k'$.}
+
+\textbf{2. The category of $R$-modules over a commutative ring $R$ is a module with zero morphisms where the maps $0_{XY}$ send every element of $X$ to the zero element of $Y$.}
+
+This category contains a zero object and is therefore a category with zero morphisms. The map $0_{XY}$ is a composition of the map that sends all elements of $X$ to the zero element of the zero object and the map which sends the zero element of the zero object to the zero element of $Y$. The result then follows. QED.
+
+\textbf{3. In a category with zero object, if $K, k$ is a kernel of a morphism $f : X \to Y$ then $k$ is a monomorphism.}
+
+Suppose that $g_1, g_2 : V \to K$ are morphisms such that $k\circ g_1 = k\circ g_2$. Then since $f\circ (k\circ g_1) = (f\circ k)\circ g_1 = 0_{KY}\circ g_1 = 0_{VY}$ then by the definition of kernel there must be a unique morphism $u : V \to K$ such that $k\circ u = k\circ g_1$. Thus $u = g_1$ since $g_1$ is such a morphism.
+
+But $k\circ g_1 = k\circ g_2$ by assumption and so $u = g_2$ is also such a morphism, so that $u = g_1 = g_2$. Thus we have shown that $k$ is a monomorphism. QED.
+
+\textbf{4. In a category with zero object a kernel of a morphism $f : X \to Y$, if it exists, is unique up to unique isomorphism.}
+
+Let $K, k$ and $L, l$ be kernels of $f$. From the definition of kernel, there exist unique morphisms $u_1 : K \to L$ and $u_2 : L \to K$ such that $k\circ u_2 = l$ and $l\circ u_1 = k$.
+
+Then $l\circ(u_1\circ u_2) = (l\circ u_1)\circ u_2 = k\circ u_2 = l = l\circ \mbox{id}_L$.
+
+Similarly $k\circ(u_2\circ u_1) = (k\circ u_2)\circ u_1 = l\circ u_1 = k = k\circ \mbox{id}_K$.
+
+Since $l$ and $k$ are monomorphisms $u_1\circ u_2 = \mbox{id}_L$ and $u_2\circ u_1 = \mbox{id}_K$. Thus $u_1$ and $u_2$ are unique isomorphisms and $K$ and $L$ are unique up to unique isomorphism. QED.
+ 
+\textbf{5. In the category of $R$-modules over a commutative ring $R$ a kernel of a morphism $f : X \to Y$ is an object $K$ and an injective morphism $k : K \to X$. The image of $k$ consists of all elements of $X$ that are mapped to $0$ by $f$.}
+
+By definition the composition $f\circ k$ must send every element of $K$ to the zero element of $Y$. Thus $f$ must send every element of the image of $k$ to $0$.
+
+Now let $K'$ be the subset of all $x \in X$ such that $f(x) = 0$. Let $k' : K' \to X$ be the injection map. It is easy to check that $K'$ is an $R$-module and $k'$ is a module homomorphism, and so $f\circ k' = 0_{K'Y}$.
+
+If $K, k$ is a kernel of $f$ then there must be a unique morphism $u : K' \to K$ such that $k\circ u = k'$. Now the image of $k'$ is all elements of $X$ that map to zero under $f$. Thus all such elements must be in the image of $k$. This shows that the image of $k$ is precisely all the elements that map to $0$ under $f$.
+
+As $k$ is a monomorphism it is an injective map. QED.
+
+\textbf{6. We define $\ker(f)$ for an $R$-module homomorphism $f : X \to Y$ to be the $R$-submodule of elements of $X$ that are mapped to zero under $f$.}
+
+\textbf{7. In the category of $R$-modules, if $f : X \to Y$ is a morphism then $\ker(f), \iota$ where $\iota : \ker(f) \to X$ is the inclusion map, is a kernel of $f$.}
+
+By definition $f\circ \iota = 0$. Let $K$ be an $R$-module and $k : K \to X$ be an $R$-module homomorphism such that $f\circ k = 0$.
+
+Clearly $k(x) \in \ker(f)$ for all $x \in X$. Thus we can define a map $u = \iota^{-1}\circ k : K \to \ker{f}$.
+
+By construction, $\iota\circ u = k$. It is easy to check that $u$ is an $R$-module homomorphism from its construction. It remains only to show that $u$ is unique.
+
+Suppose that $u' : K \to \ker{f}$ is another $R$-module homomorphism for which $\iota\circ u' = k = \iota\circ u$. As $\iota$ is injective we have that $u = u'$. Thus $u$ is unique. Thus by definition $\ker(f), \iota$ is a kernel of $f$. QED.
+
+\textbf{8. The cokernel of a morphism $f : X \to Y$ in a category with zero morphisms is an object $Q$ together with a morphism $q : Y \to Q$ such that $q\circ f = 0_{XQ}$ and such that for any other morphism $q' : Y \to Q'$ for which $q'\circ f = 0_{XQ'}$ there exists a unique morphism $u : Q \to Q'$ such that $q' = u\circ q$.}
+
+\textbf{9. In a category with zero object, if $Q, q$ is a cokernel of a morphism $f : X \to Y$ then $q$ is an epimorphism.}
+
+Suppose that $g_1, g_2 : Q \to V$ are morphisms such that $g_1\circ q = g_2\circ q$. Then since $(g_1\circ q)\circ f = g_1\circ (q\circ f) = g_1\circ 0_{XQ} = 0_{XV}$ then by the definition of kernel there must be a unique morphism $u : Q \to V$ such that $u\circ q = g_1\circ q$. Thus $u = g_1$ since $g_1$ is such a morphism.
+
+But $g_1\circ q = g_2\circ q$ by assumption and so $u = g_2$ is also such a morphism, so that $u = g_1 = g_2$. Thus we have shown that $q$ is an epimorphism. QED.
+
+\textbf{10. In a category with zero object a cokernel of a morphism $f : X \to Y$, if it exists, is unique up to unique isomorphism.}
+
+Let $Q, q$ and $R, r$ be cokernels of $f$. From the definition of cokernel, there exist unique morphisms $u_1 : Q \to R$ and $u_2 : R \to Q$ such that $u_2\circ q = r$ and $u_1\circ r = q$.
+
+Then $(u_2\circ u_1)\circ r = u_2\circ (u_1\circ r) = u_2\circ q = r = \mbox{id}_R\circ r$.
+
+Similarly $(u_1\circ u_2)\circ q = u_1\circ (u_2\circ q) = u_1\circ r = q = \mbox{id}_Q\circ q$.
+
+Since $q$ and $r$ are epimorphisms $u_2\circ u_1 = \mbox{id}_R$ and $u_1\circ u_2 = \mbox{id}_Q$. Thus $u_1$ and $u_2$ are unique isomorphisms and $Q$ and $R$ are unique up to unique isomorphism. QED.
+
+\textbf{11. In the category of $R$-modules over a commutative ring $R$ a cokernel of a morphism $f : X \to Y$ is an object $Q$ and a surjective morphism $q : Y \to Q$. The kernel of $q$ is the image of $f$.}
+
+By definition the composition $q\circ f$ must send every element of $X$ to the zero element of $Q$. Thus $q$ must send every element of the image of $f$ to $0$.
+
+Now let $Q'$ be the quotient set $Y/\mbox{Im}(f)$. Let $k' : Y \to Q'$ be the natural surjective map sending $y \mapsto y + \mbox{Im}(f)$. It is easy to check that $Q'$ is an $R$-module and $q'$ is a module homomorphism, and so $q'\circ f = 0_{Q'Y}$.
+
+If $Q, q$ is a cokernel of $f$ then there must be a unique morphism $u : Q \to Q'$ such that $q' = u\circ q$. Now the kernel of $q'$ is all elements of $Y$ that are in the image of $f$. The set of such elements must contain the kernel of $q$. This shows that the kernel of $q$ is precisely all the elements that are in the image of $f$.
+
+As $q$ is an epimorphism it is a surjective map. QED.
+
+\textbf{12. We define $\mbox{coker}(f)$ for an $R$-module homomorphism $f : X \to Y$ to be the quotient module $Y/\mbox{Im}(f)$.}
+
+\textbf{13. In the category of $R$-modules, if $f : X \to Y$ is a morphism then $\mbox{coker}(f), \pi$ where $\pi : Y \to Y/\mbox{Im}(f)$ is the natural projection map, is a cokernel of $f$.}
+
+By definition $\pi\circ f = 0$. Let $Q$ be an $R$-module and $q : Y \to Q$ be an $R$-module homomorphism such that $q\circ f = 0$.
+
+Clearly $\mbox{Im}(f) \in \ker(q)$ for all $x \in X$. Thus we can define a map $u : Y/\mbox{Im}(f) \to Q$ which sends an element $y$ of $Y/\mbox{Im}(f)$ to the unique element of $Q$ to which $q$ sends all elements of $\pi^{-1}(y)$.
+
+By construction, $u\circ \pi = q$. It is easy to check that $u$ is an $R$-module homomorphism from its construction. It remains only to show that $u$ is unique.
+
+Suppose that $u' : \mbox{coker}{f} \to Q$ is another $R$-module homomorphism for which $u'\circ \pi = q = u\circ \pi$. As $\pi$ is surjective we have that $u = u'$. Thus $u$ is unique. Thus by definition $\mbox{coker}(f), \pi$ is a cokernel of $f$. QED.
+
+\textbf{14. If a kernel or cokernel of a morphism $f : A \to B$ of a preadditive category exists, it is unique up to unique isomorphism.}
+
+This follows from the fact that a preadditive category has a zero object. QED.
+
+\textbf{15. A subobject of an object $A$ in a category is an equivalence class of monomorphisms to $A$ where two monomorphisms $m : B \to A$ and $m' : B' \to A$ are equivalent if there is an isomorphism $f : B \to B'$ such that $m = m'\circ f$.}
+
+\textbf{16. A quotient object of an object $A$ in a category is an equivalence class of epimorphisms from $A$ such that two epimorphisms $e : A \to B$ and $e' : A \to B'$ are equivalent if there is an isomorphism $f : B' \to B$ such that $e = f\circ e'$.}
+
+\textbf{17. In a category with zero object, a kernel, if it exists, is a subobject.}
+
+This follows immediately from the proof that a kernel is unique up to isomorphism. QED.
+
+\textbf{18. In a category with zero object, a cokernel, if it exists, is a quotient object.}
+
+This follows immediately from the proof that a cokernel is unique up to isomorphism. QED.
+
+\textbf{19. A preabelian category is an additive category that has kernels and cokernels.}
+
+\textbf{20. The category of $R$-modules over a commutative ring is preabelian.}
+
+This follows immediately from what we have proved above. QED.
+
+\section{Equalisers}
+
+\textbf{1. An equaliser of two morphisms $f, g : X \to Y$ in a category is an object $E$ and a morphism $eq : E \to X$ satisfying $f\circ eq = g\circ eq$ such that for any object $A$ and morphism $m : A \to X$ with $f\circ m = g\circ m$ there exists a unique morphism $u : A \to E$ such that $eq\circ u = m$.}
+
+\textbf{2. If an equaliser of two morphisms exists in a category, it is unique up to unique isomorphisms.}
+
+This follows from its definition via a universal property. QED.
+
+\textbf{3. A coequaliser of two morphisms $f, g : X \to Y$ in a category is an object $Q$ and morphism $q : Y \to Q$ such that $q\circ f = q\circ g$ and such that if $Q'$ is any object and $m : Y \to Q'$ is a morphism such that $m\circ f = m\circ g$ then there exists a unique morphism $u : Q \to Q'$ such that $m = u\circ q$.}
+
+\textbf{4. If a coequaliser of two morphisms exists in a category it is unique up to unique isomorphism.}
+
+This follows from its definition via a universal property. QED.
+
+\textbf{5. The equaliser of two morphisms $f, g : X \to Y$  always exists in a preabelian category.}
+
+If the category is merely preadditive it makes sense to define the $\ker(g - f)$. In a preabelian category this always exists. We will show that it is the equaliser of $f$ and $g$.
+
+By definition $\ker(g - f)$ is an object $K$ and morphism $k : K \to X$ such that $(g - f)\circ k = 0_{KY}$ and which is universal for such objects and morphisms. But if $(g - f)\circ k = 0_{KY}$ then $g\circ k - f\circ k = 0_{KY}$ and so $g\circ k = f\circ k$. Moreover, $K, k$ is universal for such objects and morphisms. Thus $\ker(g - f)$ is the equaliser of $f$ and $g$. QED.
+
+\textbf{6. The coequaliser of two morphisms $f, g : X \to Y$  always exists in a preabelian category.}
+
+The proof is dual to the case of the equaliser. QED.
+
+\textbf{7. In the category of sets the equaliser of two maps $f, g : X \to Y$ is $E = \{x \in X \;|\; f(x) = g(x)\}$ along with the injection map $i$ from $E$ into $X$.}
+
+We certainly have $f\circ i = g\circ i$. Suppose $A$ is any set and $m : A \to X$ is a map such that $f\circ m = g\circ m$. Then in fact the image of $m$ is $E$. For if $y$ is in the image of $m$ then there exists $a \in A$ such that $m(a) = y$ and so $(f\circ m)(a) = (g\circ m)(a)$, i.e $f(y) = g(y)$.
+
+Let us define $u : A \to E$ such that $u(a) = m(a)$. Then $m = i\circ u$ by definition. But if $u' : A \to E$ is any other map such that $m = i\circ u'$ then $u'(a) = (i\circ u')(a) = m(a) = (i\circ u)(a) = u(a)$ and so $u' = u$.
+
+Thus $E$ along with the injection map $i$ is an equaliser of $f$ and $g$. QED.
+
+\textbf{8. In the category of sets the coequaliser of two maps $f, g : X \to Y$ is $Y/\sim$ where $\sim$ is the smallest equivalence relation on $Y$ such that $f(x) \sim g(x)$ for all $x \in X$ along with the natural quotient map $\pi : Y \to Y/\sim$.}
+
+Clearly $\pi\circ f = \pi\circ g$ by definition. Write $Q = Y/\sim$.
+
+If $Q'$ is any other set and $\pi' : Y \to Q'$ is a map such that $\pi'\circ f = \pi'\circ g$ then we can define $u : Q \to Q'$ by $u([y]) = \pi'(y)$. 
+
+This is well-defined since if $y$ and $y'$ are equivalent then either $y = y'$ or there exists a chain $y = a_0, a_1, \ldots, a_n = y'$ in $Y$ such that $a_{i-1} = f(x)$ and $a_i = g(x)$ for some $x \in X$ or $a_{i-1} = g(x)$ and $a_i = f(x)$ for some $x \in X$. This is the smallest equivalence on $Y$ that has the required properties.
+
+If $y = y'$ then $\pi'(y) = \pi'(y')$. Otherwise, $\pi'(y) = \pi'(a_0) = \pi'(a_1) = \cdots = \pi'(a_n) = \pi'(y')$, and the map $u$ is well-defined.
+
+By definition $u\circ \pi = \pi'$. If $u'$ is any other such map we show that $u'([y]) = u'(\pi(y)) = \pi'(y)$ and so $u = u'$. QED.
+
+\textbf{9. The equaliser of two morphisms $f, g : X \to Y$ in the category of $R$-modules is $\ker(g - f)$.}
+
+This follows from the fact that the category of $R$-modules is a preabelian category. QED.
+
+\textbf{10. The coequaliser of two morphisms $f, g : X \to Y$ in the category of $R$-modules is $\mbox{coker}(g - f)$.}
+
+This follows from the fact that the category of $R$-modules is a preabelian category. QED.
+
+\section{Products}
+
+\textbf{1. An inverse system in a category is a family of objects $\{A_i\}_{i \in I}$ for a directed system $I, \leq$ with morphisms $f_{ij} : A_j \to A_i$ for all $i \leq j$ such that $f_{ii}$ is the identity morphism of $A_i$ and $f_{ik} = f_{ij}\circ f_{jk}$ for all $i \leq j \leq k$.}
+
+\textbf{2. The inverse limit of a inverse system $A_i, f_{ij}$ in a category is an object $A$ together with morphisms $\phi_i : A \to A_i$ such that $\phi_i = f_{ij}\circ \phi_j$ and such that for any other object $B$ with morphisms $\psi_i : B\to A_i$ satisfying $\psi_i = f_{ij}\circ \psi_j$ there is a unique morphism $u : B \to A$ such that $\psi_i = \phi_i \circ u$ for all $i \in I$.}
+
+We denote the direct limit of the $A_i$ by $A = \varprojlim A_i$.
+
+\textbf{3. Let $\{A_i\}_{i\in I}, f_{ij}$ be an inverse system of objects and morphisms in a preabelian category for some directed set $I$. Then the inverse limit $\varprojlim A_i$ exists in the category.}
+
+We consider two products in the category, namely $U = \prod_{i \in I} A_i$ and $V = \prod_{(i, j)\in I\times I, i \leq j} A_j$.
+
+Let $\pi_{ij} : V \to A_j$ be the projection maps for the second product and $\pi_i : U \to A_i$ be the projection maps for the first product. By the universal property of the second product, there is a morphism $f : U \to V$ such that $\pi_j = \pi_{ij}\circ f$ for all $i \leq j$.
+
+Similarly, consider the compositions $f_{ij}\circ \pi_i : U \to F_j$. Again by the universal property of $V$ there exists a morphism $g : U \to V$ such that $f_{ij}\circ \pi = \pi_{ij}\circ g$.
+
+Let $A$ be the equaliser of $f$ and $g$ with morphism $e : A \to U$. The composition $\phi_i = \pi_i\circ e$ gives us a morphism from $A$ to $A_i$ for each $i \in I$.
+
+We claim that $A$ along with the morphisms $\phi_i$ constitute the inverse limit of the $A_i$.
+
+For any $i \leq j$ with $i, j \in I$ we have $f_{ij}\circ \pi_i = \pi_{ij}\circ g$ and $\pi_j = \pi_{ij}\circ f$. Thus $\pi_j\circ e = \pi_{ij}\circ f\circ e = \pi_{ij}\circ g\circ e$ since $A, e$ is an equaliser for $f$ and $g$. But this equals $f_{ij}\circ \pi_i\circ e$.
+
+In other words, for the equaliser $A, e$ we have $\pi_j\circ e = f_{ij}\circ \pi_i\circ e$, i.e. $\phi_j = f_{ij}\circ \phi_i$ for all $i \leq j$, which is the property we require for the inverse limit. Now we need to show that it is unique.
+
+Suppose that $L$ is any other object with morphisms $\lambda_i : L \to A_i$. Then there is a unique morphism $h : \to U$. Suppose also that $\lambda_j = f_{ij}\circ \lambda_i$ for all $i \leq j$.
+
+Thus $\pi_j\circ e' = f_{ij}\circ \pi_i\circ e'$. Thus $\pi_{ij}\circ f\circ e' = \pi_{ij}\circ g\circ e'$.
+
+But as $\pi_{ij}\circ f\circ e'$ is a set of morphisms from $L$ to the $A_j$ there is a unique morphism $\phi$ from $L$ to $\prod_{(i, j)\in I\times I, i \leq j} A_j$ such that $\pi_{ij}\circ f\circ e' = \pi_{ij}\circ \phi$. Thus this unique morphism is $\phi = f\circ e' = g\circ e'$.
+
+In other words, $L$ is an equaliser for $f$ and $g$. Thus there is a morphism $\psi$ from $L \to E$ such that $e\circ \psi = e'$.
+
+Thus there is a morphism $\psi$ from $L \to E$ such that $\pi_i\circ e\circ \psi = \pi_i\circ e'$, i.e. such that $\phi_i\circ \psi = \lambda_i$, thus giving the universal property of the inverse limit of the $A_i$. QED.
+
+\textbf{4. A direct system in a category is a family of objects $\{A_i\}_{i \in I}$ for a directed system $I, \leq$ with morphisms $f_{ij} : A_i \to A_j$ for all $i \leq j$ such that $f_{ii}$ is the identity morphism of $A_i$ and $f_{ik} = f_{jk}\circ f_{ij}$ for all $i \leq j \leq k$.}
+
+\textbf{5. The direct limit of a direct system $A_i, f_{ij}$ in a category is an object $A$ together with morphisms $\phi_i : A_i \to A$ such that $\phi_i = \phi_j\circ f_{ij}$ and such that for any other object $B$ with morphisms $\psi_i : A_i \to B$ satisfying $\psi_i = \psi_j\circ f_{ij}$ there is a unique morphism $u : A \to B$ such that $\psi_i = u\circ \phi_i$ for all $i \in I$.}
+
+We denote the direct limit of the $A_i$ by $A = \varinjlim A_i$.
+
+\textbf{6. Let $\{A_i\}_{i\in I}, f_{ij}$ be a direct system of objects and morphisms in a preabelian category for some directed set $I$. Then the direct limit $\varinjlim A_i$ exists in the category.}
+
+The argument is dual to that of the inverse limit. QED.
+
+\textbf{7. Let $\{M_i, f_{ij}\}$ be a direct system of $R$-modules over some partially ordered set $I$. Let $\rho_i : M_i \to M$ be the coprojection maps for $M = \bigoplus_{i \in I} M_i$. Define an $R$-submodule of $M$ by $N = \langle \rho_j f_{ij}(x_i) - \rho_i(x_i) \;|\; i \leq j, x_i \in M_i\rangle.$ Then $\varinjlim M_i = M/N$.}
+
+Define $f_i : M_i \to M/N$ by $f_i(x_i) = \rho_i(x_i) + N$. Then if $i \leq j$ for $i, j \in I$ we have $\rho_j(f_{ij})(x_i) - \rho_i(x_i) \in N$ and so
+$$f_j(f_{ij}(x_i)) = \rho_j(f_{ij}(x_i)) + N = \rho_i(x_i) + N = f_i(x_i).$$
+Thus $f_j\circ f_{ij} = f_i$ as required.
+
+Now suppose there is an $R$-module $X$ with $R$-module homomorphisms $g_i : M_i \to X$ such that $g_j\circ f_{ij} = g_i$ for all $i \leq j$ with $i, j \in I$. We will prove that there is a unique $R$-module homomorphism $f : M/N \to X$ such that $f\circ f_i = g_i$ for all $i$.
+
+Note that every element of $M/N$ is of the form $\sum_{i \in J} \rho_i(x_i) + N$ for some finite subset $J$ of $I$. Since we must have $f\circ f_i = g_i$, we have by linearity that $f\left(\sum_{i \in J} \rho_i(x_i) + N\right) = \sum_{i\in J} g_i(x_i)$.
+
+We will show that $f$ so defined is well-defined. Define $f' : M \to X$ by $f'\left(\sum_{i\in J} \rho_i(x_i)\right) = \sum_{i\in J} g_i(x_i)$. Such a homomorphism exists and is unique by the definition of $M$ as a direct sum. We will show that $N \subseteq \ker f'$ so that $f$ is well-defined.
+
+Suppose $i \leq j$ for $i, j \in I$ and let $x_i \in M_i$. Then
+$$f'(\rho_j(f_{ij}(x_i)) - \rho_i(x_i)) = g_j(f_{ij}(x_i)) - g_i(x_i) = 0$$
+since $g_j\circ f_{ij} = g_i$. But $N$ is generated by the$\rho_j(f_{ij}(x_i)) - \rho_i(x_i)$ and so $N \subseteq \ker f'$ as required. QED.
+
+\textbf{8. Let $\{M_i, f_{ij}\}$ be a direct system of $R$-modules over some directed set $I$. Then $\varinjlim M_i = \{\rho_i(x_i) + N \;|\; i \in I, x_i \in M_i\}$, where $\rho_i : M_i \to \bigoplus_{i\in I} M_i$ are the coprojection maps.}
+
+By the previous theorem a general element of $\varinjlim M_i$ is of the form $a = \sum_{i\in J} \rho_i(x_i) + N$ for any finite set $J \subseteq I$. We will show that all such elements are of the form $\rho_i(x_i) + N$ for $x_i \in M_i$ and $i \in I$.
+
+Since $I$ is directed there exists some $k \in I$ such that $i \leq k$ for all $i \in J$. Then for all $i \in J$ we have 
+$$\rho_i(x_i) + N = \rho_i(x_i) + N = \rho_k f_{ik}(x_i) + \rho_i(x_i) - \rho_k f_{ik}(x_i) + N = \rho_k f_{ik}(x_i) + N.$$
+
+Thus if $y_k = \sum_{i \in J} f_{ik}(x_i) \in M_k$ then $a = \rho(y_k) + N$. Thus all elements of $\varinjlim M_i$ are of the required form. QED.
+
+\textbf{9. Let $\{M_i, f_{ji}\}$ be an inverse system of $R$-modules over some partially ordered set $I$. Then $\varprojlim M_i = \{(x_i)_i \in \prod_i M_i \;|\; f_{ji}(x_j) = x_i \;\;\mbox{whenever}\;\; i \leq j\}$.}
+
+We first show that the given set is an $R$-submodule of $\prod_i M_i$.
+
+First we have that $(0)_i \in \varprojlim M_i$ since $f_{ji}(0) = 0$ for all $i \leq j$, as $f_{ji}$ is an $R$-module homomorphism. 
+
+Suppose $(a_i)_i, (b_i)_i \in \varprojlim M_i$ then $(a_i - b_i) \in \varprojlim M_i$ since for $i \leq j$ we have $f_{ji}(a_j - b_j) = f_{ji}(a_j) - f_{ji}(b_j) = a_i - b_i$.
+
+Finally, if $r \in R$ and $(a_i)_i \in \varprojlim M_i$ then $f_{ji}(ra_j) = rf_{ji}(a_j) = ra_i$ whenever $i \leq j$. Thus $r(a_i)_i \in \varprojlim M_i$.
+
+Thus $\varprojlim M_i$ is an $R$-submodule of $\prod_i M_i$.
+
+We define $f_i = \pi_i\circ \iota$ for all $i \in I$ where $\pi_i : \prod_i M_i \to M_i$ are the projections of the product of the $M_i$ and $\iota$ is the inclusion of $\varprojlim M_i$ into $\prod_i M_i$.
+
+The $f_i$ are $R$-module homomorphisms and since $f_{ij}\circ \pi_j = \pi_i$ for all $i \leq j$ we have that $f_{ij}\circ f_j = f_i$ for all $i \leq j$.
+
+Now suppose that $N$ is an $R$-module with $R$-module homomorphisms $\psi_i N \to M_i$ such that whenever $i \leq j$ then $f_{ji}\circ \psi_j = \psi_i$.
+
+We define the map $\psi : N \to \varprojlim M_i$ by $\psi(x) = (\psi_i(x))_i$. Now $(f_i\circ \psi)(x) = f_i((\psi_i(x))_i) = \psi_i(x)$ so that $f_i\circ \psi = \psi_i$ for all $i \in I$. It is easy to check that $\psi$ is an $R$-module homomorphism.
+
+Suppose that we have another $R$-module homomorphism $\psi' : N \to \varprojlim M_i$ such that $f_i\circ \psi' = \psi_i$ for all $i \in I$. Then for all $x \in N$ we have $f_i(\psi'(x)) = \psi_i(x)$ so that $\pi_i((\psi(x))_i) = \psi_i(x) = \pi_i((\psi'(x))_i)$. Thus $\psi(x)$ and $\psi'(x)$ agree on all components and are therefore the same homomorphism, i.e. the map $\psi$ is unique.
+
+Thus $\varprojlim M_i$ satisfies all the requirements to be the inverse limit of the $M_i$. QED.
+
+\textbf{10. Let $(A_i)_{i\in I}$ be a family of sets indexed by a directed set $I$ and let the $A_i$ form a direct system with maps $f_{ij} : A_i \to A_j$. The direct limit of this system exists.}
+
+Let $A$ be the disjoint union of the $A_i$, i.e. the union of sets $A_i\times \{i\}$. Define a binary relation $\sim$ on $A$ by $a_i \sim a_j$ for $a_i \in A_i$ and $a_j \in A_j$ with $i, j \in I$ iff there is a $k \in I$ such that $f_{ik}(a_1) = f_{jk}(a_2)$.
+
+We show that $\sim$ is an equivalence relation. It is clearly symmetric and due to the existence of $f_{ii}$ it is reflexive.
+
+Now suppose $a_i \sim a_j$ and $a_j \sim a_k$ for $a_i \in A_i$, $a_j \in A_j$ and $a_k \in A_k$. Thus there are $p, q \in I$ such that $f_{ip}(a_i) = f_{jp}(a_j)$ and $f_{jq}(a_j) = f_{kq}(a_k)$.
+
+Since $I$ is directed, there exists $r \in I$ such that $p, q \leq r$. Then $f_{ir}(a_i) = f_{pr}(f_{ip}(a_i)) = f_{pr}(f_{jp}(a_j)) = f_{jr}(a_j)$. Similarly $f_{kr}(a_k) = f_{qr}(f_{kq}(a_k)) = f_{qr}(f_{jq}(a_j)) = f_{jr}(a_j)$. Hence $a_i \sim a_k$. Thus $\sim$ is transitive and therefore an equivalence relation.
+
+If we write $p_i : A_i \to A$ for the map $a_i \mapsto (a_i, i)$ into the disjoint union, then there is a mapping $f_i : A_i \to \varinjlim A_i$ given by $f_i = \phi\circ p_i$ where $\phi : A \to A/\sim$ is the quotient map. We claim $A/\sim$ along with the $f_i$ is the direct limit $\varinjlim$ in the category of sets. 
+
+We will show that $f_j\circ f_{ij} = f_i$ for $i \leq j$, i.e. that $\phi\circ p_j\circ f_{ij} = \phi\circ p_i$. This of course holds if $f_{ij}(a_i) \sim a_i$ for all $a_i \in A_i$.
+
+But this is clear since we can take $k = j$ and then $f_{jk}(f_{ij}(a_i)) = f_{ik}(a_i) = f_{ij}(a_i)$ since $f_{jk} = f_{jj}$ is the identity.
+
+By standard arguments, we show that if $B$ is any other set with maps $g_i : A_i \to B$ such that $g_j\circ f_{ij} = g_i$ then there is a unique map $\phi : \varinjlim \to B$ such that $g_i = \phi\circ f_i$ for all $i \in I$. QED.
+
+\textbf{11. Let $\{M_i, f_{ji}\}$ be an inverse system of sets over some partially ordered set $I$. Then $\varprojlim M_i = \{(x_i)_i \in \prod_i M_i \;|\; f_{ji}(x_j) = x_i \;\;\mbox{whenever}\;\; i \leq j\}$.}
+
+The proof is essentially the same as that for $R$-modules. QED.
+
+\textbf{12. Let a family of subsets $(M_i)_{i\in I}$ of a set $M$ be given for some directed set $I$. Suppose the family is  partially ordered by inclusion, i.e. $i \leq j$ iff $M_i \subseteq M_j$. We let $f_{ij}$ be the inclusion map of $M_i$ into $M_j$ if $i \leq j$. Then $\varinjlim M_i = \bigcup_i M_i$.}
+
+For $I$ to be a directed set, if $M_i$ and $M_j$ are any two sets in the family with $i, j \in I$, there must be a $k \in I$ such that $M_i \subseteq M_k$ and $M_j \subseteq M_k$.
+
+From the definition of the equivalence relation on the disjoint union of the $M_i$ from the result on the direct limit of sets given above, we see that $m_i \sim m_j$ for $m_i \in M_i$ and $m_j \in M_j$ iff $m_i = m_j$ as elements of $M$.
+
+Thus if $A$ is the disjoint union of the $M_i$ we have that $A/\sim$ is simply the set of elements of $M$ which are in some $M_i$, i.e. $\varinjlim M_i \cong \bigcup_i M_i$. QED.
+
+\textbf{13. Let a family of subsets $(M_i)_{i\in I}$ of a set $M$ be given for some directed set $I$. Suppose the family is  partially ordered by reverse inclusion, i.e. $i \leq j$ iff $M_i \supseteq M_j$. We let $f_{ji}$ be the inclusion map of $M_j$ into $M_i$ if $i \leq j$. Then $\varprojlim M_i \cong \bigcap_i M_i$.}
+
+Since $i$ is a directed set, for all $i, j \in I$ there exists a $k \in I$ such that $i, j \leq k$. This means that $M_i \supseteq M_k$ and $M_j \supseteq M_k$, i.e. $M_k \subseteq M_i \cap M_j$.
+
+We have that $\varprojlim M_i$ is the set of all $(x_i)_i \in \prod_i M_i$ such that $f_{ji}(x_j) = x_i$ for all $i \leq j$. In other words, for all $i \leq j$ we have that $x_i = x_j$ as elements of $M$.
+
+As $I$ is a directed, for any $i, j \in I$ there exists a $k$ such that $i, j \leq k$. Then $M_k \subseteq M_i\cap M_j$. But this implies that $x_k \in M_i\cap M_j$. Thus if $(x_i)_i$ is an element of $\varprojlim M_i$ then $x_i = x_j = x_k \in M_i\cap M_j$ as elements of $M$.
+
+But this implies that $x_i \in M_j$ for all $j \in I$, i.e. $x_i \in \bigcap_{i\in I} M_i$.
+
+On the other hand, if $x_i \in \bigcap_{i\in I} M_i$ then $(\ldots, x_i, x_i, x_i, \ldots) \in \varprojlim M_i$ where the $j$-th coordinate is $x_i$ considered as an element of $M_j$.
+
+In other words, $\bigcap_{i \in I} M_i$ is an inverse limit of the $M_i$. QED.
+
+\textbf{14. If we have a direct system of objects $X_i$ over a directed set $I$ with maps $f_{ij}$, and $I$ contains a greatest element $m$ then the direct limit is isomorphic to $X_m$ and the map $f_m : X_m \to \varinjlim X_i$ is an isomorphism.}
+
+As $m$ is a greatest element of $I$ we have that for all $i \in I$ there is a morphism $f_{im} : X_i \to X_m$. Moreover $f_{im} = f_{jm}\circ f_{ij}$ for all $i \leq j$.
+
+If $A$ is any other object with morphisms $g_i : X_i \to A$ such that $g_i = g_j\circ f_{ij}$ then $g_m$ is a map from $X_m$ to $A$. In particular $g_m = g_i\circ f_{mi}$ and so $g_m\circ f_{im} = g_i\circ f_{mi}\circ f_{im}$. But $f_{mi}\circ f_{im} = f_{ii}$ which is the identity. Thus $g_m\circ f_{im} = g_i$. But $f_{im} = f_i$ and so $g_m\circ f_i = f_i$.
+
+It's easy to show that $g_m$ is the unique map with this property.
+
+Thus $X_m$ is a direct limit of the $X_i$ proving the first part of the theorem. For the second part note that $f_m$ is $f_{mm}$ which is the identity map. QED.
+
+\textbf{15. If we have an inverse system of objects $X_i$ over a directed set $I$ with maps $f_{ji}$, and $I$ contains a greatest element $m$ then the inverse limit is isomorphic to $X_m$ and the map $f_m : \varprojlim X_i \to X_m$ is an isomorphism.}
+
+The proof is dual to that for the direct limit. QED.
+
+\textbf{16. In a preabelian category, if $(X_i)_{i\in I}$ is a direct system with maps $f_{ij} : X_i \to X_j$ for all $i \leq j$ then each map $f_{ij}$ induces a map $f^\star_{ij} :$ Hom$(M_j, N) \to$ Hom$(M_i, N)$ for any object $N$ in the category. The family $($Hom$(M_i, N))_{i\in I}$ is then an inverse system of abelian groups with maps $f^\star_{ij}$ for all $i \leq j$.}
+
+Given $g \in$ Hom$(M_j, N)$ we define $f^\star_{ij}(g) = g\circ f_{ij} \in$ Hom$(M_i, N)$.
+
+Firstly we need to check that $f^\star_{ii}$ is the identity map on Hom$(M_i, N)$. This is clear, since if $g \in$ Hom$(M_i, N)$ then $f^\star_{ii}(g) = g\circ f_{ii} = g$ and so $f^\star_{ii}$ is the identity as required.
+
+We must also show that $f^\star_{ij}\circ f^\star_{jk} = f^\star_{ik}$ whenever $i \leq j \leq k$. But this is also clear. Given $g \in$ Hom$(M_k, N)$ we have
+$$f^\star_{ik}(g) = g\circ f_{ik} = g\circ f_{jk}\circ f_{ij} = f^\star_{ij}(g\circ f_{jk}) = (f^\star_{ij}\circ f^\star_{jk})(g).$$
+
+Thus we have an inverse system as claimed. QED.
+
+\textbf{17. In a preabelian category if $(M_i)_i$ is a family of objects and $N$ is an object then Hom$(\varprojlim M_i, N) \cong \varinjlim$ Hom$(M_i, N)$.}
+
+We claim that in fact, Hom$(\varprojlim M_i, N)$ is an inverse limit of the system $($Hom$(M_i, N))_i$ with maps $f^\star_{ij}$, with projection maps $\pi_j :$ Hom$(\varprojlim M_i, N) \to$ Hom$(M_j, N)$ given by $\pi_j(g) = g\circ \phi_j$ where the $\phi_j$ are the coprojection maps $M_j \to \varprojlim M_j$.
+
+Firstly, we have
+$$f_{ij}(\pi_j(g)) = f_{ij}(g\circ \phi_j) = g\circ \phi_j\circ f_{ij} = g\circ \phi_i = \phi_i(g),$$
+for all $i \leq j$ and $g \in$ Hom$(\varprojlim M_i, N)$. Thus the projection maps satisfy the required relation.
+
+Now suppose that $X$ is any abelian group with maps $g_i : X \to$ Hom$(M_i, N)$ such that $f^\star_{ij}\circ g_j = g_i$.
+
+If we fix $x \in X$ then we have a set of maps $g_i(x) : M_i \to N$ such that $f_j(x)\circ f_{ij} = (f^\star_{ij}\circ g)(x) = g_i(x)$. Thus by the definition of the direct limit of the $M_i$ there exists a map $j_x : \varprojlim M_i \to N$ such that $j_x\circ \phi_i = g_i(x)$.
+
+Let $j : X \to$ Hom$(\varprojlim M_i, N)$ be defined by $j : x \to j_x$. We note that $j$ is an abelian group homomorphism since
+$$j_{x + y}\circ \phi_i = g_i(x + y) = g_i(x) + g_i(y) = (j_x + j_y)\circ \phi_i,$$
+which shows that $j_{x + y} = j_x + j_y$.
+
+Next we note that $\pi_i\circ j(x) = \pi_i\circ j_x = g_i(x)$ for all $x \in X$, so that $\pi_i\circ j = g_i$ for all $i \in I$. Thus $j : X \to$ Hom$(\varprojlim M_i, N)$ is the desired map.
+
+Finally, we show that it is unique. For if $k : X \to$ Hom$(\varprojlim M_i, N)$ is another abelian group homomorphism such that $\pi_i\circ k = g_i = \pi_i\circ j$ then for all $x \in X$ we have that $k(x)\circ \phi_i = (\pi_i\circ k)(x) = (\pi_i\circ j)(x) = j(x)\circ \phi_i$ and so $j(x)$ and $k(x)$ agree on each $\phi_i$. Thus by the definition of the direct limit, they agree on $\varprojlim M_i$. Thus $j(x) = k(x)$ for all $x \in X$ and so $j = k$.
+
+This shows that $($Hom($\varprojlim M_i, N)_i$ is an inverse limit along with the maps $\pi_i$ as required, which gives the stated isomorphism in the theorem. QED.
+
+\section{Pullbacks}
+
+\textbf{1. The pullback of two morphisms $f : X \to Z$ and $g : Y \to Z$ in a category is an object $P$ and two morphisms $p_1 : P \to X$ and $p_2 : P \to Y$ such that $f\circ p_1 = g\circ p_2$ and such that for any other object $Q$ with morphisms $q_1 : Q \to X$ and $q_2 : Q \to Y$ such that $f\circ q_1 = g\circ q_2$ there exists a unique morphism $u : Q \to P$ such that $p_2\circ u = q_2$ and $p_1\circ u = q_1$.}
+
+We denote the pullback of $f$ and $g$ by $P = X\times_Z Y$.
+
+\textbf{2. The pullback of morphisms $f : X \to Z$ and $g : Y \to Z$, if it exists, is unique up to unique isomorphism.}
+
+This follows from the pullback being defined by a universal property. QED.
+
+\textbf{3. In a category with terminal object $T$ the pullback $X\times_T Y$ is the ordinary product $X\times Y$.}
+
+Let $\pi_1, \pi_2$ be the projections of the ordinary product and let $f : X \to T$ and $g : Y\to T$ be the unique morphisms to the terminal object, of which we are taking the pullback.
+
+Clearly $f\circ \pi_1 = g\circ \pi_2$ since they are both the unique morphism from $X\times Y$ to $T$.
+
+If $P$ is any other object with morphisms $p_1 : P \to X$ and $p_2 : P \to Y$ such that $f\circ p_1 = g\circ p_2$ then there exists a unique morphism $u : P \to X\times Y$ such that $p_1 = \pi_1\circ u$ and $p_2 = \pi_2\circ u$ by the universal property of the product. QED.
+
+\textbf{4. Let $I$ consist of three elements $i$, $j$ and $k$ with $i \leq j$ and $i \leq k$, i.e. not a directed set. The inverse limit of an inverse system of objects $X_i$ over $I$ in a preabelian category is the pullback of $f_{ji}$ and $f_{ki}$.}
+
+The inverse limit is an object $P$ with maps $f_i : P \to X_i$, $f_j : P \to X_j$ and $f_k : P \to X_k$ such that $f_i = f_{ji}\circ f_j$ and $f_i = f_{ki}\circ f_k$. It is also universal with respect to such. QED.
+
+\textbf{5. In the category of sets, a pullback of two maps $f : X \to Z$ and $g : X \to Z$ is given by the set
+$$X\times_Z Y = \{(x, y) \in X\times Y \;|\; f(x) = g(x)\},$$
+together with the restriction of the projection maps $\pi_1 : X\times Y \to X$ and $\pi_2 : X\times Y \to Y$ to $X\times_Z Y$.}
+
+As $\pi_1((x, y)) = x$ and $\pi_2((x, y)) = y$ we have that $f\circ \pi_1 = g\circ \pi_2$ on $X\times_Z Y$.
+
+Suppose $P$ is any other set with maps $p_1 : P \to X$ and $p_2 : P \to Y$ such that $f\circ p_1 = g\circ p_2$. Define $u : P \to X\times Y$ by $u(p) = (p_1(p), p_2(p))$ for $p \in P$. We see that since $f\circ p_1 = g\circ p_2$ that $f(p_1(p)) = g(p_2(p))$ so that $(p_1(p), p_2(p)) \in X\times_Z Y$ and so $u$ is in fact a map from $P$ to $X\times_Z Y$.
+
+We see that by construction $p_1 = \pi_1\circ u$ and $p_2 = \pi_2\circ u$.
+
+Moroever, it is easy to show that $u$ is the unique map with this property. QED.
+
+\textbf{6. The pullback of morphisms $\phi : A \to C$ and $\psi : B \to C$ in the category of $R$-modules is the submodule $X$ of $A\times B$ given by $X = \{(a, b) \in A\times B \;|\; \phi(a) = \psi(b)\}$.}
+
+The proof is as per the pullback in the category of sets. We simply need to show that $X$ is a submodule of $A\times B$.
+
+If $(a_1, b_1), (a_2, b_2) \in X$ then $\phi(a_1 + a_2) = \phi(a_1) + \phi(a_2) = \psi(b_1) + \psi(b_2) = \psi(b_1 + b_2)$. Similarly if $r \in R$ and $(a, b) \in X$ then $\phi(ra) = r\phi(a) = r\psi(b) = \psi(rb)$. Note that we also have $(0, 0) \in X$. Thus $X$ is a submodule of $A\times B$. QED.
+
+\textbf{7. Whenever the pullback $X\times_Z Y$ of $f : X \to Z$ and $g : Y \to Z$ exists, so does $Y\times_Z X$ and they are isomorphic.}
+
+This follows from the symmetry of the definition and the fact that the pullback is unique up to unique isomorphism. QED.
+
+\textbf{8. Monomorphisms pull back to monomorphisms.}
+
+Suppose $f : X \to Z$ is a monomorphism and let $g : Y \to Z$ be another morphism. Let $p_1 : X\times_Z Y \to X$ and $p_2 : X\times_Z Y \to Y$ be the projection maps from the pullback. We will show that $p_2$ is a monomorphism.
+
+Suppose $h_1, h_2 : W \to X\times_Z Y$ are maps such that $p_2\circ h_1 = p_2\circ h_2$. Denote $q = p_1\circ h_1$ and $r = p_1\circ h_2$.
+
+We have that
+$f\circ q = f\circ p_1\circ h_1 = g\circ p_2\circ h_1 = g\circ p_2\circ h_2 = f\circ p_1\circ h_2 = f\circ r$.
+
+But $f$ is a monomorphism and so $q = r$.
+
+Denote $p = p_2\circ h_1 = p_2\circ h_2$. Then we have maps $p : W \to Y$ and $q : W \to X$ such that 
+$$g\circ p = g\circ p_2\circ h_1 = f\circ p_1\circ h_1 = f\circ q.$$
+
+Thus by the univeral property of the pullback there is a unique morphism $u : W \to X\times_Z Y$ such that $p = p_2\circ u$ and $q = p_1\circ u$.
+
+But $p = p_2\circ h_1$ and $q = p_1\circ h_1$ and so $u = h_1$ on account of the uniqueness of $u$.
+
+Similarly $p = p_2\circ h_2$ and $q = p_1\circ h_2$ and so $u = h_2$ on account of the uniqueness of $u$.
+
+Thus $h_1 = h_2$ and so $p_2$ is a monomorphism. QED.
+
+\textbf{9. Isomorphisms pull back to isomorphisms.}
+
+Let $f : X \to Z$ be an isomorphism and $g : Y \to Z$ be an arbitrary morphism. We will show that $Y$ is a pullback for these morphisms.
+
+As $f$ is an isomorphism, it has an inverse $f^{-1}$. Thus there is a morphism $h = f^{-1}\circ g : Y \to X$. We see that $f\circ h = g\circ$ id$_Y$. 
+
+Now if $P$ is any other object with morphisms $h_1 : P \to X$ and $h_2 : P \to Z$ such that $g\circ h_2 = f\circ h1$ then $h_2$ is the unique morphism $u : P \to Y$ such that $h_2 = h_2\circ$ id$_Y\circ u$ and $h_1 = f^{?1}\circ g\circ u$. Thus $S \cong X\times_Z Y$. QED.
+
+\textbf{10. Retractions pull back to retractions.}
+
+Suppose $f : X \to Z$ is a retraction and $g : Y \to Z$ is any morphism. Let $p_1 : X\times_Z Y \to X$ and $p_2 : X\times_Z Y \to Y$ be the projection morphisms of the pullback.
+
+Firstly, as $f$ is a retraction, there exists a map $f' : Z \to X$ such that $f\circ f' =$ id$_Z$. Hence $f\circ (f'\circ g) = g\circ$ id$_Y$. Thus by the definition of a pullback there exists a unique morphism $h : B \to X\times_Z Y$ such that id$_Y = p_2\circ h$ and $f'\circ g = p_1\circ h$. In particular, $p_2$ is a retraction. QED.
+
+\textbf{11. If $f : A \to B$, $g : B \to C$ and $k : C' \to C$ are morphisms then $A\times_B (B\times_C C') \cong A\times_C C'$.}
+
+Let $j : B\times_C C' \to B$ and $g' : B\times_C C' \to C'$ be the projections of the inner pullback and let $i : A\times_B (B\times_C C') \to A$ and $f' : A\times_B (B\times_C C') \to B\times_C C'$ be the projections of the outer pullback on the left hand side of the expression we are trying to prove.
+
+We will first demonstrate a map $A\times_C C' \to A\times_B (B\times_C C')$.
+
+Firstly, $g\circ f\circ i = g\circ j\circ f'$, due to the outer pullback. This is equal to $k\circ g'\circ f'$ due to the inner pullback. Thus we have morphisms $g'\circ f' : A\times_B (B\times_C C') \to C'$ and $i : A\times_B (B\times_C C') \to A$ such that $k\circ (g'\circ f') = (g\circ f)\circ i$.
+
+Moreover, if $P$ is any object such that there are morphisms $h_2 : P \to C'$ and $h_1 : P \to A$ such that $k\circ h_2 = (g\circ f)\circ h_1$ then $h_2$ and $f\circ h_1$ are maps to $C'$ and $B$ such that $k \circ h_2 = g\circ (f\circ h_1)$. Thus by the universal property of the inner pullback there is a unique morphism $u : P \to (B\times_C C')$ such that $g'\circ u = h_2$ and $j\circ u = f\circ h_1$.
+
+But now by the universal property of the outer pullback, there exists a unique morphism $u' : P \to A\times_B (B\times_C C')$ such that $f'\circ u' = u$ and $i\circ u' = h_1$.
+
+As $A\times_C C'$ has the properties of such an object $P$, there is therefore a unique morphism $u'$ from $A\times_C C' \to A\times_B (B\times_C C')$ with the stated properties.
+
+But similarly, as $k\circ(g'\circ f') = (g\circ f)\circ i$ then by the universal property of $A\times_C C'$ there is a unique homomorphism $v : A\times_B(B\times_C C') \to B\times_C C'$ such that $h_2\circ v = g'\circ f'$ and $h_1\circ v = i$.
+
+Now we easily check that $u = u\circ v\circ u'$ and $h_1 = h_1\circ v \circ u'$. Thus by the universal property of $A\times_B(B\times_C C')$ we have $v\circ u' =$ id$_{A\times_C C'}$. It's similarly easy to check that $u'\circ v =$ id$_{A\times_B(B\times_C C')}$. Thus the result follows. QED. 
+
+\textbf{12. We have that $X\times_X Y \cong Y$ where the morphism from $X$ to $X$ is the identity morphism.}
+
+Let $f : Y \to X$ be any morphism. It is clear that id$_Y$ and $f : Y \to X$ satisfy id$_X\circ f = f\circ$ id$_Y$.
+
+Moreover, if $P$ is any other object with morphisms $h_1 : P \to X$ and $h_2 : P \to Y$ such that id$_X\circ h_1 = f\circ h_2$ then $h_1 = f\circ h_2$.
+
+Clearly $h_2$ is the unique morphism from $P \to Y$ such that $h_2 =$ id$_Y\circ h_2$ and $f\circ h_2 = h_1$. Thus $Y$ is a pushout of $X$ and $Y$ and thus the required isomorphism exists. QED. 
+
+\textbf{13. We have that $X\times_Y(Y\times_Z Z') \cong (X\times_Y Y)\times_Z Z'$.}
+
+This follows from the previous two results. QED.
+
+\textbf{14. The pushout of two morphisms $f : Z \to X$ and $g : Z \to Y$ in a category is an object $P$ and two morphisms $p_1 : X \to P$ and $p_2 : Y \to P$ such that $p_1\circ f = p_2\circ g$ and such that for any other object $Q$ with morphisms $q_1 : X \to Q$ and $q_2 : Y \to Q$ such that $q_1\circ f = q_2\circ g$ there exists a unique morphism $u : P \to Q$ such that $u\circ p_1 = q_1$ and $u\circ p_2 = q_2$.}
+
+We denote the pushout of $f : Z \to X$ and $g : Z \to Y$ by $X\cup_Z Y$.
+
+\textbf{15. A pushout, when it exists, is unique up to unique isomorphism.}
+
+This follows from a pushout being defined by a universal property. QED.
+
+\textbf{16. In a category with initial object $I$ the pushout of morphisms $f : I \to X$ and $g : I \to Y$ is the ordinary coproduct $X\oplus Y$.}
+
+Let $P$ be the coproduct $X\oplus Y$ with coprojection maps $\pi_1 : X to P$ and $\pi_2 : Y \to P$.
+
+We have that $\pi_1\circ f = \pi_2\circ g$ since both are the uniqe morphism from $I$ to $P$.
+
+Now given any other object $Q$ with morphisms $p_1 : X \to Q$ and $p_2 : Y \to Q$ with $p_1\circ f = p_2\circ g$ there exists a unique morphism $u : P \to Q$ such that $u\circ \pi_1 = p_1$ and $u\circ \pi_2 = p_2$ by the universal property of the coproduct. QED.
+
+\textbf{17. Let $I$ consist of three elements $i$, $j$ and $k$ with $i \leq j$ and $i \leq k$, i.e. not a directed set. The direct limit of a direct system of objects $X_i$ over $I$ in a preabelian category is the pushout of $f_{ij}$ and $f_{ik}$.}
+
+The direct limit is an object $P$ with maps $f_i : X_i \to P$, $f_j : X_j \to P$ and $f_k : X_k \to P$ such that $f_i = f_j\circ f_{ij}$ and $f_i = f_k\circ f_{ik}$. It is also universal with respect to such. QED.
+
+\textbf{18. Suppose $f : Z \to X$ and $g : Z \to Y$ are maps between sets. Define an equivalence relation $\sim$ on $X\coprod Y$ to be the smallest equivalence relation such that $(i_1\circ f)(z) \sim (i_2\circ g)(z)$ for all $z \in Z$ where $i_1 : X \to X\coprod Y$ and $i_2 : Y \to X\coprod Y$ are the coprojection maps. Then $P = (X\coprod Y)/\sim$ together with the morphisms from $X$ and $Y$ to $P$ induced by $i_1$ and $i_2$ gives the pushout of $f$ and $g$.}
+
+Let us write $p_1$ and $p_2$ for the morphisms induced by $i_1$ and $i_2$. Then by construction $p_1\circ f = p_2\circ g$.
+
+Let $Q$ be any other object with morphisms $q_1 : X \to Q$ and $q_2 : Y \to Q$ such that $q_1\circ f = q_2\circ g$. Then there exists a unique morphism $u : X\coprod Y \to Q$ such that $q_1 = u\circ i_1$ and $q_2 = u\circ i_2$ by the universal property of the coproduct.
+
+But since $q_1\circ f = q_2\circ g$ we have $u\circ i_1\circ f = u\circ i_2\circ g$. Thus $u$ maps equivalent elements to the same element. Thus it induces a map $u' : (X\coprod Y)/\sim \to Q$ such that $q_1 = u'\circ p_1$ and $q_2 = u'\circ p_2$.
+
+Since any such map $u'$ can be lifted uniquely to $X\coprod Y$ to a map $u$ with the given properties, and since any such $u$ is unique, clearly $u'$ is unique. QED.
+
+\textbf{19. The pushout of morphisms $\phi : M \to A$ and $\psi : M \to B$ in the category of $R$-modules is the quotient module $X = (A\oplus B)/Y$ where $Y = \{(\phi(m), - \psi(m)) \;|\; m \in M\}$.}
+
+Note $(0, 0) \in Y$. Also if $(\phi(m_1), -\psi(m_1))$ and $(\phi(m_2), -\psi(m_2))$ are in $Y$ then their sum is $(\phi(m_1 + m_2), -\psi(m_1 + m_2)) \in Y$. Similarly if $(\phi(m), -\psi(m)) \in Y$ and $r \in R$ then $r(\phi(m), -\psi(m)) = (\phi(rm), -\psi(rm)) \in Y$. Thus $Y$ is a submodule of $X\oplus Y$.
+
+We can define $\sigma_1 : A \to A\oplus B$ and $\sigma_2 : B \to A\oplus B$ by $\sigma_1(a) = (a, 0) + Y$ and $\sigma_2(b) = (0, b) + Y$. 
+
+For any $m \in M$ we have $(\phi(m), 0) + Y = (\phi(m), 0) - (\phi(m), -\psi(m)) + Y = (0, \psi(m)) + Y$. Thus $\sigma_1\circ \phi = \sigma_2\circ \psi$. 
+
+Now suppose we have an $R$-module $Z$ wih $R$-module homomorphisms $\alpha_1 : A \to Z$ and $\alpha_2 : B \to Z$ with $\alpha_1\circ \phi = \alpha_2\circ \psi$. Define $\theta : X \to Z$ by $\theta((a, b) + Y) = \alpha_1(a) + \alpha_2(b)$.
+
+We first check that $\theta$ is well-defined. Suppose that $(a_1, b_1) - (a_2, b_2) \in Y$. Then $a_1 - a_2 = \phi(m)$ and $b_1 - b_2 = -\psi(m)$ for some $m \in M$. Applying $\alpha_1$ and $\alpha_2$ we have that $\alpha_1(a_1) - \alpha_1(a_2) = (\alpha_1\circ \phi)(m) = (\alpha_2\circ \psi) = \alpha_2(b_2) - \alpha_2(b_1)$. Thus $\alpha_1(a_1) + \alpha_2(b_1) = \alpha_1(a_2) + \alpha_2(b_2)$, i.e. $\theta((a_1, b_1) + Y) = \theta((a_2, b_2) + Y)$.
+
+Clearly $\theta$ is a module homomorphism. Moreover se see that $\theta\circ \sigma_1 = \alpha_1$ and $\theta\circ \sigma_2 = \alpha_2$.
+
+Uniqueness follows by the usual arguments. QED.
+
+\textbf{20. Whenever the pushout $X\cup_Z Y$ of $f : Z \to X$ and $g : Z \to Y$ exists, so does $Y\cup_Z X$ and they are isomorphic.}
+
+This follows from the symmetry of the definition and the fact that the pushout is unique up to unique isomorphism. QED.
+
+\textbf{21. Isomorphisms push out to isomorphisms.}
+
+The proof is dual to the proof for pullbacks. QED.
+
+\textbf{22. Epimorphisms push out to epimorphisms.}
+
+The proof is the dual of the proof for the pullbacks of monomorphisms. QED.
+
+\textbf{23. Sections push out to sections.}
+
+The argument is dual to that for pull backs of retractions. QED.
+
+\textbf{24. If $f : B \to A$, $g : C \to B$ and $k : C \to C'$ are morphism then $A\cup_B (B\cup_C C') \cong A\cup_C C'$.}
+
+The proof is dual to the case for pullbacks. QED.
+
+\textbf{25. We have that $X\cup_X Y \cong Y$ where the morphism from $X$ to $X$ is the identity morphism.}
+
+The argument is dual to the case for the pullback. QED.
+
+\textbf{26. We have that $X\cup_Y(Y\cup_Z Z') \cong (X\cup_Y Y)\cup_Z Z'$.}
+
+This follows from the previous two results. QED.
+
+\section{Abelian categories}
+
+\textbf{1. A normal monomorphism is one that is a kernel of some morphism.}
+
+\textbf{2. A normal epimorphism is one that is a cokernel of some morphism.}
+
+\textbf{3. An abelian category is a preabelian category for which all monomorphisms and epimorphisms are normal.}
+
+\textbf{4. The category of $R$-modules over a commutative ring $R$ is an abelian category.}
+
+We have formerly seen that it is a preabelian category.
+
+A morphism is a monomorphism in the category of $R$-modules if it is an injective homomorphism. Suppose $f : K \to X$ is an injective homomorphism. We will show that there exists a homomorphism $g$ such that $g\circ f = 0$.
+
+We let $N$ be the image of $f$ in $X$. It is a submodule of $X$. Then we let $g : X \to X/N$ be the natural quotient map. It is an $R$-module homomorphism and clearly $g\circ f = 0$. Thus monomorphisms are normal.
+
+A morphism is an epimorphism in the category of $R$-modules if it is a surjective homomorphism. Suppose $f : X \to Q$ is a surjective homomorphism. We will show that there exists a homomorphism $g$ such that $f\circ g = 0$.
+
+We let $K$ be the kernel of $f$. It is non-empty since $f$ must map $0$ to $0$. Let $g : K \to X$ be the inclusion map. It is an $R$-module homomorphism and clearly $f\circ g = 0$. Thus epimorphisms are normal. QED.
+
+\textbf{5. The category of abelian groups is an abelian category.}
+
+An abelian group $M$ can be made into a $Z$-module by defining $rx = (r - 1)x + x$ for $0 < r \in \Z$, $0x = 0$ and $rx = (r + 1)x - x$ for $0 > r \in \Z$.
+
+Because scalar multiplication can be defined in terms of addition, an abelian group homomorphism is automatically an $R$-module homomorphism. Thus the category of abelian groups is the same as the category of $\Z$-modules. The latter is an abelian category. QED.
+
+\textbf{6. The categories of finitely generated abelian groups and finite abelian groups are abelian categories.}
+
+It suffices to show that all the objects that must exist in an abelian category belong to the respective categories. 
+
+Clearly the zero object, the trivial group containing only zero, is both finite and finitely generated.
+
+Finitary products and coproducts agree in $\Z$-modules and are given by the cartesian product. Clearly the finitary products of finitely generated or finite groups are finitely generated or finite respectively.
+
+If $f : G \to H$ is a homomorphism of finitely generated abelian groups then suppose that $G$ is generated by $\alpha_1, \ldots, \alpha_n$. Now suppose that $f(c\alpha_i) = 0$ for some $c \in \Z$. Then $f(rc\alpha_i) = rf(c\alpha_i) = 0$ for all $r \in \Z$.
+
+Similarly if $f(c_i\alpha_i) = 0 = f(c_j\alpha_j)$ then $f(c_i\alpha_i + c_j\alpha_j) = f(c_i\alpha_i) + f(c_j\alpha_j) = 0$.
+
+Thus it is clear that the kernel of $f$ is generated by elements of the form $c_i\alpha_i$ for some $c_i \in \Z$.
+
+Thus the kernel of a homomorphism of finitely generated abelian groups is finitely generated.
+
+It is obvious that the kernel of a homomorphism of finite abelian groups is finite.
+
+It is easy to see that the cokernel of a homomorphism $f : G \to H$ of finitely generated abelian groups is generated by $\{\alpha_i + N\}$ where $H$ is generated by $\{\alpha_i\}$ and $N$ is the image of $f$.
+
+Thus cokernels of homomorphisms of finitely generated abelian groups are finitely generated.
+
+It is obvious that cokernels of homomorphisms of finite abelian groups are finite.
+
+Thus we have that both categories are abelian categories. QED.
+
+\textbf{7. The category of finitely generated $R$-modules over a noetherian ring is abelian.}
+
+If $R$ is a noetherian ring then every finitely generated $R$-module is noetherian. Submodules and quotient modules of a noetherian module are noetherian $R$-modules and thus finitely generated.
+
+From these facts it is easy to see that the zero module, all finitary products, kernels and cokernels are finitely generated $R$-modules in the category of finitely generated $R$-modules, for such an $R$.
+
+Thus the category is an abelian category. QED.
+
+\textbf{8. The category of noetherian modules over a commutative ring $R$ is abelian.}
+
+The proof is almost identical to that of finitely generated modules over a noetherian ring. QED.
+
+\textbf{9. The category of vector spaces over a field is abelian.}
+
+This is a special case of a category $R$-modules. QED.
+
+\textbf{10. The image of a morphism $f$ in a category with kernels and cokernels is the cokernel of the kernel of $f$.}
+
+\textbf{11. The coimage of a morphism $f$ is a category with kernels and cokernels is the kernel of the cokernel of $f$.}
+
+\textbf{12. In an abelian category an epimorphism is the cokernel of its kernel.}
+
+Let $e : B \to C$ be an epimorphism. Let $K, k$ be the kernel of $e$ and let $f$ be any morphism such that $e = coker(f)$ (this exists since $e$ is an epimorphism and hence normal).
+
+As $e\circ f = 0$ there exists a unique morphism $f' : A \to K$ such that $f = k\circ f'$ by the universal property of the kernel.
+
+Let $y$ be any morphism such that $y\circ k = 0$. Then $0 = y\circ k\circ f' = y\circ f$. Thus there exists a unique morphism $y' : C \to Y$ such that $y = y'\circ e$ by definition of the cokernel of $f$. 
+
+But this is precisely the universal property we need to show that $e$ is a cokernel of $k$. QED.
+
+\textbf{13. In an abelian category, a monomorphism is a kernel of its cokernel.}
+
+The argument is dual to that of epimorphisms. QED.
+
+\textbf{14. In an abelian category, the kernel of a monomorphism $f : A \to B$ is the unique morphism $u : 0 \to A$.}
+
+The composite $f\circ u$ is the unique zero morphism from $0$ to $B$, i.e. $f\circ u = 0$.
+
+Let $g : X \to A$ be any other morphism such that $f\circ g = 0$. 
+
+Then $f\circ g = f\circ 0$. But $f$ is a monomorphism and so $g = 0$. 
+
+This means that $g$ factors uniquely through the zero object $0$, which is precisely the condition required for $0$ to be the kernel of $f$. QED.
+
+\textbf{15. In an abelian category, the cokernel of an epimorphism $f : A \to B$ is the unique morphism $u : B \to 0$.}
+
+This is dual to the case for monomorphisms. QED.
+
+\textbf{17. In an abelian category, a morphism that is a monomorphism and an epimorphism is an isomorphism.}
+
+Suppose that $g : A \to B$ is a monomorphism and an epimorphism.
+
+Then its kernel is the unique morphism $u : 0 \to A$. Moreover, as epimorphisms are cokernels of their kernels, $g$ is the cokernel of $u$. 
+
+The composition id$_A\circ u$ is zero, thus by the definition of cokernel there is a unique morphism $h : B \to A$ such that id$_A = h\circ g$.
+
+But then $g\circ h\circ g = g$ id$_A =$ id$_B\circ g$. As $g$ is an epimorphism this implies that $g\circ h =$ id$_B$.
+
+In other words, we have shown that $h$ is an inverse of $g$, i.e. $g$ is an isomorphism. QED.
+
+\textbf{18. In an abelian category the coimage and image of a morphism $f : X \to Y$ are isomorphic.}
+
+Let $U, u$ be a coimage of $f$, i.e. a cokernel of the kernel $K, k$ of $f$. Then $u$ is an epimorphism since it is a cokernel.
+
+Similarly, let $V, v$ be an image of $f$, i.e. a kernel of the cokernel $C, c$ of $f$. Then $v$ is a monomorphism since it is a kernel.
+
+We have that $f\circ k = 0$ by definition of the kernel. Thus since $u$ is a cokernel there is a unique map $\psi : U \to Y$ such that $f = \psi\circ u$.
+
+Since $c\circ f = 0$ by definition of the cokernel, we have $c\circ \psi\circ u = 0$. But since $u$ is an epimorphism we have that $c\circ \psi = 0$.
+
+But then by the definition of the kernel of $c$ there exists a unique morphism $\sigma : U \to V$ such that $\psi = v\sigma$.
+
+By a dual argument there exists a morphism $\phi : X \to V$ such that $v\circ \phi = f$ and there exists a unique morphism $\sigma' : U \to V$ such that $\sigma'\circ u = \phi$.
+
+But now $f = \psi\circ u = v\circ \sigma\circ u$. Similarly $f = v\circ \phi = v\circ \sigma'\circ u$. Thus $v\circ \sigma\circ u = v\circ \sigma'\circ u$. However, $u$ is an epimorphism, thus $v\circ \sigma = v\circ \sigma'$. And $v$ is a monomorphism and so $\sigma = \sigma'$.
+
+We will now show that $\psi$ is a monomorphism.
+
+Let $x : X \to U$ be such that $\psi\circ x = 0$. Let $Q, q$ be the cokernel of $x$. By the universal property of cokernels, there is a unique morphism $j : Q \to Y$ such that $\psi = j\circ q$.
+
+Since $q\circ u$ is an epimorphism there is a morphism $h : H \to X$ such that $q\circ u$ is the cokernel of $h$.
+
+Now $f\circ h = \psi\circ u\circ h = j\circ q\circ u\circ h = 0$. Thus by the universal property of a kernel, there exists a unique morphism $h'$ such that $h = k\circ h'$.
+
+Thus $u\circ h = u\circ k\circ h' = 0$ since $u$ is the cokernel of $k$.
+
+Thus by the definition of the cokernel of $x$ there exists $u'$ such that $u = u'\circ (q\circ u)$. But $u$ is an epimorphism and so $u'\circ q =$ id$_U$. Thus $q$ is a monomorphism.
+
+Thus as $q\circ x = 0$ by definition, $x = 0$. Thus we have shown that $\psi\circ x = 0$ implies $x = 0$. In particular, if $x = r - s$ then $\psi\circ r = \psi\circ s$ implies $r = s$, i.e. $\psi$ is a monomorphism.
+
+Dually we can show that $\phi$ is an epimorphism.
+
+This in turn implies that $\sigma$ is both an epimorphism and a monomorphism, which implies that $\sigma$ is an isomorphism. QED.
+
+\textbf{13. In an abelian category every morphism $f$ can be written as the compostion $g\circ h$ of an epimorphism $h$ followed by a monomorphism $g$.}
+
+We have that $f = v\circ \phi$ in the notation of the proof of the previous theorem. And we have shown that $v$ is a monomorphism and $\phi$ is an epimorphism. QED. 
+
+\textbf{14. In the category of $R$-modules over a commutative ring, if $f : X \to Y$ is an $R$-module homomorphism, then $X/\ker(f) \cong$ im$(f)$.}
+
+This follows from the fact that the coimage and image of a morphism are isomorphic in an abelian category. QED.
+
+\section{Exact sequences}
+
+\textbf{1. In an abelian category, if $A \overset{f}{\rightarrow} B \overset{g}{\rightarrow} C$ is a sequence of morphisms, there is a natural map from im$(f)$ to ker$(g)$.}
+
+Recall that the map $f$ factors as $v\circ \phi$ via im$(f)$.
+
+Let $k, K$ be the kernel of $g$. Then since $g\circ v = 0$, by the universal property of the kernel of $g$, there exists a unique morphism $w :$ im$(f) \to \ker(g)$ such that $v = k\circ w$. The morphism $w$ is the required natural map from im$(f)$ to ker$(g)$. QED.
+
+\textbf{2. An exact sequence in an abelian category is a sequence of morphisms $A \overset{f}{\rightarrow} B \overset{g}{\rightarrow} C$ such that $g\circ f = 0$ and such that the natural map from im$(f)$ to ker$(f)$ is an isomorphism.}
+
+\textbf{3. In the category of $R$-modules over a commutative ring $R$, the sequence $A \overset{f}{\rightarrow} B \overset{g}{\rightarrow} C$ is exact iff im$(f) = \ker(g)$.}
+
+From $g\circ f = 0$ we have that im$(f) \subseteq \ker(g)$. From im$(f) \cong \ker(g)$ we have that im$(f) = \ker(g)$. 
+
+The converse is clear. QED.
+
+\textbf{4. In an abelian category, a morphism $f : X \to Y$ is a monomorphism iff $\ker(f) = 0$.}
+
+We already showed that if $f$ is a monomorphism then the kernel of $f$ is the unique morphism $0 \to X$.
+
+For the converse, suppose that $\ker(f) = 0$ with $k : 0 \to X$ the unique map from $0$ to $X$. Now suppose that $h_1, h_2 : Z \to X$ are such that $f\circ h_1 = f\circ h_2$. Then $f\circ (h_1 - h_2) = 0$.
+
+Thus there is a unique morphism $u : Z \to 0$ such that $h_1 - h_2 = k\circ u$, i.e. $h_1 - h_2 = 0$. Thus $h_1 = h_2$ and $f$ is a monomorphism. QED.
+
+\textbf{5. In an abelian category, a morphism $f : X \to Y$ is an epimorphism iff coker$(f) = 0$.}
+
+This is dual to the case of a monomorphisms. QED.
+
+\textbf{6. If $0 \overset{f}{\rightarrow} A \overset{g}{\rightarrow} B$ is exact then $g$ is a monomorphism and conversely.}
+
+It is easy to check that coker$(f) =$ id$_A$ and that im$(f) = f$. Since $g\circ f = 0$, the sequence is exact iff $\ker(g) \cong$ im$(f) = f$.
+
+But $g$ is a monomorphism iff $\ker(g) = 0$. Thus the sequence is exact iff $g$ is a monomorphism. QED.
+
+\textbf{7. If $A \overset{f}{\rightarrow} B \overset{g}{\rightarrow} 0$ is exact then $g$ is an epimorphism and conversely.}
+
+This is dual to the result for monomorphisms. QED.
+
+\textbf{8. A short exact sequence is a sequence of the form $0 \rightarrow A \rightarrow B \rightarrow C \rightarrow 0$ which is exact at $A$, $B$ and $C$.}
+
+\textbf{9. In an abelian category if $0 \rightarrow A \overset{f}{\rightarrow} B \overset{g}{\rightarrow} C \rightarrow 0$ is a short exact sequence then $A, f$ is the kernel of $g$ and $C, g$ is the cokernel of $f$.}
+
+Recall that the map $f$ factors as $v\circ \phi$ via im$(f)$.
+
+Let $k, K$ be the kernel of $g$. Recall that the natural map $w :$ im$(f) \to \ker(g)$ is an isomorphism since the sequence is exact.
+
+We will show that $\phi$ is an isomorphism. We know from previously that it is an epimorphism, so it suffices to show it is a monomorphism.
+
+But $f$ is a monomorphism and so $\phi$ must be also. Hence the kernel of $g$ is the pair $A, f$.
+
+The proof that $C, g$ is the cokernel of $f$ is dual to this proof. QED.
+
+\textbf{10. In an abelian category $0 \rightarrow A \overset{f}{\rightarrow} B \rightarrow 0$ is an exact sequence iff $f$ is an isomorphism.}
+
+The sequence is exact iff $f$ is a monomorphism and an epimorphism, which in an abelian category is the case iff $f$ is an isomorphism. QED.
+
+\textbf{11. A (covariant) functor $F$ from a category $C$ to a category $D$ is a mapping from $C$ to $D$ such that for every object $X$ of $X$ we have that $F(X)$ is an object of $D$ and such that for each morphism $f : X \to Y$ in $C$ there is a morphism $F(f) : F(X) \to F(Y)$ in $D$ such that $F($id$_X) =$ id$_{F(X)}$ for every object $X$ of $C$ and $F(g\circ f) = F(g)\circ F(f)$ for all morphisms $F : X \to Y$ and $g : Y \to Z$ in $C$.}
+
+\textbf{12. A contravariant functor from $C$ to $D$ is as per a covariant functor except that $F(g\circ f) = F(f)\circ F(g)$.}
+
+\textbf{13. An additive functor $F$ between preadditive categories $C$ and $D$ is a functor such that given objects $A$ and $B$ in $C$ the function Hom$(A, B) \to$ Hom$(F(A), F(B))$ is a group homomorphism.}
+
+In particular $F(0) = 0$.
+
+\textbf{14. An $R$-linear functor between $R$-linear categories $C$ and $D$ is one such that given objects $A$ and $B$ in $C$ the function Hom$(A, B) \to$ Hom$(F(A), F(B))$ is an $R$-linear map.}
+
+\textbf{15. A left exact functor $F : C \to D$ between categories $C$ and $D$ is an additive functor such that for any short exact sequence of objects $0 \to X \to Y \to Z \to 0$ in $C$ we have that $0 \to F(A) \to F(B) \to F(C)$ is exact in $D$.}
+
+\textbf{16. A right exact functor $F : C \to D$ between categories $C$ and $D$ is an additive functor such that for any short exact sequence of objects $0 \to X \to Y \to Z \to 0$ in $C$ we have that $F(A) \to F(B) \to F(C) \to 0$ is exact in $D$.}
+
+\textbf{17. An exact functor $F : C \to D$ between categories $C$ and $D$ is an additive functor such that for any short exact sequence of objects $0 \to X \to Y \to Z \to 0$ in $C$ we have that $0 \to F(A) \to F(B) \to F(C) \to 0$ is exact in $D$.}
+
+\textbf{18. The functor $F_A(X) =$ Hom$(A, X)$ from an abelian category $C$ to the category of abelian groups is left exact.}
+
+Suppose $0 \rightarrow X \overset{f}{\rightarrow} Y \overset{g}{\rightarrow} Z \to 0$ is exact in the category $C$.
+
+For the map $f : X \to Y$ define $f_{\star} :$ Hom$(A, X) \to$ Hom$(A, Y)$ by $f_{\star}(h) = f\circ h$. Define $g_{\star}$ similarly.
+
+Consider the sequence
+$$0 \rightarrow \mbox{Hom}(A, X) \overset{f_{\star}}{\rightarrow} \mbox{Hom}(A, Y) \overset{g_{\star}}{\rightarrow} \mbox{Hom}(A, Z).$$
+
+If the first sequence is exact, then $f = \ker(g)$. Thus if $M$ is any object with a morphism $h : M \to Y$ such that $g\circ h = 0$ then there exists a unique morphism $s : M \to X$ such that $f\circ s = h$.
+
+In other words, if $g_{\star}(h) = 0$ then $h = f_{\star}(s)$. Thus ker$(g_{\star}) \subseteq$ im$(f_{\star})$ and $f_{\star}$ is an injective map on account of the uniqueness of $s$.
+
+On the other hand, suppose $h : M \to Y$ is any morphism which factors through $f$, i.e. $h = f\circ s = f_{\star}(s)$, then $$g_{\star}(h) = g_{\star}(f_{\star}(s)) = (g\circ f)_{\star}(h) = 0_{\star}(h) = 0\circ h = 0.$$ 
+In other words, im$(f_{\star}) \subseteq$ ker$(g_{\star})$.
+
+Thus we have that the second sequence is exact at Hom$(A, X)$ since $f_{\star}$ is injective and at Hom$(A, Y)$ since im$(f_{\star}) =$ ker$(g_{\star})$. QED.
+
+\textbf{18. The contravariant functor $F^A(X) =$ Hom$(X, A)$ from an abelian category $C$ to the category of abelian groups is right exact.}
+
+The argument is dual to that for the covariant Hom functor. QED.
+
+\textbf{19. A split short exact sequence is a sequence of the form $0 \rightarrow A \overset{f}{\rightarrow} B \overset{g}{\rightarrow} B \to 0$ such that there exists a morphism $h : C \to B$ such that $g\circ h =$ id$_C$.}
+
+\textbf{20. If $0 \rightarrow A \overset{f}{\rightarrow} B \overset{g}{\rightarrow} C \to 0$ is a short exact sequence then there exists a morphism $s : C \to B$ such that $g\circ s =$ id$_C$ iff then there exists $r : B \to A$ such that $B$ along with $r$, $g$, $f$ and $s$ is a biproduct of $A$ and $C$.}
+
+The reverse direction is clear from the definition of a biproduct.
+
+For the forward direction, consider the morphism $1_B - s\circ g : B \to B$. We see that $g\circ (1_B - s\circ g) = g - g\circ s\circ g = g - g = 0$.
+
+As $f$ is the kernel of $g$, by the universal property of the kernel, there is a unique morphism $r : B \to A$ such that $f\circ r = 1_B - s\circ g$.
+
+Thus we have $f\circ r + s\circ g = 1_B$. We also have $g\circ f = 0$ by exactness of the sequence and $g\circ s = 1_C$.
+
+But $f\circ r\circ f = (1_B - s\circ g)\circ f = f - 0 = f$. But $f$ is a monomorphism, thus $r\circ f = 1_A$.
+
+We also have $f\circ r\circ s = (1_B - s\circ g)\circ s = s - s\circ g\circ s = s - s = 0$. Thus $r\circ s = 0$ as $f$ is a monomorphism.
+
+Thus we have the four required relations for $B$ to be a biproduct. QED.
+
+\textbf{21. If $0 \rightarrow A \overset{f}{\rightarrow} B \overset{g}{\rightarrow} C \to 0$ is a short exact sequence then there exists a morphism $r : B \to A$  such that $r\circ f =$ id$_A$ iff then there exists $s : C \to B$ such that $B$ along with $r$, $g$, $f$ and $s$ is a biproduct of $A$ and $C$.}
+
+This is dual to the previous theorem. QED.
+
+\textbf{22. Suppose $X \overset{f}{\rightarrow} Y \overset{g}{\rightarrow} Z$ is a sequence in an abelian category with $g\circ f = 0$. Then the sequence is exact iff for every morphism $h : W \to Y$ with $g\circ h = 0$ there exists an object $V$ with an epimorphism $k : V \to W$ and a morphism $l : V \to X$ such that $h\circ k = f\circ l$.}
+
+Let $i : \ker(g) \to Y$ be the kernel of $g$. Let $p : X \to$ coim$(f)$ be the cokernel of the kernel of $f$.
+
+Recall that $f$ factors via its image as an epimorphism $i'$ followed by a monomorphism $j'$ say. As $g\circ f = 0$ then because $i'$ is an epimorphism, we have $g\circ j' = 0$. Thus by the universal property of the kernel of $g$ there is a canonical morphism $j :$ im$(f) \to \ker(g)$ such that $i\circ j = j'$. Since $j'$ is a monomorphism, so is $j$.
+
+We first prove that the forward implication of the theorem holds. Let $h : W \to Y$ be any morphism with $g\circ h = 0$. By the universal property of the kernel of $g$ there exists a morphism $c : W \to \ker(g)$ with $i\circ c = h$.
+
+As we are in an abelian category, we can identify coim$(f)$ and im$(f)$ via an isomorphism. Let $p' : X \to$ im$(f)$ be the map $p$ composed with this isomorphism.
+
+Let $V = X\times_{\ker(g)} W$ be the pullback of $j\circ p'$ along $c$, with projections $k : V \to W$ and $l : V \to X$. Then $c\circ k = j\circ p'\circ l$. Then $h\circ k = i\circ c\circ k = i\circ j\circ p'\circ l = j'\circ p'\circ l = f\circ l$.
+
+As the sequence $g\circ f$ is exact by hypothesis, im$(f) \cong \ker(g)$. Thus we can identify im$(f)$ and $\ker(g)$ as they are only defined up to isomorphism anyway, and so $j\circ p$ is an epimorphism.
+
+But as epimorphisms pull back to epimorphisms, we have that $k$ is an epimorphism. This proves the forward direction of the theorem.
+
+For the converse, as $g\circ i = 0$, there exists an object $W$, an epimorphism $k : W \to \ker(g)$ and a morphism $l : W \to X$ with $f\circ l = i\circ k$. Thus $i\circ j\circ p\circ l = f\circ l = i\circ k$. But $i$ is a monomorphism and so $j\circ p\circ l = k$. But $k$ is an epimorphism and so $j$ is also. As $j$ is a monomorphism, it is an isomorphism. But this implies that the sequence $g\circ f = 0$ is exact. QED.
+
+\textbf{23. (Snake lemma) Suppose that $A \overset{f}{\rightarrow} B \overset{g}{\rightarrow} C \rightarrow 0$ and $0 \rightarrow A' \overset{f}{\rightarrow} B' \overset{g}{\rightarrow} C'$ are exact sequences in an abelian category and suppose that $a : A \to A'$, $b : B \to B'$ and $c : C \to C'$ are morphisms between the two sequences that make the diagram commute. Then there exists an exact sequence
+$$\ker(a) \rightarrow \ker(b) \rightarrow \ker(c) \overset{\delta}{\rightarrow} \mbox{coker(a)} \rightarrow \mbox{coker(b)} \rightarrow \mbox{coker(c)}.$$}
+
+Let us write $K_1 = \ker(a)$, $K_2 = \ker(b)$, $K_2 = \ker(c)$ and $Q_1 = \mbox{coker}(a)$, $Q_2 = \mbox{coker}(b)$ and $Q_3 = \mbox{coker}(c)$.
+
+We will first construct the morphism $\delta$. Let $P = B\times_C K_3$ with maps $p : P \to K_3$ and $q : P \to B$. As pullbacks preserve monomorphisms and epimorphisms, $q$ is a monomorphism and $p$ is an epimorphism.
+
+Also let $T = B' \coprod_{A'} Q_1$ with maps $r : B' \to T$ and $t : Q_1 \to T$. As pushouts preserve monomorphisms and epimorphisms, $r$ is an epimorphism and $t$ is a monomorphism.
+
+Let $e: E \to P$ be the kernel of $p$ and $d : T \to D$ be the cokernerl of $t$.
+
+As any epimorphism is the cokernel of its kernel, we have that $p$ is the cokernel of $e$. Likewise $t$ is the kernel of $d$.
+
+As $g'\circ b\circ q = c\circ k_3\circ p = 0$ then because of exactness at $B'$ there is a morphism $u : P \to A'$ such that $f'\circ u = b\circ q$.
+
+We factor $f$ through its image, via an epimorphism followed by a monomorphism. But since the diagram is exact at $B$ the image of $f$ is isorphic to the kernel of $g$.
+
+As $g\circ q = k_3\circ p$ there is an isomorphism from $\ker(q) \to \ker(p)$ by the previous theorem. 
+
+Moreover $g\circ q\circ e = k_3\circ p\circ e = 0$, so there is a epimorphism $v : A \to E$ such that $q\circ e\circ v = f$ by the universal property of the kernel of $g$.
+
+Thus $f'\circ u\circ e\circ v = b\circ q\circ e\circ v = b\circ f = f'\circ a$. As $f'$ is a monomorphism this implies that $u\circ e\circ v = a$.
+
+Thus $q_1\circ u\circ e\circ v = q_1\circ a = 0$. And as $v$ is an epimorphism we have $q_1 \circ u\circ e = 0$. Thus there exists a unique morphism $\delta : K_3 \to Q_1$ such that $\delta\circ p = q_1\circ u$.
+
+We have that $t\circ \delta\circ p = t\circ q_1\circ u = r\circ f'\circ u = r\circ b\circ q$.
+
+As $c\circ g\circ k_2 = g'\circ b\circ k_2 = 0$, by the universal property of the kernel $k_3$ there exists a morphism $\bar{g} : K_2 \to K_3$ such that $k_3\circ \bar{g} = g\circ k_2$. By a similar argument, there exists a morphism $\bar{f} : K_1 \to K_2$ such that $k_2\circ \bar{f} = f\circ k_1$.
+
+Dually, there exist morphisms $\hat{g} : Q_2 \to Q_3$ and $\hat{f}: Q_1 \to Q_2$ such that $q_3\circ g' = \hat{g}\circ q_2$ and $q_2\circ f' = \hat{f}\circ q_1$.
+
+We first show exactness at $K_3$.
+
+Since $k_3\circ \bar{g} = g\circ k_2$, by the universal property of the pullback to $P$ we have that there is a morphism $z : K_2 \to P$ such that $q\circ z = k_2$ and $p\circ z = \bar{g}$.
+
+Thus $t\circ \delta\circ \bar{g} = t\circ \delta\circ p\circ z = r\circ b\circ q\circ z = r\circ b\circ k_2 = 0$. But as $t$ is a monomorphism, we have $\delta\circ \bar{g} = 0$.
+
+We can now demonstrate exactness at $K_3$ using the previous theorem.
+
+Let $d : R \to K_3$ be any morphism such that $\delta\circ d = 0$. Applying the previous theorem to the exact sequence $P \overset{p}{\rightarrow} K_3 \rightarrow 0$ and the morphism $d$ yields an object $S$, an epimorphism $m : S \to R$ and a morphism $n : S \to P$ with $p\circ n = d\circ m$.
+
+As $q_1\circ u\circ n = \delta\circ p\circ n = \delta\circ d\circ m = 0$ applying the previous theorem to the exact sequence $A \overset{a}{\rightarrow} A' \overset{q_1}{\rightarrow} Q_1$ and $u\circ n$ gives an object $T$, an epimorphism $\epsilon : T \to S$ and a morphism $\zeta : T \to A$ such that $u\circ n\circ \epsilon = a\circ \zeta$.
+
+We have that $b\circ q\circ n\circ \epsilon = f'\circ u\circ n\circ \epsilon = f'\circ a\circ \zeta = b\circ f\circ \zeta$.
+
+Write $\eta = q\circ n\circ \epsilon - f\circ \zeta$. Then $b\circ \eta = 0$. As $\eta$ is a morphism from $T$ to $B$ then there exists a morphism $\phi : T \to K_2$ with $\eta = k_2\circ \phi$.
+
+We have $k_3\circ \bar{g}\circ \phi = g\circ k_2\circ \phi = g\circ \eta = g\circ q\circ n\circ \epsilon - g\circ f\circ \zeta = k_3\circ p\circ n\circ \epsilon = k_3\circ d\circ m\circ \epsilon$.
+
+As $k_3$ is a monomorphism, we have that $\bar{g}\circ \phi = d\circ m\circ \epsilon$. Thus, as $m\circ \epsilon$ is an epimorphism, the previous theorem implies that $K_2 \overset{\bar{g}}{\rightarrow} K_3 \overset{\delta}{\rightarrow} Q_1$ is exact.
+
+We now show exactness at $K_2$.
+
+As $k_3\circ \bar{g}\circ \bar{f} = g\circ f\circ k_1 = 0$ then as $k_3$ is a monomorphism we have $\bar{g}\circ \bar{f} = 0$.
+
+Let $S$ be an object with a morphism $c : S \to K_2$ with $\bar{g}\circ c = 0$. Then $g\circ k_2\circ c = k_3\circ \bar{g}\circ c = 0$.
+
+By the previous theorem, there is an object $T$, an epimorphism $d : T \to S$ and a morphism $e : T \to A$ such that $k_2\circ c\circ d = f\circ e$.
+
+Then $f'\circ a\circ e = b\circ f\circ e = b\circ k_2\circ c\circ d = 0$.
+
+As $f'$ is a monomorphism we have that $a\circ e = 0$.
+
+Thus by the universal property of the kernel $K_1$ we have that there exists a morphism $m : T \to K_1$ such that $k_1\circ m = e$.
+
+Thus $k_2\circ \bar{f}\circ m = f\circ k_1\circ m = f\circ e = k_2\circ \bar{g}\circ c$. As $k_2$ is a monomorphism we have $\bar{f}\circ m = c\circ d$.
+
+Thus the previous theorem says that $K_1 \overset{\bar{f}}{\rightarrow} K_2 \overset{\bar{g}}{\rightarrow} K_3$ is exact.
+
+The theorem now follows by a dual argument showing the sequence is exact at $Q_1$ and $Q_2$. QED.
+
+\textbf{24. Let $0 \rightarrow A_2 \overset{f}{\rightarrow} B_2 \overset{g}{\rightarrow} C_2 \rightarrow 0$ and $0 \rightarrow A_3 \overset{f'}{\rightarrow} B_3 \overset{g'}{\rightarrow} C_3 \rightarrow 0$ be exact. Suppose that there is a third sequence $0 \rightarrow A_1 \overset{f''}{\rightarrow} B_1 \overset{g''}{\rightarrow} C_1 \rightarrow 0$ such that $0 \rightarrow A_1 \overset{a'}{\rightarrow} A_2 \overset{a}{\rightarrow} A_3 \rightarrow 0$ is exact, $0 \rightarrow B_1 \overset{b'}{\rightarrow} B_2 \overset{b}{\rightarrow} B_3 \rightarrow 0$ is exact and $0 \rightarrow C_1 \overset{c'}{\rightarrow} C_2 \overset{c}{\rightarrow} C_3 \rightarrow 0$ is exact and such that all squares commute. Then the third sequence above is also exact.}
+
+Since coker$(a) = 0$ as the first column is exact and $A_1, a'$ is the kernel of $a$, $B_1, b'$ is the kernel of $b$ and $C_1, c'$ is the kernel of $c$ due to the exactness of the columns, the snake lemma tells us that $A_1 \overset{f''}{\rightarrow} B_1 \overset{g''}{\rightarrow} C_1 \overset{\delta}{\rightarrow} 0$ is exact.
+
+It remains only to show that $f''$ is a monomorphism. But $b'\circ f'' = f\circ a''$. As $f\circ a''$ is a monomorphism, so is $f''$. QED.
+
+\textbf{25. Let $0 \rightarrow A_1 \overset{f''}{\rightarrow} B_1 \overset{g''}{\rightarrow} C_1 \rightarrow 0$ and $0 \rightarrow A_2 \overset{f}{\rightarrow} B_2 \overset{g}{\rightarrow} C_2 \rightarrow 0$ be exact. Suppose that there is a third sequence $0 \rightarrow A_3 \overset{f'}{\rightarrow} B_3 \overset{g'}{\rightarrow} C_3 \rightarrow 0$ such that $0 \rightarrow A_1 \overset{a'}{\rightarrow} A_2 \overset{a}{\rightarrow} A_3 \rightarrow 0$ is exact, $0 \rightarrow B_1 \overset{b'}{\rightarrow} B_2 \overset{b}{\rightarrow} B_3 \rightarrow 0$ is exact and $0 \rightarrow C_1 \overset{c'}{\rightarrow} C_2 \overset{c}{\rightarrow} C_3 \rightarrow 0$ is exact, and such that all squares commute. Then the third sequence above also commutes.}
+
+The proof is the dual to the previous one. QED.
+
+\textbf{26. Let $W \rightarrow X \rightarrow Y \rightarrow Z$ and $W' \rightarrow X' \rightarrow Y' \rightarrow Z'$ be exact sequences in an abelian category and let $\alpha : W \to W'$, $\beta : X \to X'$, $\gamma : Y \to Y'$ and $\delta : Z \to Z'$ be morphisms such that all the resulting squares commute. Then if $\alpha$ and $\gamma$ are sujective and $\delta$ is injective then $\beta$ is surjective.}
+
+We will show that we can replace $W$ by the image of the map $W' \to X'$. Let us denote the map $W' \to X'$ by $f$ and $W'', f''$ the image of $f$. Then it is easy to show that the cokernel of $f$ and $f''$ agree. Thus $W''$ is the image of $f''$ and thus the diagram is still exact at $X'$ when $f$ is replaced by $f''$.
+
+Moreover, there is a surjective map $\alpha'$ from $W'$ to $W''$ which is part of the factorisation of $f$. Then $\alpha'\circ \alpha$ is a surjective map from $W$ to $W''$. Clearly the resulting square with $W'$ replaced by $W''$ still commutes.
+
+In other words, without loss of generality, by replacing $W'$ with $W''$ if necessary, we may assume that the map $W' \to X'$ is injective.
+
+By a similar argument we may replace $Z$ by the image of $Y \to Z$. In other words, we may assume $Y \to Z$ is surjective.
+
+Let $K_1$ be the kernel of $Y \to Z$ and $K_2$ be the kernel of $Y' \to Z'$.
+
+Then we have exact rows $K_1 \to Y \to Z \to 0$ and $0 \to K_2 \to Y' \to Z'$ and an induced morphism between $K_1$ and $K_2$ such that the diagram commutes.
+
+We apply the snake lemma to the diagram. Since the kernel of $\delta$ is $0$ and the cokernel of $\gamma$ is $0$. By the exact sequence of the snake lemma we therefore have that the cokernel of $K_1 \to K_2$ is $0$, i.e. that map is surjective.
+
+Similarly we apply the snake lemma to the diagram with exact rows $W \to X \to K_1 \to 0$ and $0 \to W' \to X' \to K_2$.
+
+We have that the cokernel of $\alpha$ is $0$, the cokernel of of $K_1 \to K_2$ is $0$. Thus the cokernel of $\beta$ is $0$ and so $\beta$ is surjective. QED.
+
+\textbf{27. Let $W \rightarrow X \rightarrow Y \rightarrow Z$ and $W' \rightarrow X' \rightarrow Y' \rightarrow Z'$ be exact sequences in an abelian category and let $\alpha : W \to W'$, $\beta : X \to X'$, $\gamma : Y \to Y'$ and $\delta : Z \to Z'$ be morphisms such that all the resulting squares commute. Then if $\beta$ and $\delta$ are injective and $\alpha$ is surjective then $\gamma$ is injective.}
+
+This result is dual to the previous one. QED.
+
+\textbf{28. (Five lemma) Let $U \rightarrow W \rightarrow X \rightarrow Y \rightarrow Z$ and $U' \rightarrow W' \rightarrow X' \rightarrow Y' \rightarrow Z'$ be exact sequences in an abelian category and let $\alpha : U \to U'$, $\beta : W \to W'$, $\gamma : X \to X'$, $\delta : Y \to Y'$ and $\epsilon : Z \to Z'$ be morphisms such that all the resulting squares commute. Then if $\beta$ and $\delta$ are isomorphisms, $\epsilon$ is injective and $\alpha$ is surjective then $\gamma$ is an isomorphism.}
+
+This follows from the previous two theorems. We apply the first to the rightmost four squares and the second to the leftmost four squares. This gives that $\gamma$ is surjective and injective respectively and thus an isomorphism. QED.
+
+\textbf{29. If $0 \rightarrow A \rightarrow B \rightarrow C \rightarrow 0$ and $0 \rightarrow A' \rightarrow B' \rightarrow C' \rightarrow 0$ are exact rows and $g : A \to A'$, $f : B \to B'$ and $h : C \to C'$ are morphisms that make the diagram commute, then if $g$ and $h$ are isomorphisms, so is $f$.}
+
+This is a special case of the five lemma with objects on the right and left equal to the zero object. We take the identity morphism between the zero objects on each end.
+
+The five lemma then says that $f$ is an isomorphism. QED.
+
+\textbf{30. Suppose that $f : A \to B$ and $f' : A' \to B'$ make a commuting square via $\phi^A : A \to A'$ and $\phi^B : B \to B'$. Similarly, let $g : C \to B$ and $g' : C' \to B'$ make a commuting square via $\phi^B$ and $\phi^C : C \to C'$. Let $P$ along with $r : P \to A$ and $s : P \to C$ be the pullback of $f$ and $g$ and $P'$ along with $r' : P' \to A'$ and $s' : P' \to C'$ be the pullback of $f'$ and $g'$. Then $PABCP'A'B'C'$ forms a commuting cube. In particular there is a morphism $u : P \to P'$ such that $\phi^A\circ r = r'\circ u$ and $s'\circ u = \phi^C\circ s$.}
+
+Since $P = A\times_B C$ we have that $f\circ r = g\circ s$. Thus $\phi^B\circ f\circ r = \phi^B\circ g\circ s$. Thus $f'\circ \phi^A\circ r = g'\circ \phi^C\circ s$.
+
+Thus by the universal property of the pullback of $f'$ and $g'$ there is a morphism $u : P \to P'$ such that $\phi^A\circ r = r'\circ u$ and $s'\circ u = \phi^C\circ s$. QED.
+
+\textbf{31. Suppose that $f : B \to A$ and $f' : B' \to A'$ make a commuting square via $\phi^A : A \to A'$ and $\phi^B : B \to B'$. Similarly, let $g : B \to C$ and $g' : B' \to C'$ make a commuting square via $\phi^B$ and $\phi^C : C \to C'$. Let $Q$ along with $r : A \to Q$ and $s : C \to Q$ be the pushout of $f$ and $g$ and $Q'$ along with $r' : A' \to Q'$ and $s' : C' \to Q'$ be the pushout of $f'$ and $g'$. Then $ABCQ'A'B'C'$ forms a commuting cube. In particular there is a morphism $u : Q \to Q'$ such that $r'\circ \phi^A = u\circ r$ and $u\circ s = s'\circ \phi^C$.}
+
+The argument is dual to that for the pullback commuting cube. QED.
+
+\textbf{32. Let $A_1 \overset{f_1}{\rightarrow} B_1 \overset{g_1}{\rightarrow} C_1 \rightarrow 0$ and $0 \rightarrow A_2 \overset{f_2}{\rightarrow} B_2 \overset{g_2}{\rightarrow} C_2$ be exact with morphism $d_1^A : A_1 \to A_2$, $d_1^B : B_1 \to B_2$ and $d_1^C : C_1 \to C_2$ be morphisms between the rows making squares commute. Suppose there exist a similar set of rows with indices $1$ replaced with $3$ and $2$ replaced with $4$. Further suppose morphisms $\phi_A : A_1 \to A_3$, $\phi_B : B_1 \to B_3$ and $\phi_C : C_1 \to C_3$ and $\psi_A : A_2 \to A_4$, $\psi_B : B_2 \to B_4$ and $\psi_C : C_2 \to C_4$ again making all squares commute. Let $\ker(d_1^A) \overset{\hat{f}_1}{\rightarrow} \ker(d_1^B) \overset{\hat{g}_1}{\rightarrow} \ker(d_1^C) \overset{\delta_1}{\rightarrow} \mbox{coker}(d_1^A) \overset{\bar{f}_2}{\rightarrow} \mbox{coker}(d_1^B) \overset{\bar{g}_2}{\rightarrow} \mbox{coker}(d_1^C)$ be the induced exact sequence of the snake lemma on one pair of exact rows and $\ker(d_2^A) \overset{\hat{f}_3}{\rightarrow} \ker(d_2^B) \overset{\hat{g}_3}{\rightarrow} \ker(d_2^C) \overset{\delta_1}{\rightarrow} \mbox{coker}(d_2^A) \overset{\bar{f}_4}{\rightarrow} \mbox{coker}(d_2^B) \overset{\bar{g}_4}{\rightarrow} \mbox{coker}(d_2^C)$ be the induced exact sequence of the snake lemma on the other pair of exact rows. Then there are maps $\hat{\phi}^X : \ker(d_1^X) \to \ker(d_2^X)$ for $X = A, B, C$ and $\bar{\phi}^Y : \mbox{coker}(d_1^Y) \to \mbox{coker}(d_2^Y)$ for each of $Y = A, B, C$ that make the squares between the induced exact sequences commute.}
+
+We have that if $k_1^A : \ker(d_1^A) \to A_1$ is the kernel of $d_1^A$ then $\psi^A\circ d_1^A\circ k_1^A = 0$. But then $d_2^A\circ \phi^A\circ \ker(d_1^A) = 0$. Thus there is an induced morphism  $\ker(d_1^A) \to \ker(d_2^A)$ by the universal property of the kernel of $d_2^A$.
+
+Similarly there are induced morphisms $\ker(d_1^B) \to \ker(d_2^B)$ and $\ker(d_1^C) \to \ker(d_2^C)$ and similarly by duality, induced morphisms between the cokernels. Thus we have shown that the morphisms $\hat{\phi}^X$ and $\bar{\psi}^Y$ exist.
+
+Let $k_1^X : K_1^X \to X_1$ be the kernel of $d_1^X$ for $X = A, B, C$ and $k_3^Y : K_3^Y \to Y_3$ be the kernel of $d_2^Y$ for all $Y = A, B, C$.
+
+Then by definition $f_1\circ k_1^A = k_1^B\circ \hat{f}_1$, $\phi^B\circ k_1^B = k_3^B\circ \hat{\phi}^B$, $\psi^B\circ k_3^A = k_3^B\circ \hat{f}_3$ and $f_2\circ k_1^A = k_3^A\circ \hat{\phi}^A$. We also have $\phi^B\circ f_1 = \psi^B\circ f_2$.
+
+We therefore have $k_3^B\circ \hat{\phi}^B\circ \hat{f}_1 = \phi^B\circ k_1^B\circ \hat{f}_1 = \phi^B\circ f_1\circ k_1^A = \psi^B\circ f_2\circ k_1^A = \psi^B\circ k_3^A\circ \hat{\phi}^A = k_3^B\circ \hat{f}_3\circ \hat{\phi}^A$. But $k_3^B$ is a monomorphism and thus $\hat{\phi}^B\circ \hat{f}_1 = \hat{f}_3\circ \hat{\phi}^A$. 
+
+By a similar argument we have that $\hat{\phi}^C\circ \hat{g}_1 = \hat{g}_3\circ \hat{\phi}^B$.
+
+By duality we have that $\bar{\psi}^C\circ \bar{g}_2 = \bar{g}_4\circ \bar{\psi}^B$ and $\bar{\psi}^B\circ \bar{f}_2 = \bar{f}_4\circ \bar{\psi}^A$. 
+
+Let $P_1$ be the pulback of $g_1$ and $k_1^C$ with maps $b_1 : P_1 \to B_1$ and $s_1 : P_1 \to K_1^C$. Similarly let $P_2$ be the pullback of $g_3$ and $k_3^C$ with maps $b_3 : P_2 \to B_3$ and $s_3 : P_2 \to K_3^C$. Let $Q_1$ and $Q_3$ be the dual pushouts on the cokernel side with maps $b_2$, $s_2$, $b_4$ and $s_4$.
+
+By the definition of the connecting morphisms $\delta_1$ and $\delta_2$ we have $s_2\circ \delta_1\circ s_1 = b_2\circ d_1^B\circ b_1$ and $s_4\circ \delta_2\circ s_3 = b_4\circ d_2^B\circ b_3$.
+
+By the previous theorem we have morphisms $t : P_1 \to P_2$ and $u : Q_1 \to Q_2$ that make the pullback squares into a commuting cube, and similarly for the pushout squares.
+
+Thus $u\circ b_2\circ d_1^B\circ b_1 = b_4\circ d_2^B\circ b_3\circ t$. Thus $u\circ s_2\circ \delta_1\circ s_1 = s_4\circ \delta_2\circ s_3\circ t$.
+
+But by commutativity of the pullback and pushout cubes we then have $s_4\circ \bar{psi}^A\circ \delta_1\circ s_1 = s_4\circ \delta_2\circ \hat{\phi}^C\circ s_1$.
+
+But since pullbacks and pushouts preserve monomorphisms and epimorphisms $s_1$ is an epimorphism and $s_4$ is a monomorphism. Thus $\bar{psi}^A\circ \delta_1 = \delta_2\circ \hat{\phi}^C$ proving commutativity of the centre square between the two long snake sequences. QED.
+
+\section{Projective objects}
+
+\textbf{1. A projective object $P$ in an abelian category $C$ is an object such that Hom$(P, -)$ is an exact functor from $C$ to abelian groups.}
+
+\textbf{2. An object $P$ in an abelian category is projective iff for any epimorphism $q : A \to B$ every morphism $f : P \to B$ factors through $q$, i.e. there exists a morphism $q' : P \to A$ such that $f = q\circ q'$.}
+
+Suppose that $0 \rightarrow K \overset{k}{\rightarrow} A \overset{q}{\rightarrow} B \rightarrow 0$ is exact. This is the case iff $k$ is the kernel of the epimorphism $q$.
+
+As the functor Hom$(P, -)$ is left exact we have that $0 \rightarrow \mbox{Hom}(P, K) \overset{\mbox{Hom}(P, k)}{\rightarrow} \mbox{Hom}(P, A) \overset{\mbox{Hom}(P, q)}{\rightarrow}  \mbox{Hom}(P, B)$ is exact.
+
+If $P$ is projective then $\mbox{Hom}(P, q)$ is surjective. In other words, for every morphism $f : P \to B$ there exists a morphism $q' : P \to A$ such that $f = q\circ q'$.
+
+Since the epimorphism $q$ is arbitrary, this shows one direction of the theorem. The converse follows by reversng the argument. QED.
+
+\textbf{3. A free module is a module that has a basis, i.e. a linearly independent generating set.}
+
+\textbf{4. If an $R$-module $P$ is free then it is projective.}
+
+Suppose $(p_i)_{i\in I}$ is a basis for $P$.
+
+Suppose that $g : P \to B$ is an $R$-module homomorphism and $f : A \to B$ is a surjective homomorphism. 
+
+Consider the elements $g(p_i)$. Since $f$ is surjective, for each $i$ there exists $a_i \in A$ such that $f(a_i) = g(p_i)$ for all $i \in I$. We can define $\beta : P \to A$ by $p_i \mapsto a_i$.
+
+As $f(a_i) = g(p_i)$ we have that $f(\beta(p_i)) = g(p_i)$. Since the $p_i$ are a basis for $P$ we have that $(f\circ \beta)(p) = g(p)$ for all $p \in P$ by linearity. Thus $f\circ \beta = g$ and so $P$ is projective. QED.
+
+\textbf{5. A direct summand of a projective module is projective.}
+
+Suppose $P$ is a direct summand of a projective module $Q$. Then by definition there is an injection $i : P \to Q$ and a quotient map $q : Q \to P$ such that $q\circ i =$ id$_P$.
+
+Now suppose $g : P \to B$ is a homomorphism and $f : A \to B$ is a surjective homomorphism. Then we have a map $g\circ q : Q \to B$. Since $Q$ is projective there exists a map $\beta' : Q \to A$ such that $f\circ \beta' = g\circ q$.
+
+Define $\beta : P \to A$ by $\beta'\circ i$. Then $f\circ \beta = f\circ \beta'\circ i = g\circ q\circ i = g$. Thus $P$ is projective. QED.
+
+\textbf{6. An $R$-module $P$ is projective iff it is a direct summand of a free module.}
+
+By the previous two results it suffices to show that if $P$ is projective then it is a direct summand of a free module.
+
+Suppose $P$ is projective and let $F(P)$ be the free $R$-module over $P$. There is a natural surjective morphism $f : F(P) \to P$.
+
+Since $P$ is projective, we can find a map $\beta : P \to F(P)$ such that $f\circ \beta =$ id$_P$.
+
+We then apply the splitting lemma to the short exact sequence $0 \rightarrow \ker(f) \rightarrow F(P) \overset{f}{\rightarrow} P \rightarrow 0$.
+
+This yields that $P$ is a direct summand of $F(P)$. QED.
+
+\textbf{7. An $R$-module $M$ is projective iff every surjection $\alpha : N \to M$ splits.}
+
+If $M$ is projective, then the identity homomorphism id$_M : M \to M$ factors through the surjective homomorphism $\alpha : N \to M$. Thus there exists a homomorphism $u : M \to N$ such that $\alpha\circ u =$ id$_M$, which is the definition of splitting of $\alpha$.
+
+Conversely, let $F = \oplus_{m \in M} R$. Let $\phi : F \to M$ be defined by sending the basis vector of $F$ corresponding to the $m$-coordinate to $m$. The map is then extended linearly to the whole of $F$. It is clearly an $R$-module homomorphism.
+
+The map $\phi$ is surjective and so by hypothesis, it splits. Let $s : M \to F$ be a homomorphism such that $\phi\circ s =$ id$_M$. 
+
+Consider the map $\psi : M \oplus \ker(\phi) \to F$ given by $(m, x) \mapsto s(m) + x$. It's clearly a homomorphism, since it is componentwise. But it is also an isomorphism, since it has inverse given by $\psi^{-1} : f \mapsto (\phi(f), f - s(\phi(f)))$.
+
+Thus $M$ is a direct summand the free module $F$ and hence is projective. QED.
+
+\textbf{8. An $R$-module $P$ is projective iff the function Hom$(P, -)$ is exact.}
+
+The functor is always left exact. Consider an arbitrary exact sequence $0 \rightarrow A \rightarrow B \rightarrow C \rightarrow 0$. The functor is right exact exact if the induced map Hom$(P, B) \rightarrow$ Hom$(P, C)$ is surjective.
+
+But this is the case iff every homomorphism $\alpha : P \to C$ can be lifted to a homomorphism to $B$. However, this is precisely the condition for $P$ to be projective. QED.
+
+\textbf{9. An $R$-module $P$ is projective iff there exists a family $(a_i)_{i\in I}$ with $a_i \in P$, and corresponding morphisms $f_i : P \to R$ such that for any $a \in P$, $f_i(a) = 0$ for almost all $i$ and $a = \sum_i a_if_i(a)$.}
+
+Suppose such $a_i$ and $f_i$ exist. Let $F = \oplus e_i R$ be the free module with coordinates corresponding to each $i \in I$. Let $g : F \to P$ be defined by $g(e_i) = a_i$ for all $i \in I$. It is clearly an epimorphism since the $a_i$ generate $P$.
+
+Let the homomorphism $h : P \to F$ be defined by $h(a) = \sum_i e_if_i(a)$. Clearly $g\circ h =$ id$_P$ and so $h$ splits $g$.
+
+As in a previous theorem, this implies that $P$ is isomorphic to a direct summand of $F$, and so $P$ is projective.
+
+Conversely, assume $P$ is projective. Suppose $g$ is an epimorphism from a free module $F = \oplus e_i R$ onto $P$. Such a map exists since $P$ is a direct summand of a free module and $g$ can be taken to be the projection map.
+
+As we have shown previously, $g$ is split by a homomorphism $h : P \to F$. We write $h(a) = \sum_i e_i f_i(a)$.
+
+It is easy to show that the $f_i$ are $R$-linear, since $h$ is an $R$-module homomorphism. Moreover, every element of the free module $F$ is a finite linear combination of the $e_i$, and so all but finitely many of the $f_i(a)$ are zero.
+
+Applying $g$ to the equation for $h(a)$ we have $a = (g\circ h)(a) = \sum_i a_i f_i(a)$ with $a_i = g(e_i)$, since $f_i(a) \in R$ and $g$ is an $R$-homomorphism. QED.
+
+\textbf{10. Suppose $X$ is a basis of a free $R$-module $F$. Then the free module $F$ has the following universal property. Let $N$ be any $R$-module. If $f : X \to N$ is any map, then there exists a unique $R$-module homomorphism $\phi : F \to N$ such that $\phi(x) = f(x)$ for all $x \in X$.}
+
+Let $\iota : X \to F$ be the canonical inclusion sending $x \in X$ to $x \in F$.
+
+We first prove the existence of $\phi$. Suppose $X = \{x_i \;|\; i \in I\}$. Let $m \in F$. Then $m = \sum_{i\in I} r_ix_i$ for some $r_i \in R$, where only finitely many of the $r_i$ are nonzero.
+
+Let $\phi(m) = \sum_{i\in I} r_if(x_i)$. Suppose $m_1, m_2 \in F$ and $r \in R$. Say $m_1 = \sum_{i\in I}r_ix_i$ and $m_2 = \sum_{i\in I}s_ix_i$.
+
+We have that $\phi(rm_1 + m_2) = \phi\left(\sum_{i\in I} (rr_i + s_i)x_i\right) = \sum_{i\in I}(rr_i + s_i)f(x_i) = r\phi(m_1) + \phi(m_2)$. Thus $\phi$ is $R$-linear.
+
+We see from the definition of $\phi$ that $\phi(x) = f(x)$ for $x \in X$.
+
+Finally, we prove uniqueness of $\phi$. Suppose that $\psi : F \to M$ is an $R$-module homomorphsm and $\psi(x) = f(x)$ for all $x \in X$. If $m = \sum_{i\in I}r_ix_i \in F$ then $\psi(m) = \sum_{i\in I}r_i\psi(x_i) = \sum_{i\in I}r_if(x_i) = \phi(m)$. Thus $\psi = \phi$. QED.
+
+\textbf{11. Let $(F_i)_{i\in i}$ be a family of free $R$-modules. Then $\bigoplus_{i\in I} F_i$ is free.}
+
+Let $A_i = \{a_{i,j}\}$ be a basis for $F_i$. Let $A = \coprod_{i \in I} A_i$ be the disjoint union of the sets $A_i$. Let $F(A)$ be the free module on $A$.
+
+There is the natural inclusion $A \to F(A)$. There is also a natural inclusion $\iota : A \to \bigoplus_{i\in I} F_i$ sending $a_{i,j} \mapsto (b_k)_{k\in I}$ where $b_k = a_{i,j}$ if $k = i$ and $0$ otherwise.
+
+By the universal property of free modules, there is a unique homomorphism $\phi : F(A) \to \bigoplus_{i\in I} F_i$ such that $\phi(a_{i,j}) = \iota(a_{i,j})$. We will show that $\phi$ is an $R$-module isomorphism.
+
+Suppose $x \in \ker(\phi)$. Write $x = \sum_{i,j} r_{i,j}a_{i,j}$. Then $0 = \phi(x)_i = \sum_j r_{i,j}a_{i,j} \in F_i$.
+
+For all $i$, since $F_i$ is free on $A_i$ we have $r_{i,j} = 0$ for all $j$. Thus $x = 0$. Thus $\ker(\phi) = 0$ and so $\phi$ is injective.
+
+Now suppose that $\left(\sum_j r_{i,j}a_{i,j}\right)_{i\in I} \in \bigoplus_{i\in I}F_i$. As only finitely many of the $r_{i,j}$ are nonzero, $\sum_{i,j} r_{i,j}a_{i,j} \in F(A)$.
+
+We have that $\phi\left(\sum_{i,j} r_{i,j}a_{i,j}\right) = \left(\sum_j r_{i,j}a_{i,j}\right)_{i\in I}$. Thus $\phi$ is surjective.
+
+Thus $\bigoplus_{i\in I} F_i \cong F(A)$ and thus $\bigoplus_{i\in I}$ is a free $R$-module. QED.
+
+\textbf{12. Let $P_1$ and $P_2$ be $R$-modules. Then $P_1\oplus P_2$ is projective iff $P_1$ and $P_2$ are projective.}
+
+Suppose $P_1\oplus P_2$ is projective. Then we have that $P_1\oplus P_2\oplus Q$ is free for some $R$-module $Q$. But now both $P_1$ and $P_2$ are direct summands of a free module and are thus projective.
+
+Conversely, suppose $P_1$ and $P_2$ are projective. Then there exist modules $Q_1$ and $Q_2$ such that $P_2\oplus Q_1$ and $P_2\oplus Q_2$ are free.
+
+The direct sum of these two free modules is free. But it is easy to show that $(P_1\oplus Q_1)\oplus (P_2\oplus Q_2) \cong (P_1\oplus P_2)\oplus (Q_1\oplus Q_2)$. Thus $P_1\oplus P_2$ is a direct summand of a free module and is thus projective. QED.
+
+\textbf{13. If $e$ is an idempotent of a commutative ring $R$ then $eR$ is a projective $R$-module.}
+
+Let $e' = 1 - e$ in $R$. Then $e'^2 = (1 - e)^2 = 1 - 2e + e = 1 - e = e'$ and $ee' = e(1 - e) = e - e = 0$. Thus $e$ and $e'$ form an orthogonal set of idempotents with $e + e' = 1$.
+
+Then the $R$-module $R$ can be written as a direct sum $R = eR \oplus e'R$. In particular, $eR$ is a direct sum of a free $R$-module and so is projective. QED.
+
+\textbf{14. A submodule of a free $\Z$-module $M$ is free.}
+
+The $Z$-submodules are precisely the subgroups of the abelian group $M$. But the subgroups of a free abelian group are free. QED.
+
+\textbf{15. A submodule of a free $R$-module over a principal ideal domain $R$ is free.}
+
+Let $F = \bigoplus_{j \in J} R_j$ be a free $R$-module with $R_j = R$ for all $j$. Let $M$ be an $R$-submodule of $F$.
+
+Assume $J$ is a well-ordered set (this is equivalent to the axiom of choice).
+
+For $j \in J$ let $G_j = \bigoplus_{i < j} R_i$, $F_j = \bigoplus {i\leq j} R_i = G_j\oplus R_j$.
+
+Because of the final equality, every element of $F_j\cap M$ may be written uniquely as $(b, r)$ with $b \in G_j$ and $r \in R_j = R$.
+
+Define $f_j : F_j\cap M \to R$ by $(b, r) \mapsto r$. By construction, the kernel of $f_j$ is $G_j\cap M$. 
+
+The image of $f_j$ is an ideal of $R$ and so has the form $r_jR$ for some $r_j \in R$, as $R$ is a principal ideal domain. If $r_j \neq 0$ then there exists $c_j \in F_j\cap M$ such that $f(c_j) = r_j$.
+
+We will prove that $\{c_j : j \in J, r_j \neq 0\}$ is a basis for $M$.
+
+To prove that the set is linearly independent, suppose that $\sum_{k=1}^n s_kc_{j_k} = 0$ for some $s_k \in R$ with $j_1 < j_2 < \cdots < j_n$. Apply $f_{j_n}$ to obtain $0 = s_nf(c_{j_n}) = s_nr_n$. As $R$ is a domain and $r_n \neq 0$ we have $s_n = 0$. By induction, $s_k = 0$ for all $k$.
+
+Suppose that the set doesn't generate $M$. Then there is a smallest $i \in J$ such that there is an $a \in F_i\cap M$ which can't be written in terms of the elements of the set. 
+
+If $J'$ is the set of indices for which $r_j \neq 0$ and $i \notin J'$ then $G_i\cap M = F_i\cap M$ and so $a \in G_i\cap M$. But this contradicts the minimality of $i$. Thus $i \in J'$.
+
+Write $f_i(a) = sr_i$ for some $s \in R$. Write $b = a - sc_i$. Since $a$ cannot be written as a linear combination of the $c_j$'s, neither can $b$. 
+
+But $f_i(b) = f_i(a) - sf_i(c_i) = 0$, thus $b \in G_i\cap M$. But this contradicts the minimality of $i$ and so every element of $M$ must be able to be expressed as a linear combination of the $c_j$'s. QED.
+
+\textbf{16. A abelian group is projective as a $\Z$-module iff it is a free abelian group.}
+
+An abelian group is projective as a $\Z$-module iff it is a direct summand of a free abelian group. But if it is a direct summand it is a subgroup and hence free. Conversely it is clear that a free abelian group is a projective $\Z$-module. QED.
+
+\textbf{17. A module over a principal ideal domain is projective iff it is free.}
+
+The proof is the same as for abelian groups. QED.
+
+ 
+
+
+
+\section{Injective objects}
+
+\textbf{1. An injective object $Q$ in an abelian category $C$ is an object such that Hom$(-, Q)$ is an exact functor from $C$ to abelian groups.}
+
+\textbf{2. An object $Q$ in an abelian category is injective iff for every monomorphism $k : A \to B$ every every morphism $f : A \to Q$ factors through $k$, i.e. there exists a morphism $k' : B \to Q$ such that $f = k'\circ k$.}
+
+The proof is dual to the case for projectives. QED.
+
+\textbf{3. Let $Q$ be an $R$-module such that for any ideal $I$ of $R$ and homomorphism $f : I \to Q$ there exists a homomorphism $f' : R \to Q$ extending $f$. Then $Q$ is an injective $R$-module. The converse also holds.}
+
+Let $Ra$ and $Rb$ be modules generated by a single element and such that $Ra \subseteq Rb$, i.e. that there is an injective homomorphism from $Ra$ to $Rb$.
+
+Suppose $f : Ra \to Q$ is an $R$-module homomorphism. Let $I = \{r \in R \;|\; rb \in Ra\}$. It is easy to check that $I$ is an ideal of $R$.
+
+The map $g : I \to Q$ defined by $g(r) = f(rb)$ is a homomorphism. Thus by assumption there exists a morphism $g' : R \to Q$ extending $g$.
+
+Define $f'(rb) = g'(r)$. Clearly $f'$ is defined on the whole of $Rb$ and is a homomorphism extending $f$.
+
+We only need to show that it is well-defined. But if $r_1b = r_2b$ in $Rb$ then $(r_1 - r_2)b = 0$. But then $(r_1 - r_2)b \in Ra$ since $0 \in Ra$. Thus $f'((r_1 - r_2)b) = g'(r_1 - r_2) = g(r_1 - r_2) = f(r_1b - r_2b) = f(0) = 0$.
+
+But $f'(r_1b - r_2b) = f'(r_1b) - f'(r_2b)$, thus $f'(r_1b) = f'(r_2b)$. Thus $f'$ is well-defined.
+
+Now we extend this result to finitely generated modules as follows. 
+
+Suppose $A$ is a module with $A \subseteq A + Ra'$ for some $a' \notin A$ and suppose that we have a morphism $f : A \to Q$. Again let $I = \{r \in R \;|\; rb \in A\}$. As above, extend $g(r) = f(rb)$ to $g' : R \to Q$. Then define $f'(a + ra') = f(a) + g'(r)$.
+
+As above, it is easy to show that $f'$ is a well-defined homomorphism that extends $f$.
+
+To prove the result in general, we must use Zorn's lemma. Suppose $A \subseteq B$ are modules and $f : A \to Q$ is a homomorphism.
+
+We form the partially ordered set of extensions of $f$. This consists of pairs of a module and morphism such that $(C, g) \leq (D, h)$ if $C \subseteq D$ and $h$ extends $g$.
+
+If $\{(A_i, f_i) \;|\; i \in I\}$ is a chain in this partially ordered set we can form $\bigcup f_i : \cup A_i \to Q$ since every element of $\cup A_i$ is in some $A_i$.
+
+By Zorn's lemma there exists a maximal $f' : A' \to Q$. If $b$ is an element of $B$ that is not in $A'$ we can extend $f'$ to $A' + Rb$. But this contradicts the maximality of $f'$. So in fact $A' = B$. This proves one direction of the theorem.
+ 
+The converse of the theorem follows directly from the definition of injective module and the fact that $I$ and $R$ are both $R$-modules with $I \subseteq R$. QED.
+
+\textbf{4. The $\Z$-module $\Q$ is injective.}
+
+Using Baer's criterion, it suffices to show that any homomorphism $f : I \to \Q$ for an ideal $I = n\Z$ of $\Z$ extends to a homomorphism $f' : \Z \to \Q$.
+
+But this is obvious since we can just define $f'(i) = f(i + n\Z)$, which is clearly a well-defined homomorphism as it is the composition of the natural projection and $f$. QED.
+
+\end{document}
