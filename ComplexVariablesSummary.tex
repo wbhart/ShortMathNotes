@@ -1,0 +1,933 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{eucal}
+\usepackage{amscd}
+\usepackage{url}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Pee}{\mathbb{P}}
+\newcommand{\EuO}{\mathcal{O}}
+\newcommand{\Qbar}{\overline{\mathbb{Q}}}
+\newcommand{\code}{\lstinline}
+
+\newcommand{\ljk}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\trans}[2]{(\,#1\;\;#2\,)}
+\newcommand{\modulo}[1]{\;\left(\mbox{mod}\;#1\right)}
+\newcommand{\fr}{\mathfrak}
+\newcommand{\qed}{\square}
+
+\DeclareMathOperator{\Log}{Log}
+
+\def\notdivides{\mathrel{\kern-3pt\not\!\kern4.5pt\bigm|}}
+\def\nmid{\notdivides}
+\def\nsubseteq{\mathrel{\kern-3pt\not\!\kern2.5pt\subseteq}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{proof}[1][Proof]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\parindent=0pt
+\parskip 4pt plus 2pt minus 2pt 
+
+\title{Complex Variables}
+\author{William Hart}
+
+\begin{document}
+\maketitle
+
+\section{Limits}
+
+\begin{definition}
+We say that the \textbf{limit} of a complex function $f(z)$ as $z$ approaches $z_0$ is $w$, written
+$$\lim_{z\to z_0}f(z) = w$$
+if for each $\epsilon > 0$ there is a $\delta > 0$ such that $|f(z) - w| < \epsilon$ whenever $0 < |z - z_0| < \delta$. 
+\end{definition}
+
+\begin{theorem}
+Let $f(z) = u(x, y) + iv(x, y)$ and $z_0 = x_0 + iy_0$ for real valued functions $u$ and $v$ and real variables $x_0$ and $y_0$. Then 
+$$\lim_{z \to z_0}f(z) = u_0 + iv_0$$
+iff
+$$\lim_{(x, y) \to (x_0, y_0)}u(x, y) = u_0 \;\;\mbox{and}\;\; \lim_{(x, y) \to (x_0, y_0)}v(x, y) = v_0.$$
+\end{theorem}
+
+Pick $\delta_1$ and $\delta_2$ such that $|u - u_0|$ and $|v - v_0|$ are both less than $\epsilon/2$ whenever $||(x, y) - (x_0, y_0)||$ is less than $\delta_1$ or $\delta_2$ respectively.
+
+Both hold if we use $\delta =$ min$(\delta_1, \delta_2)$ instead.
+
+Using the triangle inequality, we can bound $|(u + iv) - (u_0 + iv_0)|$ by $\epsilon$ and the result follows from the definition of the limit.
+
+The converse also follows by application of the triangle inequality.
+
+\begin{theorem}
+Suppose that
+$$\lim_{z\to z_0}f_1(z) = w_1 \;\;\mbox{and}\;\; \lim_{z\to z_0}f_2(z) = w_2$$
+then
+\begin{itemize}
+\item $\lim_{z \to z_0}f_1(z) + f_2(z) = w_1 + w_2$
+\item $\lim_{z \to z_0}f_1(z)f_2(z) = w_1w_2$
+\item If $w_2 \neq 0$ then $\lim_{z \to z_0}\frac{f_1(z)}{f_2(z)} = \frac{w_1}{w_2}.$
+\end{itemize}
+\end{theorem}
+
+These follow from the corresponding results for real functions.
+
+\begin{definition}
+By 
+$$\lim_{z \to z_0}f(z) = \infty$$
+we mean that for each $\epsilon > 0$ there is a $\delta > 0$ such that $|f(z)| > \frac{1}{\epsilon}$ whenever $0 < |z - z_0| < \delta$ and by
+$$\lim_{z\to \infty}f(z) = w$$
+we mean that for each $\epsilon > 0$ there exists a $\delta > 0$ such that $|f(z) - w| < \epsilon$ whenever $|z| > \frac{1}{\delta}$.
+\end{definition}
+
+\section{Continuity}
+
+\begin{definition}
+A function $f(z)$ of a complex variable is \textbf{continuous} at $z_0$ if 
+$$\lim_{z \to z_0}f(z) = f(z_0).$$
+We say that $f$ is continuous in a region $R$ if it is continuous at every point in $R$.
+\end{definition}
+
+\begin{theorem}
+We have that
+\begin{itemize}
+\item the sum and product of continuous functions is continuous. 
+\item excluding division by zero, the quotient of continuous functions is continuous. 
+\item The composition $f(g(z))$ of continuous functions $f(w)$, $g(z)$ is continuous. 
+\item the function $f(z) = u(x, y) + iv(x, y)$ for $z = x + iy$ is continuous iff the components $u, v$ are continuous functions of two real variables.
+\end{itemize}
+\end{theorem}
+
+All of these follow easily from the definition and relevant properties of limits.
+
+\begin{corollary}
+Any polynomial function $f(z) = a_0 + a_1z + \cdots + a_nz^n$ for $a_i \in \C$ is continuous everywhere in the complex plane.
+\end{corollary}
+
+\begin{theorem}
+If $f(z)$ and $g(z)$ are continuous at $z_0$ then
+\begin{itemize}
+\item $f(z) + g(z)$ is continuous at $z_0$
+\item $f(z)g(z)$ is continuous at $z_0$
+\item $f(z)/g(z)$ is continuous at $z_0$ if $g(z_0) \neq 0$
+\end{itemize}
+\end{theorem}
+
+These follow from the corresponding results on limits.
+
+\begin{theorem}
+If $f(x)$ is continuous at $x_0$, $z_0 = f(x_0)$ and $g(z)$ is continuous at $z_0$ then $(g\circ f)(x)$ is continuous at $x_0$.
+\end{theorem}
+
+We have an $(\epsilon, \delta)$ statement for $g(z)$ at $z_0$. By continuity of $f(x)$ at $x_0$ we know there is a $\gamma > 0$ such that $|f(x) - f(x_0)| < \delta$ whenever $|x - x_0| < \gamma$. Thus we have an $(\epsilon, \gamma)$ statement for $(g\circ f)(x)$.
+
+\begin{corollary}
+If $f(z)$ is continuous at $z_0$ and $f(z_0) \neq 0$, then there is a neighbourhood of $z_0$ for which $f(z) \neq 0$.
+\end{corollary}
+
+If $|f(z_0)| = \epsilon$, there is a $\delta$ neighbourhood of $z_0$ for which $|f(z) - f(z_0)| < \epsilon$, i.e. $f(z)$ can't reach as far as $0$ in this neighbourhood.
+
+\begin{theorem}
+A function $f(z) = u(x, y) + iv(x, y)$ for real-valued functions $u$ and $v$ is continuous at $z_0$ iff $u$ and $v$ are.
+\end{theorem}
+
+This follows from the corresponding theorem for limits.
+
+\begin{corollary}
+If $f(z)$ is continuous on a closed, bounded region $R$, then $f$ is bounded on $R$ and $|f(z)|$ achieves a maximum somewhere on $R$.
+\end{corollary}
+
+Write $f(z) = u(x, y) + iv(x, y)$ for real-valued $u$ and $v$. By the theorem $u$ and $v$ are continuous on $R$. Thus $u$ and $v$ and hence $f$ are bounded on $R$.
+
+The function $\sqrt{u(x, y)^2 + v(x, y)^2}$ achieves a maximum on $R$, and thus so does $|f(z)|$.
+
+\begin{definition}
+We say that a function $f(z)$ is \textbf{uniformly continuous} on a region $R$ if for any $\epsilon > 0$ there is a single value of $\delta > 0$ such that
+$$|f(z) - f(z_0)| < \epsilon \;\;\mbox{whenever}\;\; |z - z_0| < \delta$$
+for all $z_0 \in R$.
+\end{definition}
+
+\begin{theorem}
+A function $f(z)$ which is continuous in a closed, bounded region $R$ is uniformly continuous there.
+\end{theorem}
+
+Write $f(z) = u(x, y) + iv(x, y)$ for real-valued $u$ and $v$. The result follows from the corresponding theorem for real-valued functions.
+
+\section{Derivatives}
+
+\begin{definition}
+Let $f(z)$ be a function defined in a neighbourhood of a point $z_0$. The \textbf{derivative} of $f$ at $z_0$ is defined to be
+$$f'(z_0) = \lim_{z\to z_0} \frac{f(z) - f(z_0)}{z - z_0}$$
+if the limit exists. The function is said to be \textbf{differentiable} at $z_0$ if it does.
+\end{definition}
+
+\begin{theorem}
+If the derivative of $f(z)$ exists at $z_0$ then $f(z)$ is continuous there.
+\end{theorem}
+
+Multiply the expression for the derivative at $z_0$ above by $\lim_{z\to z_0}(z - z_0) = 0$ and we have that $\lim_{z\to z_0}(f(z) - f(z_0)) = 0$. This is precisely the statement of the continuity of $f(z)$ at $z_0$.
+
+\begin{theorem}
+If $c \in \C$ and $f(z)$ is differentiable then
+\begin{itemize}
+\item $\frac{d}{dz}c = 0$
+\item $\frac{d}{dz}z = 1$
+\item $\frac{d}{dz}cf(z) = cf'(z)$
+\end{itemize}
+\end{theorem}
+
+These follow directly from the definition.
+
+\begin{theorem}
+We have
+$$\frac{d}{dz}z^n = nz^{n-1}$$
+for all $n > 0$, and also for $n < 0$ when $z \neq 0$.
+\end{theorem}
+
+To prove this, we use the definition of the derivative and write $\delta = z - z_0$. We expand $(z_0 + \delta)^n$ using the binomial theorem.
+
+\begin{theorem}
+If $f(z)$ and $g(z)$ are both differentiable at $z$ then
+\begin{itemize}
+\item $\frac{d}{dz}\left(f(z) + g(z)\right) = f'(z) + g'(z)$
+\item $\frac{d}{dz}\left(f(z)g(z)\right) = f(z)g'(z) + f'(z)g(z)$
+\item $\frac{d}{dz}\left(f(z)/g(z)\right) = \frac{f'(z)g(z) - f(z)g'(z)}{g(z)^2}$ when $g(z) \neq 0$
+\end{itemize}
+\end{theorem}
+
+The first part follows directly from the definitions.
+
+For the second part we use
+\begin{multline*}
+f(z + \delta)g(z + \delta) - f(z)g(z) = f(z)\left[g(z + \delta) - g(z)\right] \\
+         + \left[f(z + \delta) - f(z)\right]g(z + \delta).
+\end{multline*}
+
+For the third part, we prove the result first for $f(z) = 1$, which follows from the definition, and then use the second part.
+
+\begin{theorem}
+If $f(z)$ has a derivative at $z_0$ and $g(z)$ has a derivative at $f(z_0)$ then $h(z) = g(f(z))$ has a derivative at $z_0$, and
+$$h'(z_0) = g'\left[f(z_0)\right]f'(z_0).$$
+\end{theorem}
+
+Writing $w = f(z)$ and $w_0 = f(z_0)$ we must show that
+$$\lim_{z\to z_0}\frac{g(w) - g(w_0)}{z - z_0} = g'(w_0)\lim_{z\to z_0}\frac{w - w_0}{z - z_0}.$$
+
+This would be true if
+$$g(w) - g(w_0) = (g'(w_0) + T(w))(w - w_0),$$
+for $T(w)$ defined in a neighbourhood of $w_0$, so long as $\lim_{z\to z_0}T(w) = 0$.
+
+The function defined by
+$$T(w) = \frac{g(w) - g(w_0)}{w - w_0} - g'(w_0),$$
+when $w \neq w_0$ and $T(w) = 0$ at $w = w_0$, has precisely the required properties.
+
+It is easy to see that $T(w)$ is continuous at $w = w_0$ and $w = f(z)$ is continuous at $z = z_0$. Thus $T(w) = T(f(z))$ is continuous at $z_0$. Thus
+$$\lim_{z\to z_0}T(f(z)) = T(f(z_0)) = T(w_0) = 0,$$
+as required.
+
+\section{The Cauchy-Riemann identities}
+
+We can find some necessary conditions for $f(z) = u(x, y) + iv(x, y)$ to be differentiable at $z_0 = x_0 + iy_0$.
+
+\begin{theorem}
+If $f(z) = u(x, y) + iv(x, y)$ is differentiable at $z_0 = x_0 + iy_0$ then
+\begin{equation}
+\begin{split}
+f'(z_0) & = u_x(x_0, y_0) + iv_x(x_0, y_0) \\
+        & = -i\left[u_y(x_0, y_0) + iv_y(x_0, y_0)\right]
+\end{split}
+\end{equation}
+\end{theorem}
+
+This follows by expanding the expression for $f'(z)$ in terms of $u$ and $v$ and noting that the limits must still hold if we approach $z_0$ along the line $z = x + iy_0$ or along the line $z = x_0 + iy$, respectively.
+
+\begin{corollary} (Cauchy-Riemann)
+If $f(z) = u(x, y) + iv(x, y)$ is differentiable at $z_0 = x_0 + iy_0$ then
+$$u_x(x_0, y_0) = v_y(x_0, y_0)$$
+and
+$$u_y(x_0, y_0) = -v_x(x_0, y_0).$$
+\end{corollary}
+
+We obtain this by equating the two expressions in the theorem and comparing real and imaginary parts.
+
+The Cauchy-Riemann equations are only a necessary condition. But with some additional continuity conditions, we can find sufficient conditions for differentiability.
+
+\begin{theorem}
+If $f(z) = u(x, y) = iv(x, y)$ is defined in a neighbourhood of $z_0 = x_0 + iy_0$ then $f'(z_0)$ exists if 
+\begin{itemize}
+\item the partial derivatives of $u$ and $v$ exist everywhere in the neighbourhood
+\item the partial derivatives are continuous at $(x_0, y_0)$
+\item the Cauchy-Riemann equations hold at $(x_0, y_0)$
+\end{itemize}
+\end{theorem}
+
+Because the partial derivatives are continuous at $(x_0, y_0)$ we can write
+$$\Delta u = u_x(x_0, y_0)\Delta x + u_y(x_0, y_0)\Delta y + \epsilon_1 |\Delta z|$$
+and
+$$\Delta v = v_x(x_0, y_0)\Delta x + v_y(x_0, y_0)\Delta y + \epsilon_2 |\Delta z|$$
+for some functions $\epsilon_1$, $\epsilon_2$ that tend to $0$ as $(\Delta x, \Delta y)$ tends to $(0, 0)$.
+
+Making use of the Cauchy-Riemann relations, we obtain an expression for $f'(z_0)$ which clearly exists.
+
+One can restate the Cauchy-Riemann equations in polar coordinates when $z_0 \neq 0$.
+
+To convert to polar form, we write
+$$x = r\cos\theta \;\;\mbox{and}\;\; y = r\sin\theta.$$
+
+\begin{theorem} (Cauchy-Riemann)
+If $f(z) = u(r, \theta) + iv(r, \theta)$ is differentiable at $z_0 \neq 0$ then
+$$u_r = v_\theta/r \;\;\mbox{and}\;\; u_\theta = -rv_r.$$
+The derivative is given by
+$$f'(z_0) = e^{-i\theta_0}\left(u_r(r_0, \theta_0) + iv_r(r_0, \theta_0)\right).$$
+\end{theorem}
+
+We have
+$$u_r = u_x\cos\theta + u_y\sin\theta$$
+$$u_\theta = -u_x r\sin\theta + u_y r\cos\theta$$
+$$v_r = v_x\cos\theta + v_y\sin\theta$$
+$$v_\theta = -v_x r\sin\theta + v_y r\cos\theta.$$
+
+Applying the Cauchy-Riemann relations yields the stated result.
+
+The necessary conditions for differentiability become the following.
+
+\begin{theorem}
+If $f(z) = u(r, \theta) + iv(r, \theta)$ is defined in a neighbourhood of $z_0 = r_0\exp(i\theta_0) \neq 0$ then $f'(z_0)$ exists if
+\begin{itemize}
+\item the partial derivatives of $u$ and $v$ with respect to $r$ and $\theta$ exist
+\item the partial derivatives are continuous at $(r_0, \theta_0)$
+\item the partial derivatives satisfy the polar form of the Cauchy-Riemann relations
+\end{itemize}
+\end{theorem}
+
+This is a straightforward translation of the result for rectangular coordinates.
+
+\begin{definition}
+A region of the complex plane is \textbf{connected} if any two points in the region can be joined by a series of straight lines.
+\end{definition}
+
+\begin{definition}
+A \textbf{domain} is an open region of the complex plane that is connected.
+\end{definition}
+
+\begin{theorem}
+If $f'(z) = 0$ at all points in a domain $D$ then $f(z)$ is constant in $D$.
+\end{theorem}
+
+We write $f(z) = u(x, y) + iv(x, y)$ and note that if $f'(z) = 0$ then $u_x + iv_x = 0$. By the Cauchy-Riemann equations we then have
+$$u_x = u_y = v_x = v_y = 0.$$
+
+But this means that any directional derivative of $u$ at any point in $D$ is zero, and similarly for $v$. In particular, this means that the value of $f$ along any line in $D$ must be constant.
+
+As $D$ is connected, the result follows.
+
+\section{Analytic functions}
+
+\begin{definition}
+A function $f(z)$ is \textbf{analytic} (or holomorphic) in an open set if it is differentiable at each point in that set. The function $f(z)$ is analytic at a point $z_0$ if it is analytic in a neighbourhood of $z_0$.
+\end{definition}
+
+\begin{definition}
+A function $f(z)$ is \textbf{entire} if it is analytic at every point in the complex plane.
+\end{definition}
+
+\begin{definition}
+If a function $f(z)$ is analytic at every point in a neighbourhood of $z_0$ except $z_0$ itself, then $z_0$ is called a \textbf{singular} point of $f$.
+\end{definition}
+
+\begin{theorem}
+If $f(z)$ and $g(z)$ are analytic in a domain $D$ then
+\begin{itemize}
+\item $f(z) + g(z)$ is analytic in $D$
+\item $f(z)g(z)$ is analytic in $D$
+\item $f(z)/g(z)$ is analytic in $D$ if $g(z) \neq 0$ for all $z \in D$
+\end{itemize}
+\end{theorem}
+
+\begin{theorem}
+If $f(z)$ is analytic in a domain $D$ and $g(z)$ is analytic in a domain containing the image of $D$ under $z \mapsto f(z)$, then $g(f(z))$ is analytic in $D$.
+\end{theorem}
+
+These follow from the corresponding facts about differentiability.
+
+\section{The exponential function}
+
+For real-valued $x$, the exponential function $e^x$ satisfies two important identities.
+
+\begin{itemize}
+\item $e^x$ is entire and $\frac{d}{dx}e^x = e^x$
+\item for all $x, y \in \R$ we have $e^{x + y} = e^xe^y$
+\end{itemize}
+
+When defining the exponential function $e^z$ for complex $z = x + iy$ it is natural to define it to be a function that has the above properties and that reduces to the ordinary real-valued function when $y = 0$.
+
+In fact, there is a unique complex-valued function with these properties.
+
+\begin{theorem}
+The function
+$$f(z) = e^x(\cos y + i\sin y)$$
+is entire and $f'(z) = f(z)$.
+\end{theorem}
+
+Writing $f(z) = u(x, y) + iv(x, y)$ we have $u_x = v_y$ and $u_y = -v_x$, which are everywhere continuous. Thus $f(z)$ is differentiable everywhere.
+
+We have that $f'(z) = u_x + iv_x = f(z)$.
+
+Note that $f(z)$ as defined in the theorem reduces to $e^x$ when $y = 0$.
+
+\begin{theorem}
+The only complex-valued function $f(z)$ which satisfies
+\begin{itemize}
+\item $f(x) = e^x$ for $x \in \R$
+\item $f$ is entire and $f'(z) = f(z)$ for all $z \in \C$
+\end{itemize}
+is the function $f(z) = e^x(\cos y + i\sin y)$.
+\end{theorem}
+
+Let us write $e^z$ as a shorthand for $e^x(\cos y + i\sin y)$. Let $f(z)$ be a function with the required properties. Write $g(z) = f(z)e^{-z}$.
+
+As $f(z)$ and $e^{-z}$ are entire, so is $g(z)$. By the product rule and chain rule, we have
+$g'(z) = f'(z)e^{-z} - f(z)e^{-z} = 0$.
+
+Thus $g'(z) = c$ for some constant $c \in \C$, i.e. $f(z) = c/e^{-z} = ce^z$ as can be verified by expanding out $e^{-z}$.
+
+Clearly $c = 1$ in order for the first condition to hold.
+
+It makes sense to define the complex exponential as follows.
+
+\begin{definition}
+We define
+$$e^z = e^x(\cos y + i\sin y),$$
+for all $z = x + iy \in \C$.
+\end{definition}
+
+\begin{theorem}
+We have
+$$e^{z_1 + z_2} = e^{z_1}e^{z_2},$$
+for all $z_1, z_2 \in \C$.
+\end{theorem}
+
+Write $z_1 = x_1 + iy_1$ and $z_2 = x_2 + iy_2$. We check that
+$$(\cos y_1 + i\sin y_1)(\cos y_2 + i\sin y_2) = \cos (y_1 + y_2) + i\sin (y_1 + y_2)$$
+using standard trig identities. The rest of the result is straightforward.
+
+\begin{corollary}
+For $n \in \Z$ we have
+$$e^{nz} = (e^z)^n.$$
+\end{corollary}
+
+Follows from the theorem by induction for positive $n$. As we already saw above, $e^{-z} = 1/e^z$, so the result also follows for negative $n$. For $n = 0$, use $e^0 = e^ze^{-z} = 1$.
+
+\section{Trigonometric functions}
+
+From $e^{iy} = \cos y + i\sin y$ and $e^{-iy} = \cos y - i\sin y$ we obtain
+$$\sin y = \frac{e^{iy} - e^{-iy}}{2i} \;\;\mbox{and}\;\; \cos y = \frac{e^{iy} + e^{-iy}}{2}.$$
+
+This leads us to the following definition.
+
+\begin{definition}
+For $z \in C$ we define
+$$\sin z = \frac{e^{iz} - e^{-iz}}{2i} \;\;\mbox{and}\;\; \cos y = \frac{e^{iz} + e^{-iz}}{2}.$$
+\end{definition}
+
+These are entire function by the rules of sums and quotients of entire functions.
+
+\begin{theorem}
+We have
+$$\frac{d}{dz}\sin z = \cos z \;\;\mbox{and}\;\; \frac{d}{dz}\cos z = -\sin z.$$
+\end{theorem}
+
+This follows directly from the definition and the derivative of the exponential function.
+
+We also have
+$$\sin(-z) = -\sin z \;\;\mbox{and}\;\; \cos(-z) = \cos z.$$
+
+\begin{theorem}
+We have the following identities
+$$\sin(z_1 + z_2) = \sin z_1\cos z_2 + \cos z_1\sin z_2$$
+$$\cos(z_1 + z_2) = \cos z_1\cos z_2 - \sin z_1\sin z_2$$
+$$\sin^2 z + \cos^2 z = 1$$
+$$\sin(z + \pi/2) = \cos z$$
+$$\sin(z - \pi/2) = -\cos z$$
+$$\sin(z + \pi) = -\sin z$$
+$$\cos(z + \pi) = -\cos z$$
+$$\sin(z + 2\pi) = \sin z$$
+$$\cos(z + 2\pi) = \cos z$$
+\end{theorem}
+
+These follow by straightforward algebraic manipulation and standard trig identities for real variables.
+
+Recall that for $y \in \R$ we have
+$$\sinh y = \frac{e^y - e^{-y}}{2} \;\;\mbox{and}\;\; \cosh y = \frac{e^y + e^{-y}}{2}.$$
+
+We can use these to obtain the real and complex parts of $\sin$ and $\cos$.
+
+\begin{theorem}
+We have
+$$\sin z = \sin x\cosh y + i\cos x \sinh y$$
+$$\cos z = \cos x\cosh y - i\sin x \sinh y$$
+\end{theorem}
+
+We note that $\sin(iy) = i\sinh y$ and $\cos(iy) = \cosh y$.
+
+\begin{theorem}
+We have
+$$|\sin z|^2 = \sin^2 x + \sinh^2 y$$
+$$|\cos z|^2 = \cos^2 x + \sinh^2 y$$
+\end{theorem}
+
+We use the previous theorem and the fact that $\sin^2 y + \cos^2 y = 1$ and $\cosh^2 y - \sinh^2 y = 1$.
+
+\begin{theorem}
+The zeroes of $\sin z$ are $z = n\pi$ for $n \in \Z$, and the zeroes of $\cos z$ are offset from those by $\pi/2$.
+\end{theorem}
+
+We use the previous theorem and note that we must have $\sin x = 0$ and $\sinh y = 0$.
+
+\begin{definition}
+We define
+$$\tan z = \frac{\sin z}{\cos z}, \;\; \cot z = \frac{\cos z}{\sin z},$$
+$$\sec z = \frac{1}{\cos z}, \;\; \csc z = \frac{1}{\sin z}.$$
+\end{definition}
+
+\begin{theorem}
+We have
+$$\frac{d}{dz}\tan z = \sec^2 z, \;\; \frac{d}{dz}\cot z = -\csc^2 z,$$
+$$\frac{d}{dz}\sec z = \sec z\tan z, \;\; \frac{d}{dz}\csc z = -\csc z\cot z.$$
+\end{theorem}
+
+We use the quotient rule in the definitions and standard trig identities.
+
+\section{The logarithm}
+
+Recall that $\ln x$ is the inverse of the exponential function $e^x$ for $x \in \R$. As the latter takes on every positive real value, the domain of $\ln x$ is $\R^{+}$.
+
+\begin{theorem}
+If $z = re^{i\theta}$ is a complex number in modulus/argument format, with $-\pi < \theta \leq \pi$, the multi-valued function
+$$\log z = \ln r + i(\theta + 2n\pi), \;\; n \in \Z$$
+satisfies
+$$e^{\log z} = z.$$
+\end{theorem}
+
+As $e^{2\pi i} = 1$, the result follows by substitution.
+
+\begin{definition}
+We define the complex logarithm by
+$$\log z = \ln r + i(\theta + 2n\pi), \;\; n \in \Z$$
+for all $z = re^{i\theta}$ with $-\pi < \theta \leq \pi$. The function
+$$\Log z = \ln r + i\theta$$
+is called the \textbf{principal branch} of $\log z$.
+\end{definition}
+
+Recall that $\ln x$ is continuous and differentiable for $x > 0$ with
+$$\frac{d}{dx}\ln x = \frac{1}{x}.$$
+
+\begin{theorem}
+The function $\Log z$ is analytic (and therefore continuous) on the domain $r > 0$, $-\pi < \theta < \pi$.
+\end{theorem}
+
+Writing $\Log z$ in polar form we get $u(r, \theta) = \ln r$ and $v(r, \theta) = \theta$. The first order partial derivatives are continuous on the stated domain.
+
+We also have
+$$u_r = v_\theta/r \;\;\mbox{and}\;\; u_\theta = -rv_r,$$
+so that the polar form of the Cauchy-Riemann equations is satisfied. Thus $\Log z$ is analytic on the stated domain.
+
+\begin{theorem}
+We have
+$$\frac{d}{dz}\Log z = \frac{1}{z}$$
+on the domain $r > 0$, $-\pi < \theta < \pi$.
+\end{theorem}
+
+We have
+$$\frac{d}{dz}\Log z = e^{-i\theta}(u_r + iv_r) = \frac{1}{re^{i\theta}} = \frac{1}{z}.$$
+
+\begin{definition}
+A \textbf{branch} of a multi-valued function $f(z)$ is a single-valued function $F(z)$ analytic on some domain where it takes one of the values of $f(z)$.
+\end{definition}
+
+\begin{definition}
+A \textbf{branch cut} is a line or curve that is used to define a branch $F(z)$ of a multi-valued function $f(z)$. Points on a branch cut are singular values for the single valued function $F(z)$. Any point that is on every branch cut of $f$ is called a \textbf{branch point}.
+\end{definition}
+
+For example, the ray $\theta = \pi$ is a branch cut for $\log z$, and the origin is a branch point.
+
+The following theorem holds for the multivalued function $\log$, by which we mean that if two of the values in the identity are specified, there is a value of the third function making the identity hold.
+
+\begin{theorem}
+We have
+$$\log(z_1z_2) = \log z_1 + \log z_2$$
+for all $z_1, z_2 \in \C$.
+\end{theorem}
+
+This follows immediately from the definition of $\log z$.
+
+Note that this result doesn't hold everywhere for the principal branch.
+
+\section{Complex exponents}
+
+\begin{definition}
+For $z \neq 0$ and $c$ any complex number, we define
+$$z^c = e^{c\log z}.$$
+\end{definition}
+
+Note that this is may be multi-valued function. For example, if $c = 1/n$ for an integer $n$, then there are $n$ distinct values of the function.
+
+\begin{definition}
+The \textbf{principal value} of $z^c$ is given when $\log z$ is replaced with the principal branch $\Log z$ in the definition.
+\end{definition}
+
+\begin{theorem}
+The derivative of a branch of $z^c$ is given by
+$$\frac{d}{dz}z^c = cz^{c - 1},$$
+which is single-valued on the same domain as $z^c$.
+\end{theorem}
+
+Follows by the chain rule.
+
+\section{Inverse trigonometric functions}
+
+\begin{theorem}
+The inverse sine function is given by the multi-valued function
+$$\sin^{-1} z = -i\log\left[iz + (1 - z^2)^{1/2}\right].$$
+\end{theorem}
+
+We want $w$ where
+$$z = \frac{e^{iw} - e^{-iw}}{2i}.$$
+
+Expressing as a quadratic and solving for $e^{iw}$ we get
+$$e^{iw} = iz + (1 - z^2)^{1/2}.$$
+
+Taking logarithms of both sides yields the stated result.
+
+The same technique can be used to show the following.
+
+\begin{theorem}
+$$\cos^{-1} z = -i\log\left[z + i(1 - z^2)^{1/2}\right]$$
+\end{theorem}
+
+\begin{theorem}
+$$\tan^{-1} z = \frac{i}{2}\log\frac{i+z}{i-z}.$$
+\end{theorem}
+
+We easily differentiate these expressions to obtain the following.
+
+\begin{theorem}
+$$\frac{d}{dz}\sin^{-1} z = \frac{1}{(1 - z^2)^{1/2}},$$
+$$\frac{d}{dz}\cos^{-1} z = -\frac{1}{(1 - z^2)^{1/2}},$$
+$$\frac{d}{dz}\tan^{-1} z = \frac{1}{1 + z^2}.$$
+\end{theorem}
+
+The first two depend on the choice of square root made, whereas the last is single-valued regardless of what branch of $\log$ is taken.
+
+\section{Complex-valued functions of a real variable}
+
+\begin{definition}
+If $f(t) = u(t) + iv(t)$ is a complex-valued function of a real parameter $t$, the derivative of $f$ with respect to $t$ is given by
+$$f'(t) = u'(t) + iv'(t).$$
+\end{definition}
+
+\begin{definition}
+If $f(t) = u(t) + iv(t)$ is a complex-valued function of a real parameter $t$, the definite integral of $f$ with respect to $t$ in the interval $a \leq t \leq b$ is given by
+$$\int_a^b f(t)dt = \int_a^b u(t) + i\int_a^b v(t)dt.$$
+\end{definition}
+
+The definite integral exists if both $u$ and $v$ are piecewise continuous on the interval $a \leq t \leq b$.
+
+Similar definitions exist for improper integrals.
+
+The Fundamental Theorem of Calculus holds for functions of this type.
+
+\begin{theorem}
+If $f(t) = u(t) + iv(t)$ and $F(t) = U(t) + iV(t)$ are continuous on $a \leq t \leq b$ with $F'(t) = f(t)$ then
+$$\int_a^b f(t)dt = F(b) - F(a).$$
+\end{theorem}
+
+Follows from the definition of the integral.
+
+\begin{theorem}
+For $a \leq b$ we have
+$$\left|\int_a^b f(t)dt\right| \leq \int_a^b |f(t)|dt.$$
+\end{theorem}
+
+We obtain the absolute value of the integral on the left side by multiplying it by the inverse of $e^{i\theta}$ where $\theta$ is its argument. The scaled integral then has a real value.
+
+This means we only need to consider the real part of this scaled integral. But
+$$\mbox{Re}(e^{-i\theta}f(t)) \leq \left|e^{-i\theta}f(t)\right| = \left|f(t)\right|.$$
+
+This gives the stated inequality by standard inequalities for integrals of real-valued functions.
+
+\section{Contours}
+
+Integrals of complex-valued functions of a complex variable $z$ are defined for curves in the complex plane. The curve is first parameterised by a real parameter $t$, so that we can use the integrals of the previous section to define such path integrals.
+
+\begin{definition}
+An \textbf{arc} $C$ in the complex plane is a set of points $z = x(t) + iy(t)$ for $a \leq t \leq b$ for continuous real-valued functions $x(t)$ and $y(t)$.
+\end{definition}
+
+\begin{definition}
+An arc $C$ is said to be \textbf{simple} if it doesn't cross itself. An arc $C$ is said to be a \textbf{simple closed curve} if it doesn't cross itself except for $z(a) = z(b)$.
+\end{definition}
+
+Examples include straight line segments and circles, or arcs of circles.
+
+\begin{definition}
+An arc $C$ with points $z(t) = x(t) + iy(t)$ for $a \leq t \leq b$ is said to be a \textbf{differentiable arc} if $x'(t)$ and $y'(t)$ exist and are continuous.
+\end{definition}
+
+We can compute the length of a differentiable arc.
+
+\begin{theorem}
+If $C$ is a differentiable arc with points $z(t) = x(t) + iy(t)$ for $a \leq t \leq b$ then the length of the arc is given by
+$$L = \int_a^b \left|z'(t)\right| dt.$$
+\end{theorem}
+
+Thinking of the points in the complex plane as points in the $(x, y)$ plane, this is just the standard formula for arc length from calculus.
+
+The parameterisation of an arc by a parameter $t$ is not unique. If we have another parameter $\tau$ such that
+$$t = \phi(\tau), \;\; \alpha \leq \tau \leq \beta,$$
+we can convert between the two parameterisations.
+
+In order to ensure that $t$ increases whenever $\tau$ does, we require that $\phi'(\tau) > 0$ for all $\alpha \leq \tau \leq \beta$.
+
+\begin{theorem}
+If $C$ is a differentiable arc with points $z(t) = x(t) + iy(t)$ for $a \leq t \leq b$ and $t = \phi(\tau)$ for $\alpha \leq \tau \leq \beta$ with $\phi'(\tau) > 0$ for all $\alpha \leq \tau \leq \beta$ then the length of $C$ is given by
+$$L = \int_{\alpha}^\beta \left|z'(\phi(\tau))\right|\phi'(\tau)d\tau.$$
+\end{theorem}
+
+Follows by splitting $z(t)$ into real and imaginary parts and then making use of the corresponding result for real-valued functions.
+
+Note that if $z(t) = Z(\tau) = z(\phi(\tau))$ for $\alpha \leq \tau \leq \beta$ then
+$$Z'(\tau) = z'(\phi(\tau))\phi'(\tau)$$
+by the chain rule.
+
+\begin{definition}
+A differentiable arc $C$ given by $z(t) = x(t) + iy(t)$ for $a \leq t \leq b$ is said to be \textbf{smooth} if $z'(t) \neq 0$ on the open interval $a < t < b$.
+\end{definition}
+
+\begin{definition}
+The unit tangent vector to a smooth arc $C$ given by $z(t) = x(t) + iy(t)$ for $a \leq t \leq b$ is given by
+$$\underbar{T} = \frac{z'(t)}{|z'(t)|}.$$
+\end{definition}
+
+Note that the unit tangent vector doesn't depend on the parameter $t$, since changing the parameter $t$ by $t = \phi(\tau)$ for $\phi'(\tau) > 0$ only changes $z'$ by a positive real factor, which is subsequently scaled out.
+
+The unit tangent vector is in fact the unit tangent vector to the curve $C$ when thought of as a curve in the $(x, y)$ plane.
+
+\begin{definition}
+A \textbf{contour} is a piecewise smooth arc.
+\end{definition}
+
+The integral of a function $f(z)$ along a contour $C$ is denoted
+$$\int_C f(z)dz$$
+
+\begin{definition}
+If the contour $C$ is given by points $z = z(t)$ for $a \leq t \leq b$ and $f(z)$ is a piecewise continuous function on $C$, then the \textbf{contour integral} of $f$ along $C$ is given by
+$$\int_C f(z)dz = \int_a^b f(z(t))z'(t)dt$$
+\end{definition}
+
+Note that as $C$ is a contour, $z'(t)$ is piecewise continuous. As $f(z)$ is piecewise continuous, so is $f(z(t))$ and thus the integral exists.
+
+\begin{theorem}
+The value of the contour integral is independent is independent of the representation of $C$.
+\end{theorem}
+
+The proof is essentially the same as the proof of independence of arc length.
+
+\begin{theorem}
+For any constant $z_0$ and piecewise continuous functions $f(z)$ and $g(z)$ we have
+$$\int_C z_0f(z)dz = z_0\int_C f(z)dz$$
+and
+$$\int_C [f(z) + g(z)]dz = \int_C f(z)dz + \int_C g(z) dz$$
+\end{theorem}
+
+These follow immediately from the definitions of the contour integral and the corresponding definitions of complex-valued functions of a real parameter.
+
+\begin{theorem}
+If we write $-C$ for the contour $C$ in reverse, then for a piecewise continuous function $f(z)$ we have
+$$\int_{-C}f(z)dz = -\int_C f(z)dz$$
+\end{theorem}
+
+The contour $-C$ has points $z = z(-t)$ for $-b \leq t \leq -a$. Thus
+$$\int_{-C}f(z)dz = \int_{-b}^{-a} f(z(-t))(-z'(t))dt$$
+
+The result follows by making a change of variables $s = -t$.
+
+\begin{theorem}
+If $C_1$ is a contour whose endpoint is the starting point of a contour $C_2$, then for any piecewise continuous function $f(z)$ we have
+$$\int_C f(z)dz = \int_{C_1}f(z)dz + \int_{C_2}f(z)dz,$$
+where $C$ is the contour that first follows $C_1$ then $C_2$.
+\end{theorem}
+
+We note that shifting the representation of a contour with points $z(t)$ for $a \leq t \leq b$ so that it has points $Z(s) = z(s - d)$ for $a + d \leq s \leq b + d$ doesn't change the value of the integral, since $s'(t) = 1$.
+
+Thus the points of $C$ can be represented as a function of a single parameter $t$, with the points of $C_2$ shifted so that the starting point of $C_2$ is the end point of $C_1$.
+
+The result follows by the corresponding theorem for the sum of two integrals of a real-valued parameter.
+
+\begin{theorem}
+If $f(z)$ is a piecewise continuous function on a contour $C$ of length $L$ such that $|f(z)| \leq M$ for some nonnegative constant $M$ for all points on $C$ then
+$$\left|\int_C f(z)dz\right| \leq LM$$
+\end{theorem}
+
+If the points of $C$ are given by $z(t)$ for $a \leq t \leq b$ then
+$$\left|\int_C f(z)dz\right| \leq \int_a^b |f(z(t))z'(t)|dt.$$
+
+The result now follows by replacing $|f(z)|$ by $M$ and pulling out the constant $M$, and noticing that what remains is the length of the contour.
+
+\section{Antiderivatives}
+
+Sometimes contour integrals are independent of the path that is taken between the endpoints. We examine when this is the case.
+
+\begin{definition}
+An \textbf{antiderivative} of a continuous function $f$ in a domain $D$ is a function $F$ such that $F'(z) = f(z)$ for all $z \in D$.
+\end{definition}
+
+Note that an antiderivative is analytic on $D$.
+
+\begin{theorem}
+The antiderivate $F(z)$ of a continuous function $f(z)$ is unique up to addition of a constant, if it exists.
+\end{theorem}
+
+If $G(z)$ is also an antiderivative then $F(z) - G(z)$ has derivative zero. This implies that $F(z) - G(z) = c$ for some constant $c$.
+
+\begin{theorem}
+If $f(z)$ is continuous on a domain $D$ then the following are equivalent
+\begin{itemize}
+\item $f$ has an antiderivative $F$ on $D$
+\item integrals of $f$ along contours lying entirely in $D$ with the same start and end points, have the same value
+\item integrals of $f$ around closed contours lying entirely in $D$ have value zero
+\end{itemize}
+\end{theorem}
+
+To show the first implies the second, consider first the case of smooth arcs $C$ between fixed endpoints $z_1$ and $z_2$.
+
+If $C$ is parameterised by $z = z(t)$ for $a \leq t \leq b$ then
+$$\frac{d}{dz}F(z(t)) = F'(z(t))z'(t) = f(z(t))z'(t).$$
+
+By the Fundamental Theorem of Calculus extends to complex functions of a real variable, we have
+$$\int_C f(z)dz = \int_a^b f(z(t))z'(t)dt = F(z(b)) - F(z(a)).$$
+
+This clearly only depends on the values of $F$ at the endpoints.
+
+The result holds for an arbitrary contour by additivity.
+
+The third part obviously follows from the second, by considering any two distinct points on the closed contour and thinking of the closed contour in two parts, between those points.
+
+Clearly the converse of this implication also holds, by reversing the argument. Thus to show that the third part of the theorem implies the first, it is sufficient to show that the second part implies the first.
+
+To accomplish this, we define
+$$F(z) = \int_{z_0}^z f(s)ds,$$
+where the integral notation means to take any contour from $s = z_0$ to $s = z$ lying wholly within $D$.
+
+We are done if we show that $F$ is an antiderivative of $f$, i.e. that $F'(z) = f(z)$ on $D$.
+
+To do so, let $\Delta z$ be any point distinct from $z$ in a neighbourhood of $z$ contained in $D$. By additivity
+$$F(z + \Delta z) - F(z) = \int_z^{z + \Delta z} f(s)ds.$$
+
+By path independence, we can take the path of integration to be a straight line.
+
+It is easy to show that
+$$f(z) = \frac{1}{\Delta z}\int_z^{z + \Delta z}f(z) ds,$$
+for any fixed value of $z$ (so that $f(z)$ is a constant in the integral).
+
+Thus
+$$\frac{F(z + \Delta z) - F(z)}{\Delta z} - f(z) = \frac{1}{\Delta z}\int_z^{z + \Delta z}f(s) - f(z)ds.$$
+
+The derivative we are after is the limit of the first expression on the left side as $\Delta z \to 0$.
+
+But $f$ is continuous at $z$. Thus the right hand side can be made as close to zero as one wishes.
+
+Thus $F'(z) = f(z)$ and we are done.
+
+\section{The Cauchy-Goursat theorem}
+
+Suppose that $C$ is a simple, closed contour given by points $z(t)$ for $a \leq t \leq b$ and that the contour is counterclockwise. Also suppose that $f(z)$ is analytic in the interior of, and at each point of $C$.
+
+We recall that
+$$\int_C f(z)dz = \int_a^b f(z(t))z'(t)dt.$$
+
+Writing
+$$f(z) = u(x(t), y(t)) + iv(x(t), y(t)),$$
+for $z = x + iy$ and making use of the chain rule, we have
+$$\int_C f(z)dz = \int_a^b (ax' - vy')dt + i\int_a^b (vx' + uy')dt.$$
+
+In terms of line integrals of real-valued functions of real variables, this yields
+$$\int_C f(z)dz = \int_C udx - vdy + i\int vdx + udy.$$
+
+Now recall the following theorem from multivariable calculus.
+
+\begin{theorem} (Green)
+If two real-valued functions $P(x, y)$ and $Q(x, y)$ and their first-order partial derivatives are continuous throughout the closed region $R$ with boundary $C$ then
+$$\int_C Pdx + Qdy = \int \int_R (Q_x - P_y)dA.$$
+\end{theorem}
+
+Since the function $f$ above is analytic on $R$, it is continuous there. Thus $u$ and $v$ are also continuous in $R$.
+
+Suppose in addition that $f'$ is also continuous in $R$. Then the first order partial derivatives of $u$ and $v$ will be too. Then Green's theorem gives us
+$$\int_C f(z) dz = \int \int_R (-v_x - u_y)dA + i\int \int_R (u_x - v_y)dA.$$
+
+But since $f$ is analytic on $R$ we have by the Cauchy-Riemann equations that
+$$u_x = v_y \;\;\mbox{and}\;\; u_y = -vx.$$
+
+Thus the previous integral is zero, i.e. we have
+$$\int_C f(z) dz = 0.$$
+
+Along the way, we added the assumption that $f$ had continuous derivative. But Goursat was able to remove this assumption. In fact, the following theorem holds.
+
+\begin{theorem} (Cauchy-Goursat)
+If a function $f$ is analytic at all points interior to and on a simple, closed countour $C$, then
+$$\int_C f(z)dz = 0.$$
+\end{theorem}
+
+We give only a sketch of the proof of this result, since the full proof is quite long.
+
+The idea is that we will divide the region $R$ enclosed by $C$ into a collection of squares, and partial squares along the boundary.
+
+We claim that it is possible to divide the region in such a way, using squares not necessarily of the same size, such that for each of the squares, indexed by $j = 1, 2, \ldots, n$ there is a point $z_j$ for which
+$$\left|\frac{f(z) - f(z_j)}{z - z_j} - f'(z_j)\right| < \epsilon$$
+for all $z \neq z_j$ in that square, where $\epsilon$ is fixed and as small as one desires.
+
+This follows from the definition of the derivative as a limit. If the number of squares were not finite, then it must be possible to subdivide a given square into four equal sized squares, and one of those into four more an so on, so that the inequality never holds. We end up with a sequence of every smaller squares converging on a point, for which the inequality doesn't hold. But this then contradicts the definition of the derivative at that point. Thus there are a finite number of squares.
+
+Next we define the function
+$$\delta_j = \begin{cases}\frac{f(z) - f(z_j)}{z - z_j} - f'(z_j) & \mbox{when}\;\; z \neq z_j,\\ 0 & \mbox{when}\;\; z = z_j\end{cases}.$$
+
+On the $j$-th square, we have $|\delta_j(z)| < \epsilon$. The function $\delta_j(z)$ is also continuous on that region.
+
+Let $C_j$ be the boundary of the $j$-th square or partial square. Critically, we have
+$$f(z) = f(z_j) - z_jf'(z_j) + f'(z_j)z + (z - z_j)\delta_j(z)$$
+on such a region.
+
+Because each of these terms has an antiderivative except the last, their integrals along $C_j$ are zero, leading to
+$$\int_{C_j} f(z)dz = \int_{C_j} (z - z_j)\delta_j(z)dz.$$
+
+The integral of $f(z)$ on $C$ is the sum of the integrals along the boundaries of all the squares and partial squares, since each boundary of a square on the interior of $R$ is part of the boundary of two different squares in the opposite sense and so their integrals cancel.
+
+Letting $s_j$ be the side length of the $j$-th square, we have
+$$|z - z_j| \leq \sqrt{s}s_j.$$
+
+The length of the boundary of the $j$-th square is either $4s_j$ if it is a square, or if not, it is bounded by $4s_j + L_j$ where $L_j$ is the length of the portion of the region $R$ included in the boundary of the partial square.
+
+Using these inequalities, it is possible to obtain a bound of the following form
+$$\left|\int_C f(z)dz\right| < D\epsilon,$$
+where $D$ is some constant in terms of say the area of a square bounding $R$ and the length of the boundary of $R$.
+
+Since $\epsilon$ may be taken as small as one desires, the result follows.
+
+
+\end{document}
